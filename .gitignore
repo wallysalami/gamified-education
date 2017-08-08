@@ -8,8 +8,6 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-/local.env
-/static/
 env/
 build/
 develop-eggs/
@@ -58,3 +56,8 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# Production files
+/local.env
+/static/
+/*.ini
