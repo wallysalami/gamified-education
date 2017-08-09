@@ -1,0 +1,1 @@
+web: gunicorn gamifiededucation.wsgi --log-file -
