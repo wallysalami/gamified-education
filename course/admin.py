@@ -13,6 +13,7 @@ class BasicAdmin(admin.ModelAdmin):
 
 
 class CourseAdmin(BasicAdmin):
+    icon = '<i class="material-icons">class</i>'
     list_display = ('name', 'code', 'description')
     ordering = ('name',)
 
@@ -20,6 +21,7 @@ admin.site.register(Course, CourseAdmin)
 
 
 class CourseClassAdmin(BasicAdmin):
+    icon = '<i class="material-icons">people</i>'
     list_display = ('code', 'start_date', 'end_date')
     ordering = ('start_date', 'code',)
 
@@ -27,6 +29,7 @@ admin.site.register(CourseClass, CourseClassAdmin)
 
 
 class TaskAdmin(BasicAdmin):
+    icon = '<i class="material-icons">list</i>'
     list_display = ('name', 'description')
     ordering = ('name',)
 
@@ -39,6 +42,7 @@ class AssignmentTaskInline(admin.TabularInline):
     ordering = ('id',)
 
 class AssignmentAdmin(BasicAdmin):
+    icon = '<i class="material-icons">assignment</i>'
     inlines = [AssignmentTaskInline]
     list_display = ('name', 'description')
     ordering = ('name',)
@@ -52,6 +56,7 @@ class GradeInline(admin.TabularInline):
     ordering = ('id',)
     
 class AssignmentTaskAdmin(BasicAdmin):
+    icon = '<i class="material-icons">playlist_add_check</i>'
     inlines = [GradeInline]
     # list_display = ('name', 'description')
     ordering = ('id',)
@@ -66,6 +71,7 @@ class EnrollmentInline(admin.TabularInline):
 
 
 class StudentAdmin(BasicAdmin):
+    icon = '<i class="material-icons">person</i>'
     inlines = [EnrollmentInline]
     list_display = ('full_name', 'id_number', 'enrollments')
     search_fields = ['full_name']

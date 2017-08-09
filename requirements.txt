@@ -3,3 +3,4 @@ dj-database-url==0.4.2
 psycopg2==2.7.3
 gunicorn==19.7.1
 whitenoise==3.3.0
+django-material==1.0.0
