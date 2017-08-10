@@ -42,9 +42,10 @@ X_FRAME_OPTIONS = os.environ.get('X_FRAME_OPTIONS', 'DENY')
 # Application definition
 
 INSTALLED_APPS = [
+    'material.theme.amber',
     'material',
-    'material.theme.blue',
     'material.admin',
+    'jquery',
     'course.apps.CourseConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -69,7 +70,7 @@ ROOT_URLCONF = 'gamifiededucation.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'), './templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

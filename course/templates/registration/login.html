@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'course/login.css' %}" />
+    {% include 'material/includes/material_css.html' %}
+
+    <script type="text/javascript" src="{% static 'js/jquery.js'%}"></script>
+    {% include 'material/includes/material_js.html' %}
+</head>
+<body class="orange lighten-4">
+    {% block content %}
+
+    {% if form.errors %}
+    <p>Your username and password didn't match. Please try again.</p>
+    {% endif %}
+
+    {% if next %}
+        {% if user.is_authenticated %}
+        <p>Your account doesn't have access to this page. To proceed,
+        please login with an account that has access.</p>
+        {% else %}
+        <p>Please login to see this page.</p>
+        {% endif %}
+    {% endif %}
+
+    <div class='row'>
+        <div class="card-panel">
+            {% load material_form %}
+            <form method="post" action="{% url 'course:login' %}"> 
+                {% csrf_token %}
+                <div>
+                    <td>{{ form.username.label_tag }}</td>
+                    <td>{{ form.username }}</td>
+                </div>
+                <div>
+                    <td>{{ form.password.label_tag }}</td>
+                    <td>{{ form.password }}</td>
+                </div>
+
+                <div id='button-container'>
+                    <!-- <a href="{% url 'course:password_reset' %}" class="btn waves-effect waves-light blue-grey lighten-3">Lost password?</a> -->
+                    <input type="submit" class="btn waves-effect waves-light" value="login" />
+                    <input type="hidden" name="next" value="/courses" />
+                    <a id='lost-password' href="{% url 'course:password_reset' %}">Lost password?</a>
+                </div>
+            </div>
+        </div>
+        
+    </form>
+    
+    {% endblock %}
+    </body>
+</html>
