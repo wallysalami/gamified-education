@@ -8,8 +8,10 @@ def read_env():
     environment variables from a .env file located in the project root
     directory.
     """
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    local_env_path = os.path.join(base_dir, 'local.env')
     try:
-        with open('local.env') as f:
+        with open(local_env_path) as f:
             content = f.read()
     except IOError:
         content = ''
