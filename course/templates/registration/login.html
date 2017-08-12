@@ -3,6 +3,8 @@
 <head>
     <title>Login</title>
 
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'course/login.css' %}" />
     {% include 'material/includes/material_css.html' %}
@@ -10,7 +12,7 @@
     <script type="text/javascript" src="{% static 'js/jquery.js'%}"></script>
     {% include 'material/includes/material_js.html' %}
 </head>
-<body class="orange lighten-4">
+<body>
     {% block content %}
 
     {% if form.errors %}

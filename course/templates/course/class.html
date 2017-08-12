@@ -1,0 +1,18 @@
+{% extends "course/base.html" %}
+
+{% block title %}
+    Class
+{% endblock %}
+
+{% block content %}
+    <ol id='class-ranking' class="card collection with-header">
+        <div class="collection-header"><h4>Top 10</h4></div>
+        {% for ranking_item in ranking %}
+            <li class="ranking-item collection-item avatar {% if ranking_item.student_id == student_id %}orange lighten-5{% endif %}">
+                <span class="circle ranking-position {% if ranking_item.dense_rank == 1 %}amber lighten-3{% elif ranking_item.dense_rank == 2 %}grey lighten-2{% elif ranking_item.dense_rank == 3 %}brown lighten-3{%else %}{% endif %}">{{ ranking_item.dense_rank }}</span> 
+                <span class="title">{{ ranking_item.full_name }}</span>
+                <p class='grey-text'>{{ ranking_item.total }} XP</p>
+            </li>
+        {% endfor %}
+    </ol>
+{% endblock content %}

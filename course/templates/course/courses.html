@@ -1,0 +1,22 @@
+{% extends "course/base.html" %}
+
+{% block title %}
+    My Courses
+{% endblock %}
+
+{% block content %}
+    <div id='course-list' class="card collection with-header">
+        <div class="collection-header">
+            <h5>My Courses</h5>
+        </div>
+        {% for enrollment in enrollments %}
+            <a href='/{{enrollment.course_class.course.code}}/{{enrollment.course_class.code}}/me' class='collection-item' style='display: flex; justify-content: space-between; align-items: center'>
+                <div class='course-list-info'>
+                    <div class="title">{{ enrollment.course_class.course }}</div>
+                    <div class='grey-text'>{{ enrollment.course_class.code }}</div>
+                </div>
+                <i class="material-icons">keyboard_arrow_right</i>
+            </a>
+        {% endfor %}
+    </div>
+{% endblock content %}

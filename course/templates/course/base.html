@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            {% block title %}{% endblock %} – {{course_class}}
+        </title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        {% load staticfiles %}
+          <link rel="stylesheet" type="text/css" href="{% static 'course/course.css' %}" />  
+        {% include 'material/includes/material_css.html' %}
+
+        <script type="text/javascript" src="{% static 'js/jquery.js'%}"></script>
+        {% include 'material/includes/material_js.html' %}
+    </head>
+    <body>
+        {% if course_class != None %}
+            <nav class="nav-extended light-blue darken-4">
+                <div class="nav-wrapper">
+                    <a id='course-logo' href="me">
+                        {{course_class.course.code}}
+                    </a>
+                    <ul class="nav-items">
+                        <li {% ifequal active_tab "me" %}class="active"{% endifequal %}>
+                            <a href="me">Me</a>
+                        </li>
+                        <li {% ifequal active_tab "class" %}class="active"{% endifequal %}>
+                            <a href="class">Class</a>
+                        </li>
+                    </ul>
+                    <ul class="nav-items">
+                        <li>
+                            <a href="/logout?next=/login">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        {% endif %}
+        <div id='page-content'>
+            {% block content %}
+            {% endblock %}
+        </div>
+    </body>
+</html>

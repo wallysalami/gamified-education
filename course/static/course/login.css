@@ -7,6 +7,7 @@ html {
 body {
     display: table-cell;
     vertical-align: middle;
+    min-width: 300px;
 }
 
 #button-container {
@@ -16,6 +17,7 @@ body {
 #lost-password {
     float: right;
     margin-top: 8px;
+    margin-left: 10px;
 }
 
 .row,

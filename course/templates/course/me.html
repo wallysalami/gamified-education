@@ -1,0 +1,65 @@
+{% extends "course/base.html" %}
+
+{% block title %}
+    Me
+{% endblock %}
+
+{% block content %}
+    <ul id='assignment-list'>
+        {% for assignment_item in assignment_items_data %}
+            <li class="assignment-list-item card">
+                <div class="card-content grey lighten-4">
+                    <span class="assignment-name card-title activator grey-text text-darken-4">
+                        {{assignment_item.name}}
+                        <!-- <i class="material-icons right">more_vert</i> -->
+                    </span>
+                    <p class='assignment-description'>{{assignment_item.description}}</p> 
+                </div>
+                <div class="card-action">
+                    <div class='assignment-score'>
+                        {% if assignment_item.total_grade_percentage > 0 %}
+                            <div class='assignment-min-max'>
+                                <small>0 XP</small>
+                                <small>{{assignment_item.total_task_points}} XP</small>
+                            </div> 
+
+                            <div class="progress">
+                                <div class="determinate" style="width: {{assignment_item.total_grade_percentage}}%"></div>
+                            </div>
+
+                            <h5 class='assignment-score-points'> {{assignment_item.total_grade_points}} XP </h5>
+                        {% else %}
+                            <small class='assignment-no-points'>(no points)</small>
+                        {% endif %}
+                    </div>
+                    
+                    <ul class='task-list'>
+                        {% for task in assignment_item.tasks %}
+                            <li class='task-list-item'>
+                                {% if task.grade_percentage == None %}
+                                    <i class="material-icons no-grade-icon">lens</i>
+                                {% else %}
+                                    <i class="material-icons {% if task.grade_percentage != None %}orange-text{% endif %}">                
+                                        {% if task.grade_percentage == 100 %}
+                                            star
+                                        {% elif task.grade_percentage == 0 %}
+                                            star_border
+                                        {% else %}
+                                            star_half
+                                        {% endif %}
+                                    </i>
+                                {% endif %}
+                                <span class='task-name truncate'>
+                                    {{task.name}}
+                                </span>
+                                {% if task.grade_percentage != None %}
+                                    <span class='task-points badge'>+{{task.grade_points}} XP</span>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock content %}

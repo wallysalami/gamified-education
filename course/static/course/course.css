@@ -1,0 +1,149 @@
+/****************************
+* Base HTML
+*****************************/
+
+body {
+    min-width: 300px;
+}
+
+#course-logo {
+    margin-left: 14px;
+    float: none;
+    font-size: 24px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 5px;
+    height: 50px;
+}
+
+@media(max-width: 350px) {
+    #course-logo {
+        display: none;
+    }
+}
+
+#page-content {
+    display: flex;
+    justify-content: center;
+    padding-top: 30px;
+}
+
+.nav-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.nav-items {
+    display: flex;
+}
+
+/****************************
+* Course list  page
+*****************************/
+
+#course-list {
+    width: auto;
+    min-width: 300px;
+    max-width: 500px;
+}
+
+.course-list-info {
+    width: calc(100% - 25px);
+}
+
+.course-list-info > * {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/****************************
+* Class page
+*****************************/
+
+#class-ranking {
+    display: inline-block;
+    list-style: none;
+    -webkit-padding-start: 0px;
+    min-width: 300px;
+}
+
+#class-ranking .ranking-item {
+    min-height: auto
+}
+
+#class-ranking .ranking-position {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+}
+
+/****************************
+* Student page
+*****************************/
+
+#assignment-list {
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+}
+
+.card.assignment-list-item {
+    width: 300px;
+    flex: 1 0 1;
+    margin: 20px;
+}
+
+.assignment-name,
+.assignment-description {
+    word-break: break-word;
+}
+
+.assignment-score {
+    height: 70px;
+}
+
+.assignment-no-points {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.assignment-min-max {
+    display: flex;
+    justify-content: space-between;
+}
+
+.assignment-score-points {
+    text-align: center;
+    font-weight: 300;
+}
+
+.task-list {
+    margin-top: 10px;
+    margin-left: -3px;
+}
+
+.task-list-item {
+    display: flex;
+    align-items: center;
+}
+
+.material-icons.no-grade-icon {
+    text-align: center;
+    font-size: 8px;
+    color: #aaa;
+    width: 24px;
+}
+
+.task-name {
+    padding-top: 3px;
+    padding-left: 5px;
+}
+
+.badge.task-points {
+    margin-left: auto;
+    white-space: nowrap;
+}
