@@ -12,7 +12,7 @@ def index(request):
     return redirect('/login/')
 
 
-@login_required
+@login_required(login_url='/login/')
 def courses(request):
     student = request.user.student
     enrollments = student.enrollment_set.all()
@@ -31,7 +31,7 @@ def courses(request):
         )
 
 
-@login_required
+@login_required(login_url='/login/')
 def course_class(request, course_code, class_code):
     enrollment = get_enrollment(request, course_code, class_code)
     ranking = Grade.objects.values(
@@ -61,7 +61,7 @@ def course_class(request, course_code, class_code):
     )
 
 
-@login_required
+@login_required(login_url='/login/')
 def me (request, course_code, class_code):
     enrollment = get_enrollment(request, course_code, class_code)
     return render(
