@@ -42,8 +42,12 @@ def course_class(request, course_code, class_code):
             output_field=IntegerField()
         ),
         full_name = F('enrollment__student__full_name'),
-        dense_rank = Rank('total'),
         student_id = F('enrollment__student__id'),
+    ).annotate( 
+        # this "dense_rank" was throwing an error sometimes, randomly
+        # it was not finding the previous "total" annotation
+        # so I put it in another "annotate" to respect the dependency
+        dense_rank = Rank('total'),
     ).filter(
         enrollment__course_class = enrollment.course_class
     ).order_by('-total', 'full_name')[:10]
