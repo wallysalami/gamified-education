@@ -64,7 +64,6 @@ def course_class(request, course_code, class_code):
 @login_required
 def me (request, course_code, class_code):
     enrollment = get_enrollment(request, course_code, class_code)
-    print(assignment_items_data(enrollment))
     return render(
         request,
         'course/me.html',
