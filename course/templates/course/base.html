@@ -1,8 +1,10 @@
+{% load i18n %}
+
 <!DOCTYPE html>
 <html>
     <head>
         <title>
-            {% block title %}{% endblock %} – {{course_class}}
+            {% block title %}{% endblock %} {% if course_class != None %} – {{course_class}} {% endif %}
         </title>
 
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -23,15 +25,15 @@
                     </a>
                     <ul class="nav-items">
                         <li {% ifequal active_tab "me" %}class="active"{% endifequal %}>
-                            <a href="me">Me</a>
+                            <a href="me">{% trans 'Me' %}</a>
                         </li>
                         <li {% ifequal active_tab "class" %}class="active"{% endifequal %}>
-                            <a href="class">Class</a>
+                            <a href="class">{% trans 'Class' %}</a>
                         </li>
                     </ul>
                     <ul class="nav-items">
                         <li>
-                            <a href="/logout?next=/login">Logout</a>
+                            <a href="/logout?next=/login">{% trans 'Logout' %}</a>
                         </li>
                     </ul>
                 </div>

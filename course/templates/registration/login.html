@@ -1,3 +1,5 @@
+{% load i18n %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,16 +18,21 @@
     {% block content %}
 
     {% if form.errors %}
-    <p>Your username and password didn't match. Please try again.</p>
-    {% endif %}
-
-    {% if next %}
-        {% if user.is_authenticated %}
-        <p>Your account doesn't have access to this page. To proceed,
-        please login with an account that has access.</p>
-        {% else %}
-        <p>Please login to see this page.</p>
-        {% endif %}
+         <div class="red card-panel">
+            <span class="white-text text-darken-2">
+                {% trans "Username and password didn't match." %}
+            </span>
+        </div>
+    {% elif next %}
+        <div class="card-panel">
+            <span class="red-text text-darken-2">
+                {% if user.is_authenticated %}
+                    {% trans "Your account doesn't have access to this page. To proceed, please login with an account that has access." %}
+                {% else %}
+                    {% trans "Please login to see this page." %}
+                {% endif %}
+            </span>
+        </div>
     {% endif %}
 
     <div class='row'>
@@ -43,10 +50,9 @@
                 </div>
 
                 <div id='button-container'>
-                    <!-- <a href="{% url 'course:password_reset' %}" class="btn waves-effect waves-light blue-grey lighten-3">Lost password?</a> -->
                     <input type="submit" class="btn waves-effect waves-light" value="login" />
                     <input type="hidden" name="next" value="/courses" />
-                    <a id='lost-password' href="{% url 'course:password_reset' %}">Lost password?</a>
+                    <!-- <a id='lost-password' href="{% url 'course:password_reset' %}">{% trans 'Forgot password?' %}</a> -->
                 </div>
             </div>
         </div>

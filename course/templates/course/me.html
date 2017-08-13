@@ -1,7 +1,9 @@
 {% extends "course/base.html" %}
 
+{% load i18n %}
+
 {% block title %}
-    Me
+    {% trans 'Me' %}
 {% endblock %}
 
 {% block content %}
@@ -29,7 +31,7 @@
 
                             <h5 class='assignment-score-points'> {{assignment_item.total_grade_points}} XP </h5>
                         {% else %}
-                            <small class='assignment-no-points'>(no points)</small>
+                            <small class='assignment-no-points'>{% trans '(no points)' %}</small>
                         {% endif %}
                     </div>
                     
