@@ -38,7 +38,7 @@
                             </div> 
 
                             <div class="progress">
-                                <div class="determinate" style="width: {{assignment_item.total_grade_percentage}}%"></div>
+                                <div class="determinate" style="width: {{assignment_item.total_grade_percentage|safe}}%"></div>
                             </div>
 
                             <h5 class='assignment-score-points'> {{assignment_item.total_grade_points}} XP </h5>
