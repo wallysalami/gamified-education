@@ -58,7 +58,7 @@ body {
 * Class page
 *****************************/
 
-#class-container {
+.flex-center-container {
     display: flex;
     justify-content: center; 
 }
