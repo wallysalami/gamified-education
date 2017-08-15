@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator 
-from django.db.models import Sum
+from django.db.models import Sum, F, IntegerField
 
 # Create your models here.
 
@@ -48,6 +48,14 @@ class Enrollment(models.Model):
     
     def __str__(self):
         return "%s -> %s" % (self.student, self.course_class)
+
+    def total_score(self):
+        return self.grade_set.all().aggregate(
+            score = Sum(
+                F('percentage') * F('assignment_task__points'),
+                output_field=IntegerField()
+            )
+        )['score']
 
     class Meta:
         unique_together = ('student', 'course_class')

@@ -7,6 +7,18 @@
 {% endblock %}
 
 {% block content %}
+    <header id='student-header' class='flow-text'>
+        <i id='student-icon' class="material-icons circle orange">person</i>
+        <div id='student-info'>
+            <h1 id='student-name'>
+                {{enrollment.student.full_name}}
+            </h1>
+            <h2 id='student-total-score'>
+                {{enrollment.total_score}} XP
+            </h2>
+        </div>
+    </header>
+    
     <ul id='assignment-list'>
         {% for assignment_item in assignment_items_data %}
             <li class="assignment-list-item card">

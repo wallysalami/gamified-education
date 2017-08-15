@@ -23,8 +23,6 @@ body {
 }
 
 #page-content {
-    display: flex;
-    justify-content: center;
     padding-top: 30px;
 }
 
@@ -60,6 +58,11 @@ body {
 * Class page
 *****************************/
 
+#class-container {
+    display: flex;
+    justify-content: center; 
+}
+
 #class-ranking {
     display: inline-block;
     list-style: none;
@@ -81,6 +84,38 @@ body {
 /****************************
 * Student page
 *****************************/
+
+#student-header {
+    margin: 0px 20px;
+    display: flex;
+    align-items: center;
+}
+
+#student-icon {
+    width: 1.8em;
+    height: 1.8em;
+    font-size: 1.7em;
+    display: flex;
+    flex-shrink: 0;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+#student-info {
+    margin-left: 20px;
+}
+
+#student-name {
+    margin: 0px;
+    font-size: 1.5em;
+}
+
+#student-total-score {
+    margin: 10px 0 0;
+    font-size: 1.2em;
+    font-weight: 300;
+}
 
 #assignment-list {
     width: 100%;

@@ -60,7 +60,7 @@ def course_class(request, course_code, class_code):
             'active_tab': 'class',
             'course_class': enrollment.course_class,
             'ranking': ranking,
-            'student_id': enrollment.student_id
+            'student_id': enrollment.student_id,
         }
     )
 
@@ -74,6 +74,7 @@ def me (request, course_code, class_code):
         {
             'active_tab': 'me',
             'course_class': enrollment.course_class,
+            'enrollment': enrollment,
             'assignment_items_data': assignment_items_data(enrollment),
         }
     )
