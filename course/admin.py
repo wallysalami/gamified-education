@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.apps import apps
 from .models import *
+from django.forms import BaseInlineFormSet
 
 # app = apps.get_app_config('course')
 
@@ -50,10 +51,42 @@ class AssignmentAdmin(BasicAdmin):
 admin.site.register(Assignment, AssignmentAdmin)
 
 
+class GradeInlineFormSet(BaseInlineFormSet):
+    model = Grade
+    _enrollment_ids = None
+
+    @property
+    def enrollment_ids(self):
+        if not self._enrollment_ids:
+            self._enrollment_ids = list(Enrollment.objects.filter(
+                course_class__course = self.instance.assignment.course
+            ).order_by(
+                'course_class__code', 'student__full_name'
+            ).values_list('id', flat=True))
+        return self._enrollment_ids
+
+    def total_form_count(self):
+        return len(self.enrollment_ids)
+
+    def __init__(self, *args, **kwargs):
+        super(GradeInlineFormSet, self).__init__(*args, **kwargs)            
+        
+        enrollment_ids = self.enrollment_ids
+        index = 0
+        for form in self:
+            print(form.instance.id)
+            if form.instance.id != None:
+                enrollment_ids.remove(form.instance.enrollment.id)
+            else:
+                form.initial['enrollment'] = enrollment_ids[index]
+                form.initial['percentage'] = ""
+                index += 1
+
+
 class GradeInline(admin.TabularInline):
     model = Grade
-    extra = 1
-    ordering = ('id',)
+    ordering = ('enrollment__course_class__code', 'enrollment__student__full_name',)
+    formset = GradeInlineFormSet
     
 class AssignmentTaskAdmin(BasicAdmin):
     icon = '<i class="material-icons">playlist_add_check</i>'
