@@ -92,7 +92,7 @@ class AssignmentTaskAdmin(BasicAdmin):
     icon = '<i class="material-icons">playlist_add_check</i>'
     inlines = [GradeInline]
     # list_display = ('name', 'description')
-    ordering = ('id',)
+    ordering = ('assignment_id','id',)
 
 admin.site.register(AssignmentTask, AssignmentTaskAdmin)
 
