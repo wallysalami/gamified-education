@@ -68,6 +68,8 @@ body {
     list-style: none;
     -webkit-padding-start: 0px;
     min-width: 300px;
+    max-width: 450px;
+    margin: 0px 20px;
 }
 
 #class-ranking .ranking-item {
