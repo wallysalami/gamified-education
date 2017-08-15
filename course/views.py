@@ -98,7 +98,7 @@ def assignment_items_data(enrollment):
 
         tasks_data = assignment_tasks_data(assignment, enrollment)
 
-        total_task_points = reduce(lambda x, y: x+y['task_points'], tasks_data, 0)
+        total_task_points = reduce(lambda x, y: x+(y['task_points'] if not y['is_optional'] else 0), tasks_data, 0)
         total_grade_points = reduce(lambda x, y: x+y['grade_points'], tasks_data, 0)
         
         assignment_data['tasks'] = tasks_data
@@ -119,6 +119,7 @@ def assignment_tasks_data(assignment, enrollment):
         task_data = {}
         task_data['name'] = assignment_task.task.name
         task_data['task_points'] = assignment_task.points
+        task_data['is_optional'] = assignment_task.is_optional
         grade = assignment_task.grade_set.all().filter(enrollment=enrollment).first()
         if grade != None:
             task_data['grade_percentage'] = round(grade.percentage * 100)

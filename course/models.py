@@ -83,7 +83,9 @@ class Assignment(models.Model):
         return self.name
 
     def points (self):
-        return self.assignmenttask_set.all().aggregate(
+        return self.assignmenttask_set.all().filter(
+            is_optional=False
+        ).aggregate(
             total = Sum('points')
         )['total']
 
@@ -96,6 +98,7 @@ class AssignmentTask(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
     points = models.IntegerField()
     enrollments = models.ManyToManyField(Enrollment, through='Grade')
+    is_optional = models.BooleanField(default=False)
 
     def __str__(self):
         return "%s – %s" % (self.assignment, self.task)

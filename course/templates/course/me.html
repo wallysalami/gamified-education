@@ -49,27 +49,29 @@
                     
                     <ul class='task-list'>
                         {% for task in assignment_item.tasks %}
-                            <li class='task-list-item'>
-                                {% if task.grade_percentage == None %}
-                                    <i class="material-icons no-grade-icon">lens</i>
-                                {% else %}
-                                    <i class="material-icons {% if task.grade_percentage != None %}orange-text{% endif %}">                
-                                        {% if task.grade_percentage == 100 %}
-                                            star
-                                        {% elif task.grade_percentage == 0 %}
-                                            star_border
-                                        {% else %}
-                                            star_half
-                                        {% endif %}
-                                    </i>
-                                {% endif %}
-                                <span class='task-name truncate'>
-                                    {{task.name}}
-                                </span>
-                                {% if task.grade_percentage != None %}
-                                    <span class='task-points badge'>+{{task.grade_points}} XP</span>
-                                {% endif %}
-                            </li>
+                            {% if task.grade_percentage != None or not task.is_optional %}
+                                <li class='task-list-item'>
+                                    {% if task.grade_percentage == None %}
+                                        <i class="material-icons no-grade-icon">lens</i>
+                                    {% else %}
+                                        <i class="material-icons {% if task.grade_percentage != None %}orange-text{% endif %}">                
+                                            {% if task.grade_percentage == 100 %}
+                                                star
+                                            {% elif task.grade_percentage == 0 %}
+                                                star_border
+                                            {% else %}
+                                                star_half
+                                            {% endif %}
+                                        </i>
+                                    {% endif %}
+                                    <span class='task-name truncate'>
+                                        {{task.name}}
+                                    </span>
+                                    {% if task.grade_percentage != None %}
+                                        <span class='task-points badge'>+{{task.grade_points}} XP</span>
+                                    {% endif %}
+                                </li>
+                            {% endif %}
                         {% endfor %}
                     </ul>
                 </div>
