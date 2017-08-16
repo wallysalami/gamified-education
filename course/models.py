@@ -50,12 +50,17 @@ class Enrollment(models.Model):
         return "%s -> %s" % (self.student, self.course_class)
 
     def total_score(self):
-        return self.grade_set.all().aggregate(
+        score = self.grade_set.all().aggregate(
             score = Sum(
                 F('percentage') * F('assignment_task__points'),
                 output_field=IntegerField()
             )
         )['score']
+
+        if score == None:
+            score = 0
+
+        return score
 
     class Meta:
         unique_together = ('student', 'course_class')
