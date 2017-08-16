@@ -72,6 +72,11 @@ body {
     margin: 0px 20px;
 }
 
+#class-ranking .empty-list-message {
+    text-align: center;
+    padding-left: 20px;
+}
+
 #class-ranking .ranking-item {
     min-height: auto
 }

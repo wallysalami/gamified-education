@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-13 20:10+0000\n"
+"POT-Creation-Date: 2017-08-16 00:55+0000\n"
 "PO-Revision-Date: 2017-08-13 16:27+0000\n"
 "Last-Translator: Jan K. S. <EMAIL@ADDRESS>\n"
 "Language-Team: PT_BR <LL@li.org>\n"
@@ -30,34 +30,39 @@ msgstr "Turma"
 msgid "Logout"
 msgstr "Sair"
 
-#: course/templates/course/class.html:11
+#: course/templates/course/class.html:12
 msgid "Top 10"
 msgstr "Top 10"
 
+#: course/templates/course/class.html:15
+msgid "(no student has scored so far)"
+msgstr "(nenhum aluno pontuou até agora)"
+
 #: course/templates/course/courses.html:6
-#: course/templates/course/courses.html:12
+#: course/templates/course/courses.html:13
 msgid "My Courses"
 msgstr "Meus Cursos"
 
-#: course/templates/course/me.html:34
+#: course/templates/course/me.html:46
 msgid "(no points)"
 msgstr "(nenhum ponto)"
 
-#: course/templates/registration/login.html:22
+#: course/templates/registration/login.html:23
 msgid "Username and password didn't match."
 msgstr "Combinação inválida de usuário/senha."
 
-#: course/templates/registration/login.html:29
+#: course/templates/registration/login.html:30
 msgid ""
 "Your account doesn't have access to this page. To proceed, please login with "
 "an account that has access."
-msgstr "Sua conta não tem acesso à página. Para prosseguir, faça login com "
-"uma conta que tenha acesso"
+msgstr ""
+"Sua conta não tem acesso à página. Para prosseguir, faça login com uma conta "
+"que tenha acesso"
 
-#: course/templates/registration/login.html:33
+#: course/templates/registration/login.html:32
 msgid "Please login to see this page."
 msgstr "Por favor, faça login para acessar a página."
 
-#: course/templates/registration/login.html:56
+#: course/templates/registration/login.html:55
 msgid "Forgot password?"
 msgstr "Esqueceu a senha?"
