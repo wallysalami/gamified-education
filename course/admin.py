@@ -103,6 +103,18 @@ class EnrollmentInline(admin.TabularInline):
     ordering = ('id',)
 
 
+class SimpleGradeInline(admin.TabularInline):
+    model = Grade
+
+class EnrollmentAdmin(BasicAdmin):
+    icon = '<i class="material-icons">person</i>'
+    inlines = [SimpleGradeInline]
+    list_display = ('student', 'course_class')
+    ordering = ('course_class__code', 'student__full_name',)
+
+admin.site.register(Enrollment, EnrollmentAdmin)
+
+
 class StudentAdmin(BasicAdmin):
     icon = '<i class="material-icons">person</i>'
     inlines = [EnrollmentInline]
