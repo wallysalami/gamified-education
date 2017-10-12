@@ -3,7 +3,7 @@ from functools import reduce
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from django.db.models import Sum, F, Q, IntegerField, ExpressionWrapper
+from django.db.models import Sum, Case, When, F, Q, IntegerField, ExpressionWrapper
 from rank import DenseRank, UpperRank, Rank
 
 from .models import AssignmentTask, Grade, Student, Course, CourseClass, Enrollment
@@ -38,7 +38,10 @@ def course_class(request, course_code, class_code):
         'enrollment__student__id'
     ).annotate(
         total = Sum(
-            F('percentage') * F('assignment_task__points'), 
+            Case(
+                When(is_canceled=True, then=0),
+                default=F('percentage')
+            ) * F('assignment_task__points'), 
             output_field=IntegerField()
         ),
         full_name = F('enrollment__student__full_name'),
@@ -99,7 +102,7 @@ def assignment_items_data(enrollment):
         tasks_data = assignment_tasks_data(assignment, enrollment)
 
         total_task_points = reduce(lambda x, y: x+(y['task_points'] if not y['is_optional'] else 0), tasks_data, 0)
-        total_grade_points = reduce(lambda x, y: x+y['grade_points'], tasks_data, 0)
+        total_grade_points = reduce(lambda x, y: x+y['grade_points'] if not y['grade_is_canceled'] else x, tasks_data, 0)
         
         assignment_data['tasks'] = tasks_data
         assignment_data['total_task_points'] = total_task_points
@@ -124,9 +127,11 @@ def assignment_tasks_data(assignment, enrollment):
         if grade != None:
             task_data['grade_percentage'] = round(grade.percentage * 100)
             task_data['grade_points'] = round(task_data['task_points'] * grade.percentage)
+            task_data['grade_is_canceled'] = grade.is_canceled
         else:
             task_data['grade_percentage'] = None
             task_data['grade_points'] = 0
+            task_data['grade_is_canceled'] = False
         
         tasks_data.append(task_data)
     

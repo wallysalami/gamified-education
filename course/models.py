@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator 
-from django.db.models import Sum, F, IntegerField
+from django.db.models import Sum, F, IntegerField, Case, When
 
 # Create your models here.
 
@@ -52,7 +52,10 @@ class Enrollment(models.Model):
     def total_score(self):
         score = self.grade_set.all().aggregate(
             score = Sum(
-                F('percentage') * F('assignment_task__points'),
+                Case(
+                    When(is_canceled=True, then=0),
+                    default=F('percentage')
+                ) * F('assignment_task__points'),
                 output_field=IntegerField()
             )
         )['score']
@@ -119,6 +122,7 @@ class Grade(models.Model):
     enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
     assignment_task = models.ForeignKey(AssignmentTask, on_delete=models.CASCADE)
     percentage = models.FloatField(default=1.0, validators=[MinValueValidator(0), MaxValueValidator(1)])
+    is_canceled = models.BooleanField(default=False, verbose_name='Canceled')
 
     def score(self):
         return round(self.percentage * self.assignment_task.points)

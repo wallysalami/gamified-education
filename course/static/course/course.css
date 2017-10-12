@@ -180,12 +180,20 @@ body {
     width: 24px;
 }
 
+.material-icons.canceled-grade {
+    font-size: 18px;
+    padding-left: 3px;
+    padding-right: 2px;
+}
+
 .task-name {
     padding-top: 3px;
     padding-left: 5px;
+    flex: 1;
 }
 
 .badge.task-points {
     margin-left: auto;
     white-space: nowrap;
+    padding-top: 1px;
 }

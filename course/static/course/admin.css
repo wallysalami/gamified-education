@@ -5,3 +5,11 @@ td.original p {
 .inline-group .tabular tr.has_original td {
     padding-top: 12px;
 }
+
+td.field-is_canceled {
+    width: 120px;
+}
+
+td.field-percentage {
+    width: 120px;
+}

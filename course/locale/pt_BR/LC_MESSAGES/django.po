@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-16 00:55+0000\n"
+"POT-Creation-Date: 2017-10-12 16:11-0300\n"
 "PO-Revision-Date: 2017-08-13 16:27+0000\n"
 "Last-Translator: Jan K. S. <EMAIL@ADDRESS>\n"
 "Language-Team: PT_BR <LL@li.org>\n"
@@ -46,6 +46,10 @@ msgstr "Meus Cursos"
 #: course/templates/course/me.html:46
 msgid "(no points)"
 msgstr "(nenhum ponto)"
+
+#: course/templates/course/me.html:75
+msgid "CANCELED"
+msgstr "ANULADO"
 
 #: course/templates/registration/login.html:23
 msgid "Username and password didn't match."
