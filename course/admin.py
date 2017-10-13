@@ -2,11 +2,19 @@ from django.contrib import admin
 from django.apps import apps
 from .models import *
 from django.forms import BaseInlineFormSet
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import User
 
 # app = apps.get_app_config('course')
 
 # for model_name, model in app.models.items():
 #     admin.site.register(model)
+
+UserAdmin.list_display = ('email', 'first_name', 'last_name', 'last_login')
+
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)
+
 
 class BasicAdmin(admin.ModelAdmin):
     class Media:
