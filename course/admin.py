@@ -19,6 +19,7 @@ admin.site.register(User, UserAdmin)
 class BasicAdmin(admin.ModelAdmin):
     class Media:
         css = { "all" : ("course/admin.css",) }
+        js = {"course/admin.js" }
 
 
 class CourseAdmin(BasicAdmin):
