@@ -65,6 +65,8 @@ class GradeInlineFormSet(BaseInlineFormSet):
 
     @property
     def enrollment_ids(self):
+        if self.instance.assignment_id == None:
+            return []
         if not self._enrollment_ids:
             self._enrollment_ids = list(Enrollment.objects.filter(
                 course_class__course = self.instance.assignment.course
