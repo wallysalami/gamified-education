@@ -19,7 +19,7 @@ admin.site.register(User, UserAdmin)
 class BasicAdmin(admin.ModelAdmin):
     class Media:
         css = { "all" : ("course/admin.css",) }
-        js = {"course/admin.js" }
+        js = ["course/admin.js"]
 
 
 class CourseAdmin(BasicAdmin):
@@ -80,7 +80,7 @@ class GradeInlineFormSet(BaseInlineFormSet):
         return len(self.enrollment_ids)
 
     def __init__(self, *args, **kwargs):
-        super(GradeInlineFormSet, self).__init__(*args, **kwargs)            
+        super(GradeInlineFormSet, self).__init__(*args, **kwargs)
         
         enrollment_ids = self.enrollment_ids
         index = 0
