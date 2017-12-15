@@ -45,7 +45,6 @@ X_FRAME_OPTIONS = os.environ.get('X_FRAME_OPTIONS', 'DENY')
 INSTALLED_APPS = [
     'material.theme.amber',
     'material',
-    'material.admin',
     'jquery',
     'course.apps.CourseConfig',
     'django.contrib.admin',

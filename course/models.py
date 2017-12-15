@@ -47,7 +47,7 @@ class Enrollment(models.Model):
     course_class = models.ForeignKey(CourseClass, on_delete=models.CASCADE)
     
     def __str__(self):
-        return "%s -> %s" % (self.student, self.course_class)
+        return "%s (%s)" % (self.student, self.course_class)
 
     def total_score(self):
         score = self.grade_set.all().aggregate(

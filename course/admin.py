@@ -19,7 +19,7 @@ admin.site.register(User, UserAdmin)
 class BasicAdmin(admin.ModelAdmin):
     class Media:
         css = { "all" : ("course/admin.css",) }
-        js = {"course/admin.js" }
+        js = ["course/admin.js"]
 
 
 class CourseAdmin(BasicAdmin):
@@ -98,6 +98,7 @@ class GradeInline(admin.TabularInline):
     model = Grade
     ordering = ('enrollment__course_class__code', 'enrollment__student__full_name',)
     formset = GradeInlineFormSet
+    raw_id_fields = ("enrollment",)
     
 class AssignmentTaskAdmin(BasicAdmin):
     icon = '<i class="material-icons">playlist_add_check</i>'
@@ -116,6 +117,8 @@ class EnrollmentInline(admin.TabularInline):
 
 class SimpleGradeInline(admin.TabularInline):
     model = Grade
+    raw_id_fields = ("assignment_task",)
+    ordering = ('assignment_task__assignment_id', 'assignment_task')
 
 class EnrollmentAdmin(BasicAdmin):
     icon = '<i class="material-icons">person</i>'

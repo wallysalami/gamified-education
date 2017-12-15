@@ -6,10 +6,26 @@ td.original p {
     padding-top: 12px;
 }
 
+/* hide id input and search icon when using raw_id_fields */
+td.field-enrollment .vForeignKeyRawIdAdminField,
+td.field-enrollment .related-lookup {
+    display: none;
+}
+
+/* hide add button from grade tabular inline */
+#grade_set-group .add-row {
+    display: none;
+}
+
 td.field-is_canceled {
-    width: 120px;
+    width: 80px;
 }
 
 td.field-percentage {
-    width: 120px;
+    width: 80px;
 }
+
+td.field-percentage input {
+    width: 80px;
+}
+
