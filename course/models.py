@@ -19,6 +19,7 @@ class CourseClass(models.Model):
     code = models.CharField(max_length=10)
     start_date = models.DateField()
     end_date = models.DateField()
+    ranking_size = models.IntegerField(default=10, validators=[MinValueValidator(0)])
     
     def __str__(self):
         return self.course.code + ' – ' + self.code

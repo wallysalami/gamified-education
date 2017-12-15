@@ -16,6 +16,7 @@ def index(request):
 def courses(request):
     student = request.user.student
     enrollments = student.enrollment_set.all()
+    
     if len(enrollments) == 1:
         enrollment = enrollments[0]
         return redirect('/%s/%s/me' %(enrollment.course_class.course.code, enrollment.course_class.code))
@@ -34,6 +35,8 @@ def courses(request):
 @login_required(login_url='/login/')
 def course_class(request, course_code, class_code):
     enrollment = get_enrollment(request, course_code, class_code)
+    query_limit = enrollment.course_class.ranking_size
+    
     ranking = Grade.objects.values(
         'enrollment__student__id'
     ).annotate(
@@ -53,7 +56,7 @@ def course_class(request, course_code, class_code):
         dense_rank = Rank('total'),
     ).filter(
         enrollment__course_class = enrollment.course_class
-    ).order_by('-total', 'full_name')[:10]
+    ).order_by('-total', 'full_name')[:query_limit]
     # print(ranking.query)
 
     return render(
@@ -71,6 +74,7 @@ def course_class(request, course_code, class_code):
 @login_required(login_url='/login/')
 def me (request, course_code, class_code):
     enrollment = get_enrollment(request, course_code, class_code)
+    
     return render(
         request,
         'course/me.html',

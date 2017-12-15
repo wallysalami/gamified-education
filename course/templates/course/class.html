@@ -9,7 +9,12 @@
 {% block content %}
     <div class='flex-center-container'>
         <ol id='class-ranking' class="card collection with-header">
-            <div class="collection-header"><h4>{% trans 'Top 10' %}</h4></div>
+            <div class="collection-header">
+                <h4>
+                    {% blocktrans with number_of_items=ranking|length %}Top {{ number_of_items }}{% endblocktrans %}
+                </h4>
+            </div>
+            
             {% if ranking|length == 0 %}
                 <div class="empty-list-message collection-item">
                     {% trans '(no student has scored so far)' %}

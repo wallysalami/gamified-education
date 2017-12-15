@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-12 16:11-0300\n"
+"POT-Creation-Date: 2017-12-15 22:22+0000\n"
 "PO-Revision-Date: 2017-08-13 16:27+0000\n"
 "Last-Translator: Jan K. S. <EMAIL@ADDRESS>\n"
 "Language-Team: PT_BR <LL@li.org>\n"
@@ -30,11 +30,11 @@ msgstr "Turma"
 msgid "Logout"
 msgstr "Sair"
 
-#: course/templates/course/class.html:12
-msgid "Top 10"
-msgstr "Top 10"
+#: course/templates/course/class.html:14
+msgid "Top %(number_of_items)s"
+msgstr "Top %(number_of_items)s"
 
-#: course/templates/course/class.html:15
+#: course/templates/course/class.html:20
 msgid "(no student has scored so far)"
 msgstr "(nenhum aluno pontuou até agora)"
 
