@@ -54,6 +54,14 @@ body {
     text-overflow: ellipsis;
 }
 
+#no-enrollment-card {
+    text-align: center;
+}
+
+#return-to-login-button {
+    margin-top: 20px;
+}
+
 /****************************
 * Class page
 *****************************/

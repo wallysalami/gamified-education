@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-15 22:22+0000\n"
+"POT-Creation-Date: 2017-12-15 23:49+0000\n"
 "PO-Revision-Date: 2017-08-13 16:27+0000\n"
 "Last-Translator: Jan K. S. <EMAIL@ADDRESS>\n"
 "Language-Team: PT_BR <LL@li.org>\n"
@@ -31,6 +31,7 @@ msgid "Logout"
 msgstr "Sair"
 
 #: course/templates/course/class.html:14
+#, python-format
 msgid "Top %(number_of_items)s"
 msgstr "Top %(number_of_items)s"
 
@@ -39,9 +40,17 @@ msgid "(no student has scored so far)"
 msgstr "(nenhum aluno pontuou até agora)"
 
 #: course/templates/course/courses.html:6
-#: course/templates/course/courses.html:13
+#: course/templates/course/courses.html:24
 msgid "My Courses"
 msgstr "Meus Cursos"
+
+#: course/templates/course/courses.html:15
+msgid "You have no enrollments yet."
+msgstr "Você não está matriculado em nada."
+
+#: course/templates/course/courses.html:19
+msgid "Return to Login"
+msgstr "Retornar ao Login"
 
 #: course/templates/course/me.html:46
 msgid "(no points)"

@@ -8,19 +8,33 @@
 
 {% block content %}
     <div class='flex-center-container'>
-        <div id='course-list' class="card collection with-header">
-            <div class="collection-header">
-                <h5>{% trans 'My Courses' %}</h5>
-            </div>
-            {% for enrollment in enrollments %}
-                <a href='/{{enrollment.course_class.course.code}}/{{enrollment.course_class.code}}/me' class='collection-item' style='display: flex; justify-content: space-between; align-items: center'>
-                    <div class='course-list-info'>
-                        <div class="title">{{ enrollment.course_class.course }}</div>
-                        <div class='grey-text'>{{ enrollment.course_class.code }}</div>
+        {% if enrollments|length == 0 %}
+            <div id='no-enrollment-card' class="card">
+                <div class="card-content">
+                    <div class="card-title">
+                        <h5>{% trans 'You have no enrollments yet.' %}</h5>
                     </div>
-                    <i class="material-icons">keyboard_arrow_right</i>
-                </a>
-            {% endfor %}
-        </div>
+                    
+                    <a id='return-to-login-button' type="submit" class="btn waves-effect waves-light" href="/logout?next=/login">
+                        {% trans "Return to Login" %}
+                    </a>
+                </div>
+            </div>
+        {% else %}
+            <div id='course-list' class="card collection with-header">
+                <div class="collection-header">
+                    <h5>{% trans 'My Courses' %}</h5>
+                </div>
+                {% for enrollment in enrollments %}
+                    <a href='/{{enrollment.course_class.course.code}}/{{enrollment.course_class.code}}/me' class='collection-item' style='display: flex; justify-content: space-between; align-items: center'>
+                        <div class='course-list-info'>
+                            <div class="title">{{ enrollment.course_class.course }}</div>
+                            <div class='grey-text'>{{ enrollment.course_class.code }}</div>
+                        </div>
+                        <i class="material-icons">keyboard_arrow_right</i>
+                    </a>
+                {% endfor %}
+            </div>
+        {% endif %}
     </div>
 {% endblock content %}

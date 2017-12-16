@@ -14,14 +14,15 @@ def index(request):
 
 @login_required(login_url='/login/')
 def courses(request):
-    student = request.user.student
-    enrollments = student.enrollment_set.all()
+    if hasattr(request.user, 'student'):
+        student = request.user.student
+        enrollments = student.enrollment_set.all()
+    else:
+        enrollments = []
     
     if len(enrollments) == 1:
         enrollment = enrollments[0]
         return redirect('/%s/%s/me' %(enrollment.course_class.course.code, enrollment.course_class.code))
-    elif len(enrollments) == 0:
-        return HttpResponse("(no course found)")
     else:
         return render(
             request,
