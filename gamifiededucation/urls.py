@@ -20,3 +20,8 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'', include('course.urls')),
 ]
+
+handler404 = 'course.views.error_page'
+handler500 = 'course.views.error_page'
+handler403 = 'course.views.error_page'
+handler400 = 'course.views.error_page'

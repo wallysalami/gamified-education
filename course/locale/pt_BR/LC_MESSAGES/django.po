@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-19 13:02+0000\n"
+"POT-Creation-Date: 2017-12-19 14:19+0000\n"
 "PO-Revision-Date: 2017-08-13 16:27+0000\n"
 "Last-Translator: Jan K. S. <EMAIL@ADDRESS>\n"
 "Language-Team: PT_BR <LL@li.org>\n"
@@ -64,6 +64,18 @@ msgstr "Você não está matriculado em nada."
 #: course/templates/course/courses.html:19
 msgid "Return to Login"
 msgstr "Retornar ao Login"
+
+#: course/templates/course/error_page.html:6
+msgid "Error"
+msgstr "Erro"
+
+#: course/templates/course/error_page.html:14
+msgid "Page not found"
+msgstr "Página não encontrada"
+
+#: course/templates/course/error_page.html:18
+msgid "Return to Home Page"
+msgstr "Retornar à Página de Início"
 
 #: course/templates/registration/login.html:23
 msgid "Username and password didn't match."

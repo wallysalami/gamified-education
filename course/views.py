@@ -11,6 +11,17 @@ from rank import DenseRank, UpperRank, Rank
 
 from .models import *
 
+
+def error_page(request):
+    return render(
+        request,
+        'course/error_page.html',
+        {
+            'request': request
+        }
+    )
+
+
 def index(request):
     return redirect('/login/')
     

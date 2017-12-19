@@ -1,0 +1,23 @@
+{% extends "course/base.html" %}
+
+{% load i18n %}
+
+{% block title %}
+    {% trans 'Error' %}
+{% endblock %}
+
+{% block content %}
+    <div class='flex-center-container'>
+        <div id='no-enrollment-card' class="card">
+            <div class="card-content">
+                <div class="card-title">
+                    <h5>{% trans 'Page not found' %}</h5>
+                </div>
+                
+                <a id='return-to-login-button' type="submit" class="btn waves-effect waves-light" href="/">
+                    {% trans "Return to Home Page" %}
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
