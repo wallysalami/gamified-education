@@ -24,11 +24,11 @@
                         {{course_class.course.code}}
                     </a>
                     <ul class="nav-items">
-                        <li {% ifequal active_tab "me" %}class="active"{% endifequal %}>
-                            <a href="me">{% trans 'Me' %}</a>
+                        <li {% ifequal active_tab "assignments" %}class="active"{% endifequal %}>
+                            <a href="/{{course_class.course.code}}/{{course_class.code}}/assignments">{% trans 'Assignments' %}</a>
                         </li>
                         <li {% ifequal active_tab "class" %}class="active"{% endifequal %}>
-                            <a href="class">{% trans 'Class' %}</a>
+                            <a href="/{{course_class.course.code}}/{{course_class.code}}/class">{% trans 'Class' %}</a>
                         </li>
                     </ul>
                     <ul class="nav-items">

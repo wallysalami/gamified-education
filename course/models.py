@@ -68,6 +68,25 @@ class Enrollment(models.Model):
 
     class Meta:
         unique_together = ('student', 'course_class')
+        
+
+class Instructor(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    full_name = models.CharField(max_length=200, blank=True)
+    
+    def __str__(self):
+        return self.full_name
+        
+
+class ClassInstructor(models.Model):
+    instructor = models.ForeignKey(Instructor, on_delete=models.CASCADE)
+    course_class = models.ForeignKey(CourseClass, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return "%s (%s)" % (self.instructor, self.course_class)
+        
+    class Meta:
+        unique_together = ('instructor', 'course_class')
 
 
 class Task(models.Model):

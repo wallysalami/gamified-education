@@ -26,7 +26,7 @@
                     <h5>{% trans 'My Courses' %}</h5>
                 </div>
                 {% for enrollment in enrollments %}
-                    <a href='/{{enrollment.course_class.course.code}}/{{enrollment.course_class.code}}/me' class='collection-item' style='display: flex; justify-content: space-between; align-items: center'>
+                    <a href='/{{enrollment.course_class.course.code}}/{{enrollment.course_class.code}}/assignments' class='collection-item' style='display: flex; justify-content: space-between; align-items: center'>
                         <div class='course-list-info'>
                             <div class="title">{{ enrollment.course_class.course }}</div>
                             <div class='grey-text'>{{ enrollment.course_class.code }}</div>

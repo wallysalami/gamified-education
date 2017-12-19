@@ -137,3 +137,17 @@ class StudentAdmin(BasicAdmin):
     ordering = ('full_name',)
 
 admin.site.register(Student, StudentAdmin)
+
+
+class ClassInstructorInline(admin.TabularInline):
+    model = ClassInstructor
+    ordering = ('course_class_id',)
+
+
+class InstructorAdmin(BasicAdmin):
+    list_display = ('full_name',)
+    search_fields = ['full_name']
+    ordering = ('full_name',)
+    inlines = [ClassInstructorInline]
+
+admin.site.register(Instructor, InstructorAdmin)

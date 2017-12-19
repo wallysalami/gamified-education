@@ -100,6 +100,19 @@ body {
 * Student page
 *****************************/
 
+#student-dropdown-container {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* show students list on click even if javascript is disabled*/
+#students-dropdown:target {
+    display: block;
+    opacity: 1;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
 #student-header {
     margin: 0px 20px;
     display: flex;

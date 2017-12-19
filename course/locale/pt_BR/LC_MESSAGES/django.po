@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-15 23:49+0000\n"
+"POT-Creation-Date: 2017-12-19 13:02+0000\n"
 "PO-Revision-Date: 2017-08-13 16:27+0000\n"
 "Last-Translator: Jan K. S. <EMAIL@ADDRESS>\n"
 "Language-Team: PT_BR <LL@li.org>\n"
@@ -18,9 +18,22 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: course/templates/course/base.html:28 course/templates/course/me.html:6
-msgid "Me"
-msgstr "Eu"
+#: course/templates/course/assignments.html:6
+#: course/templates/course/base.html:28
+msgid "Assignments"
+msgstr "Atividades"
+
+#: course/templates/course/assignments.html:13
+msgid "Select the Student"
+msgstr "Selecione o Aluno"
+
+#: course/templates/course/assignments.html:65
+msgid "(no points)"
+msgstr "(nenhum ponto)"
+
+#: course/templates/course/assignments.html:94
+msgid "CANCELED"
+msgstr "ANULADO"
 
 #: course/templates/course/base.html:31 course/templates/course/class.html:6
 msgid "Class"
@@ -40,7 +53,7 @@ msgid "(no student has scored so far)"
 msgstr "(nenhum aluno pontuou até agora)"
 
 #: course/templates/course/courses.html:6
-#: course/templates/course/courses.html:24
+#: course/templates/course/courses.html:26
 msgid "My Courses"
 msgstr "Meus Cursos"
 
@@ -51,14 +64,6 @@ msgstr "Você não está matriculado em nada."
 #: course/templates/course/courses.html:19
 msgid "Return to Login"
 msgstr "Retornar ao Login"
-
-#: course/templates/course/me.html:46
-msgid "(no points)"
-msgstr "(nenhum ponto)"
-
-#: course/templates/course/me.html:75
-msgid "CANCELED"
-msgstr "ANULADO"
 
 #: course/templates/registration/login.html:23
 msgid "Username and password didn't match."
@@ -79,3 +84,6 @@ msgstr "Por favor, faça login para acessar a página."
 #: course/templates/registration/login.html:55
 msgid "Forgot password?"
 msgstr "Esqueceu a senha?"
+
+#~ msgid "Me"
+#~ msgstr "Eu"

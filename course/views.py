@@ -1,15 +1,25 @@
 from functools import reduce
 
+from django.contrib.auth.views import login as contrib_login
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum, Case, When, F, Q, IntegerField, ExpressionWrapper
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import Http404
 from rank import DenseRank, UpperRank, Rank
 
-from .models import AssignmentTask, Grade, Student, Course, CourseClass, Enrollment
+from .models import *
 
 def index(request):
     return redirect('/login/')
+    
+    
+def login(request, **kwargs):
+    if request.user.is_authenticated():
+        return redirect('/courses')
+    else:
+        return contrib_login(request, **kwargs)
 
 
 @login_required(login_url='/login/')
@@ -17,12 +27,15 @@ def courses(request):
     if hasattr(request.user, 'student'):
         student = request.user.student
         enrollments = student.enrollment_set.all()
+    elif hasattr(request.user, 'instructor'):
+        instructor = request.user.instructor
+        enrollments = instructor.classinstructor_set.all()
     else:
         enrollments = []
     
     if len(enrollments) == 1:
         enrollment = enrollments[0]
-        return redirect('/%s/%s/me' %(enrollment.course_class.course.code, enrollment.course_class.code))
+        return redirect('/%s/%s/assignments' %(enrollment.course_class.course.code, enrollment.course_class.code))
     else:
         return render(
             request,
@@ -35,9 +48,82 @@ def courses(request):
 
 @login_required(login_url='/login/')
 def course_class(request, course_code, class_code):
-    enrollment = get_enrollment(request, course_code, class_code)
-    query_limit = enrollment.course_class.ranking_size
+    try:
+        enrollment = get_enrollment(request.user.id, course_code, class_code)
+        course_class = enrollment.course_class
+        student_id = enrollment.student_id
+    except ObjectDoesNotExist:
+        try:
+            class_instructor = get_class_instructor(request, course_code, class_code)
+            course_class = class_instructor.course_class
+            student_id = None
+        except ObjectDoesNotExist:
+            raise Http404("Student/instructor not found")
     
+    ranking = get_ranking_data(course_class, course_class.ranking_size)
+
+    return render(
+        request,
+        'course/class.html',
+        {
+            'active_tab': 'class',
+            'course_class': course_class,
+            'ranking': ranking,
+            'student_id': student_id,
+        }
+    )
+
+
+@login_required(login_url='/login/')
+def assignments (request, course_code, class_code, student_id=None):
+    try:
+        enrollment = get_enrollment(request.user.id, course_code, class_code)
+        course_class = enrollment.course_class
+        students_data = None
+    except ObjectDoesNotExist:
+        try:
+            class_instructor = get_class_instructor(request, course_code, class_code)
+            course_class = class_instructor.course_class
+            students_data = get_students_data(course_class)
+            try:
+                enrollment = Enrollment.objects.get(student_id=student_id, course_class=course_class)
+            except ObjectDoesNotExist:
+                enrollment = None
+                
+        except ObjectDoesNotExist:
+            raise Http404("Student/instructor not found")
+    
+    return render(
+        request,
+        'course/assignments.html',
+        {
+            'active_tab': 'assignments',
+            'course_class': course_class,
+            'enrollment': enrollment,
+            'assignment_items_data': assignment_items_data(enrollment),
+            'students_data': students_data,
+            'student_id': student_id
+        }
+    )
+
+
+def get_enrollment(student_user_id, course_code, class_code):
+    student = Student.objects.get(user_id=student_user_id)
+    course = Course.objects.get(code=course_code)
+    course_class = CourseClass.objects.get(course=course, code=class_code)
+    enrollment = Enrollment.objects.get(student=student, course_class=course_class)
+
+    return enrollment
+    
+def get_class_instructor(request, course_code, class_code):
+    instructor = Instructor.objects.get(user_id=request.user.id)
+    course = Course.objects.get(code=course_code)
+    course_class = CourseClass.objects.get(course=course, code=class_code)
+    class_instructor = ClassInstructor.objects.get(instructor=instructor, course_class=course_class)
+
+    return class_instructor
+    
+def get_ranking_data(course_class, ranking_size):
     ranking = Grade.objects.values(
         'enrollment__student__id'
     ).annotate(
@@ -56,47 +142,24 @@ def course_class(request, course_code, class_code):
         # so I put it in another "annotate" to respect the dependency
         dense_rank = Rank('total'),
     ).filter(
-        enrollment__course_class = enrollment.course_class
-    ).order_by('-total', 'full_name')[:query_limit]
+        enrollment__course_class = course_class
+    ).order_by('-total', 'full_name')[:ranking_size]
     # print(ranking.query)
-
-    return render(
-        request,
-        'course/class.html',
-        {
-            'active_tab': 'class',
-            'course_class': enrollment.course_class,
-            'ranking': ranking,
-            'student_id': enrollment.student_id,
-        }
-    )
-
-
-@login_required(login_url='/login/')
-def me (request, course_code, class_code):
-    enrollment = get_enrollment(request, course_code, class_code)
     
-    return render(
-        request,
-        'course/me.html',
-        {
-            'active_tab': 'me',
-            'course_class': enrollment.course_class,
-            'enrollment': enrollment,
-            'assignment_items_data': assignment_items_data(enrollment),
-        }
-    )
-
-
-def get_enrollment(request, course_code, class_code):
-    student = get_object_or_404(Student, user_id=request.user.id)
-    course = get_object_or_404(Course, code=course_code)
-    course_class = get_object_or_404(CourseClass, course=course, code=class_code)
-    enrollment = get_object_or_404(Enrollment, student=student, course_class=course_class)
-
-    return enrollment
+    return ranking
+    
+def get_students_data(course_class):
+    return Student.objects.values(
+        'id',
+        'full_name'
+    ).filter(
+        enrollment__course_class = course_class
+    ).order_by('full_name')
 
 def assignment_items_data(enrollment):
+    if enrollment == None:
+        return None
+    
     points_data = []
     assignments = enrollment.course_class.course.assignment_set.order_by('id').all()
     for assignment in assignments:
