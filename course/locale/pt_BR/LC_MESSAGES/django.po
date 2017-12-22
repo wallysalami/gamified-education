@@ -24,8 +24,8 @@ msgid "Assignments"
 msgstr "Atividades"
 
 #: course/templates/course/assignments.html:13
-msgid "Select the Student"
-msgstr "Selecione o Aluno"
+msgid "Select Student"
+msgstr "Selecionar Aluno"
 
 #: course/templates/course/assignments.html:65
 msgid "(no points)"
