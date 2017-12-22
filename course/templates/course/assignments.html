@@ -37,7 +37,6 @@
             </div>
         </header>
     
-    
         <ul id='assignment-list'>
             {% for assignment_item in assignment_items_data %}
                 <li class="assignment-list-item card">
@@ -60,7 +59,18 @@
                                     <div class="determinate" style="width: {{assignment_item.total_grade_percentage|safe}}%"></div>
                                 </div>
 
-                                <h5 class='assignment-score-points'> {{assignment_item.total_grade_points}} XP </h5>
+                                <h5 class='assignment-score-points xp-label'>
+                                    {{assignment_item.total_grade_points}} XP
+                                    <a class='change-to-percentage' href='#assignment-list'>
+                                        <i class="material-icons">swap_horiz</i>
+                                    </a>
+                                </h5>
+                                <h5 class='assignment-score-points percentage-label'>
+                                    {{assignment_item.total_grade_percentage}} %
+                                    <a class='change-to-xp' href='#!'>
+                                        <i class="material-icons">swap_horiz</i>
+                                    </a>
+                                </h5>
                             {% else %}
                                 <small class='assignment-no-points'>{% trans '(no points)' %}</small>
                             {% endif %}
@@ -93,7 +103,8 @@
                                         {% if task.grade_is_canceled %}
                                             <span class='task-points badge red-text'>{% trans 'CANCELED' %}</span>
                                         {% elif task.grade_percentage != None %}
-                                            <span class='task-points badge'>+{{task.grade_points}} XP</span>
+                                            <span class='task-points badge xp-label'>+{{task.grade_points}} XP</span>
+                                            <span class='task-points badge percentage-label'>{{task.grade_percentage}} %</span>
                                         {% endif %}
                                     </li>
                                 {% endif %}

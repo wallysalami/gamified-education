@@ -198,7 +198,7 @@ def assignment_items_data(enrollment):
         if total_task_points == 0:
             assignment_data['total_grade_percentage'] = 0
         else:
-            assignment_data['total_grade_percentage'] = total_grade_points / total_task_points * 100
+            assignment_data['total_grade_percentage'] = round(total_grade_points / total_task_points * 100)
         
         points_data.append(assignment_data)
 

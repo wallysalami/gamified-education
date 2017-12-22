@@ -168,6 +168,39 @@ body {
     height: 70px;
 }
 
+.percentage-label {
+    display: none;
+}
+
+#assignment-list:target .percentage-label,
+.show-percentage .percentage-label {
+    display: block;
+}
+
+#assignment-list:target .xp-label,
+.show-percentage .xp-label {
+    display: none;
+}
+
+.change-to-percentage,
+.change-to-xp {
+    position: absolute;
+    margin-left: 7px;
+    margin-right: 0px !important; 
+    transition: background-color 0.3s !important;
+}
+
+.change-to-percentage:hover,
+.change-to-xp:hover {
+    background-color: #d9e6f2;
+    border-radius: 3px;
+}
+
+.change-to-percentage i,
+.change-to-xp i{
+    color: #1976d2 !important;
+}
+
 .assignment-no-points {
     height: 100%;
     display: flex;
@@ -215,6 +248,7 @@ body {
 }
 
 .badge.task-points {
+    text-align: right;
     margin-left: auto;
     white-space: nowrap;
     padding-top: 1px;
