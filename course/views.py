@@ -179,8 +179,17 @@ def assignment_items_data(enrollment):
         assignment_data['description'] = assignment.description
 
         tasks_data = assignment_tasks_data(assignment, enrollment)
+        
+        is_there_any_task_to_show = reduce(lambda x, y: True if not y['is_optional'] or y['grade_percentage'] != None else x, tasks_data, False)
+        if not is_there_any_task_to_show:
+            continue
 
-        total_task_points = reduce(lambda x, y: x+(y['task_points'] if not y['is_optional'] else 0), tasks_data, 0)
+        are_all_tasks_optional = reduce(lambda x, y: False if not y['is_optional'] else x, tasks_data, True)
+        if are_all_tasks_optional:
+            total_task_points = reduce(lambda x, y: x + y['task_points'], tasks_data, 0)
+        else:
+            total_task_points = reduce(lambda x, y: x+(y['task_points'] if not y['is_optional'] else 0), tasks_data, 0)
+        
         total_grade_points = reduce(lambda x, y: x+y['grade_points'] if not y['grade_is_canceled'] else x, tasks_data, 0)
         
         assignment_data['tasks'] = tasks_data
