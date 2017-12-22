@@ -118,7 +118,7 @@ class Assignment(models.Model):
         )['total']
 
     def ordered_assignment_tasks(self):
-        return self.assignmenttask_set.order_by('id').all()
+        return self.assignmenttask_set.order_by('is_optional', 'id').all()
 
 
 class AssignmentTask(models.Model):
