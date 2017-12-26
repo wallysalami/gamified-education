@@ -135,7 +135,7 @@ LANGUAGES = [
 
 LOCALE_PATHS = (os.path.join(BASE_DIR, 'course/locale'), os.path.join(BASE_DIR, 'gamifiededucation/locale'))
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = os.environ.get('TIME_ZONE', 'UTC')
 
 USE_I18N = True
 

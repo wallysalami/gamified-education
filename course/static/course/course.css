@@ -69,15 +69,17 @@ body {
 .flex-center-container {
     display: flex;
     justify-content: center; 
+    flex-flow: row wrap;
 }
 
 #class-ranking {
     display: inline-block;
+    align-self: flex-start;
     list-style: none;
     -webkit-padding-start: 0px;
     min-width: 300px;
     max-width: 450px;
-    margin: 0px 20px;
+    margin: 0px 20px 30px;
 }
 
 #class-ranking .empty-list-message {
@@ -95,6 +97,45 @@ body {
     align-items: center;
     font-size: 18px;
 }
+
+.markdown ul {
+    padding-left: 40px !important;
+}
+
+.markdown li {
+    list-style-type: disc !important;
+}
+
+#posts {
+    flex: 1 0;
+    min-width: 300px;
+    max-width: 700px;
+    margin: 0px 30px 30px;
+}
+
+@media screen and (min-width: 700px) {
+    #posts {
+        margin-left: 40px;
+    }
+}
+
+#posts article {
+    margin-top: 0px;
+    margin-bottom: 100px;
+}
+
+#posts time {
+    color: #888;
+}
+
+#posts h4 {
+    margin-bottom: 8px;
+}
+
+#posts header {
+    margin-bottom: 25px;
+}
+
 
 /****************************
 * Student page

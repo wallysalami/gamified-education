@@ -4,6 +4,7 @@ from .models import *
 from django.forms import BaseInlineFormSet
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
+import markdown2
 
 # app = apps.get_app_config('course')
 
@@ -151,3 +152,16 @@ class InstructorAdmin(BasicAdmin):
     inlines = [ClassInstructorInline]
 
 admin.site.register(Instructor, InstructorAdmin)
+
+
+class PostAdmin(BasicAdmin):
+    model = Post
+    list_display = ('course_class', 'title','post_datetime')
+    ordering = ('-post_datetime',)
+    read_only = ('html_code')
+    
+    def save_model(self, request, post, form, change):
+        post.html_code = markdown2.markdown(post.markdown_text, extras=["tables", "fenced-code-blocks"])
+        super().save_model(request, post, form, change)
+    
+admin.site.register(Post, PostAdmin)

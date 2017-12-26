@@ -13,6 +13,9 @@
             <link rel="stylesheet" type="text/css" href="{% static 'course/course.css' %}" />  
             <script type="text/javascript" src="{% static 'course/course.js'%}"></script>
         {% include 'material/includes/material_css.html' %}
+        
+        {% block styles %}
+        {% endblock %}
 
         <script type="text/javascript" src="{% static 'js/jquery.js'%}"></script>
         {% include 'material/includes/material_js.html' %}

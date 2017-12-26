@@ -6,6 +6,12 @@
     {% trans 'Class' %}
 {% endblock %}
 
+{% load staticfiles %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'course/pygments-vs.css' %}">
+{% endblock %}
+
+
 {% block content %}
     <div class='flex-center-container'>
         <ol id='class-ranking' class="card collection with-header">
@@ -29,5 +35,22 @@
                 {% endfor %}
             {% endif %}
         </ol>
+        
+        {% if posts|length > 0 %}
+            <section id='posts' class='markdown'>
+                {% for post in posts %}
+                    <article>
+                        <header>
+                            <h4>{{ post.title }}</h4>
+                            <time datetime="{{ post.post_datetime|date:'c'}}" pubdate="pubdate">
+                                {{ post.post_datetime }}
+                            </time>
+                        </header>
+                        
+                        {{ post.html_code|safe }}
+                    </article>
+                {% endfor %}
+            </section>
+        {% endif %}
     </div>
 {% endblock content %}

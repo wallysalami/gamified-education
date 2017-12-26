@@ -9,6 +9,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 from rank import DenseRank, UpperRank, Rank
 
+from django.utils.timezone import get_default_timezone
+
 from .models import *
 
 
@@ -73,6 +75,12 @@ def course_class(request, course_code, class_code):
     
     ranking = get_ranking_data(course_class, course_class.ranking_size)
 
+    posts = Post.objects.filter(
+        course_class=course_class
+    ).order_by(
+        '-is_pinned_to_the_top', '-post_datetime'
+    ).all()
+
     return render(
         request,
         'course/class.html',
@@ -81,6 +89,7 @@ def course_class(request, course_code, class_code):
             'course_class': course_class,
             'ranking': ranking,
             'student_id': student_id,
+            'posts': posts
         }
     )
 

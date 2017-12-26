@@ -152,3 +152,16 @@ class Grade(models.Model):
 
     class Meta:
         unique_together = ('enrollment', 'assignment_task')
+        
+        
+class Post(models.Model):
+    course_class = models.ForeignKey(CourseClass, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    markdown_text = models.TextField()
+    html_code = models.TextField(blank=True)
+    post_datetime = models.DateTimeField(auto_now_add=True, blank=True)
+    is_pinned_to_the_top = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return self.title
+    
