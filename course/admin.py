@@ -78,15 +78,14 @@ class GradeInlineFormSet(BaseInlineFormSet):
         return self._enrollment_ids
 
     def total_form_count(self):
-        return len(self.enrollment_ids)
+        return len(self.enrollment_ids) if self.instance.id != None else 0
 
     def __init__(self, *args, **kwargs):
         super(GradeInlineFormSet, self).__init__(*args, **kwargs)            
         
-        enrollment_ids = self.enrollment_ids
+        enrollment_ids = list(self.enrollment_ids) # make a copy of the list
         index = 0
         for form in self:
-            print(form.instance.id)
             if form.instance.id != None:
                 enrollment_ids.remove(form.instance.enrollment.id)
             else:
