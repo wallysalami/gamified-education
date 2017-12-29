@@ -49,7 +49,7 @@
                     </div>
                     <div class="card-action">
                         <div class='assignment-score'>
-                            {% if assignment_item.total_grade_percentage > 0 %}
+                            {% if assignment_item.total_grade_percentage != None %}
                                 <div class='assignment-min-max'>
                                     <small>0 XP</small>
                                     <small>{{assignment_item.total_task_points}} XP</small>
@@ -58,19 +58,26 @@
                                 <div class="progress">
                                     <div class="determinate" style="width: {{assignment_item.total_grade_percentage|safe}}%"></div>
                                 </div>
+                            {% endif %}
 
+                            {% if assignment_item.total_grade_points != None %}
                                 <h5 class='assignment-score-points xp-label'>
                                     {{assignment_item.total_grade_points}} XP
-                                    <a class='change-to-percentage' href='#assignment-list'>
-                                        <i class="material-icons">swap_horiz</i>
-                                    </a>
+
+                                    {% if assignment_item.total_grade_percentage != None %}
+                                        <a class='change-to-percentage' href='#assignment-list'>
+                                            <i class="material-icons">swap_horiz</i>
+                                        </a>
+                                    {% endif %}
                                 </h5>
-                                <h5 class='assignment-score-points percentage-label'>
-                                    {{assignment_item.total_grade_percentage}} %
-                                    <a class='change-to-xp' href='#!'>
-                                        <i class="material-icons">swap_horiz</i>
-                                    </a>
-                                </h5>
+                                {% if assignment_item.total_grade_percentage != None %}
+                                    <h5 class='assignment-score-points percentage-label'>
+                                        {{assignment_item.total_grade_percentage}} %
+                                        <a class='change-to-xp' href='#!'>
+                                            <i class="material-icons">swap_horiz</i>
+                                        </a>
+                                    </h5>
+                                {% endif %}
                             {% else %}
                                 <small class='assignment-no-points'>{% trans '(no points)' %}</small>
                             {% endif %}
@@ -78,20 +85,24 @@
                         
                         <ul class='task-list'>
                             {% for task in assignment_item.tasks %}
-                                {% if task.grade_percentage != None or not task.is_optional %}
-                                    <li class='task-list-item {% if task.grade_is_canceled %}red-text{% endif %}'>
-                                        {% if task.grade_is_canceled %}
-                                            <i class="material-icons canceled-grade">remove_circle</i>
-                                        {% elif task.grade_percentage == None %}
+                                {% if task.grade_points != None or not task.is_optional %}
+                                    <li class='task-list-item {% if task.grade_is_canceled or task.grade_points < 0 %}red-text{% endif %}'>
+                                        {% if task.grade_is_canceled or task.grade_points < 0 %}
+                                            <i class="material-icons circle-icon">remove_circle</i>
+                                        {% elif task.grade_points == None %}
                                             <i class="material-icons no-grade-icon">lens</i>
+                                        {% elif task.task_points == None %}
+                                            <i class="material-icons circle-icon orange-text">
+                                                add_circle
+                                            </i>
                                         {% else %}
-                                            <i class="material-icons {% if task.grade_percentage != None %}orange-text{% endif %}">
+                                            <i class="material-icons orange-text">
                                                 {% if task.grade_percentage == 100 %}
                                                     star
-                                                {% elif task.grade_percentage == 0 %}
-                                                    star_border
-                                                {% else %}
+                                                {% elif task.grade_percentage >= 50 %}
                                                     star_half
+                                                {% else %}
+                                                    star_border
                                                 {% endif %}
                                             </i>
                                         {% endif %}
@@ -102,9 +113,23 @@
                                         
                                         {% if task.grade_is_canceled %}
                                             <span class='task-points badge red-text'>{% trans 'CANCELED' %}</span>
+                                        {% elif task.task_points == None %}
+                                            {% if task.grade_points >= 0 %}
+                                                <span class='task-points badge'>
+                                                    +{{task.grade_points}} XP
+                                                </span>
+                                            {% elif task.grade_points < 0 %}
+                                                <span class='task-points badge red-text'>
+                                                    –{{ task.grade_points|stringformat:"+d"|slice:"1:" }} XP
+                                                </span>
+                                            {% endif %}
                                         {% elif task.grade_percentage != None %}
-                                            <span class='task-points badge xp-label'>+{{task.grade_points}} XP</span>
-                                            <span class='task-points badge percentage-label'>{{task.grade_percentage}} %</span>
+                                            <span class='task-points badge xp-label'>
+                                                +{{task.grade_points}} XP
+                                            </span>
+                                            <span class='task-points badge percentage-label'>
+                                                {{task.grade_percentage}} %
+                                            </span>
                                         {% endif %}
                                     </li>
                                 {% endif %}

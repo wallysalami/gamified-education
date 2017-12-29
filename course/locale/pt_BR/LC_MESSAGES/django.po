@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-19 14:19+0000\n"
+"POT-Creation-Date: 2017-12-29 14:05+0000\n"
 "PO-Revision-Date: 2017-08-13 16:27+0000\n"
 "Last-Translator: Jan K. S. <EMAIL@ADDRESS>\n"
 "Language-Team: PT_BR <LL@li.org>\n"
@@ -18,8 +18,18 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
+#: course/models.py:168
+msgid "Score must be an integer value, since the assignment task has no points"
+msgstr "Pontuação precisa ser um valor inteiro, já que a tarefa da atividade não tem pontos"
+
+#: course/models.py:170
+msgid ""
+"Score must be a value between 0 and 1, representing the percentage of the assignment "
+"task points"
+msgstr "Pontuação precisa ser um valor entre 0 e 1, representando o percentual de pontos da tarefa da atividade"
+
 #: course/templates/course/assignments.html:6
-#: course/templates/course/base.html:28
+#: course/templates/course/base.html:32
 msgid "Assignments"
 msgstr "Atividades"
 
@@ -27,28 +37,28 @@ msgstr "Atividades"
 msgid "Select Student"
 msgstr "Selecionar Aluno"
 
-#: course/templates/course/assignments.html:65
+#: course/templates/course/assignments.html:82
 msgid "(no points)"
 msgstr "(nenhum ponto)"
 
-#: course/templates/course/assignments.html:94
+#: course/templates/course/assignments.html:115
 msgid "CANCELED"
 msgstr "ANULADO"
 
-#: course/templates/course/base.html:31 course/templates/course/class.html:6
+#: course/templates/course/base.html:35 course/templates/course/class.html:6
 msgid "Class"
 msgstr "Turma"
 
-#: course/templates/course/base.html:36
+#: course/templates/course/base.html:40
 msgid "Logout"
 msgstr "Sair"
 
-#: course/templates/course/class.html:14
+#: course/templates/course/class.html:20
 #, python-format
 msgid "Top %(number_of_items)s"
 msgstr "Top %(number_of_items)s"
 
-#: course/templates/course/class.html:20
+#: course/templates/course/class.html:26
 msgid "(no student has scored so far)"
 msgstr "(nenhum aluno pontuou até agora)"
 

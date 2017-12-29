@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator 
 from django.db.models import Sum, F, IntegerField, Case, When
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext as _
 
 # Create your models here.
 
@@ -55,9 +57,10 @@ class Enrollment(models.Model):
             score = Sum(
                 Case(
                     When(is_canceled=True, then=0),
-                    default=F('percentage')
-                ) * F('assignment_task__points'),
-                output_field=IntegerField()
+                    When(assignment_task__points=None, then=F('score')),
+                    default=F('score') * F('assignment_task__points'),
+                    output_field=IntegerField()
+                )
             )
         )['score']
 
@@ -105,6 +108,7 @@ class Assignment(models.Model):
     description = models.CharField(max_length=2000, blank=True)
     enabled_from = models.DateField(null=True, blank=True)
     enabled_until = models.DateField(null=True, blank=True)
+    is_optional = models.BooleanField(default=False)
     tasks = models.ManyToManyField(Task, through='AssignmentTask')
 
     def __str__(self):
@@ -124,7 +128,7 @@ class Assignment(models.Model):
 class AssignmentTask(models.Model):
     assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
-    points = models.IntegerField()
+    points = models.IntegerField(null=True, blank=True)
     enrollments = models.ManyToManyField(Enrollment, through='Grade')
     is_optional = models.BooleanField(default=False)
 
@@ -141,17 +145,35 @@ class AssignmentTask(models.Model):
 class Grade(models.Model):
     enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
     assignment_task = models.ForeignKey(AssignmentTask, on_delete=models.CASCADE)
-    percentage = models.FloatField(default=1.0, validators=[MinValueValidator(0), MaxValueValidator(1)])
+    score = models.FloatField()
     is_canceled = models.BooleanField(default=False, verbose_name='Canceled')
-
-    def score(self):
-        return round(self.percentage * self.assignment_task.points)
-    
-    def __str__(self):
-        return "%d XP : %s, by %s" % (self.score(), self.assignment_task, self.enrollment)
 
     class Meta:
         unique_together = ('enrollment', 'assignment_task')
+
+    @property
+    def points(self):
+        if self.score == None:
+            return None
+        elif self.assignment_task.points == None:
+            return round(self.score)
+        else:
+            return round(self.score * self.assignment_task.points)
+    
+    def __str__(self):
+        if self.points != None and self.assignment_task_id != None and self.enrollment != None:
+            return "%d XP : %s, by %s" % (self.points, self.assignment_task, self.enrollment)
+        else:
+            return "Grade"
+
+    def clean(self):
+        super(Grade, self).clean()
+
+        if self.score != None:
+            if self.assignment_task.points == None and not self.score.is_integer():
+                raise ValidationError(_('Score must be an integer value, since the assignment task has no points'), code='invalid')
+            elif self.assignment_task.points != None and (self.score < 0 or self.score > 1):
+                raise ValidationError(_('Score must be a value between 0 and 1, representing the percentage of the assignment task points'), code='invalid')
         
         
 class Post(models.Model):
