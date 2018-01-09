@@ -184,9 +184,19 @@ class Grade(models.Model):
 
         if self.score != None:
             if self.assignment_task.points == None and not self.score.is_integer():
-                raise ValidationError(_('Score must be an integer value, since the assignment task has no points'), code='invalid')
+                raise ValidationError(
+                    {
+                        'score': _('Score must be an integer value, since the assignment task has no points')
+                    },
+                    code='invalid'
+                )
             elif self.assignment_task.points != None and (self.score < 0 or self.score > 1):
-                raise ValidationError(_('Score must be a value between 0 and 1, representing the percentage of the assignment task points'), code='invalid')
+                raise ValidationError(
+                    {
+                        'score': _('Score must be a value between 0 and 1, representing the percentage of the assignment task points')
+                    },
+                    code='invalid'
+                )
         
         
 class Post(models.Model):
