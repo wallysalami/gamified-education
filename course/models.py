@@ -4,6 +4,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db.models import Sum, F, IntegerField, Case, When
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext as _
+from django.conf import settings
 
 # Create your models here.
 
@@ -11,9 +12,21 @@ class Course(models.Model):
     name = models.CharField(max_length=100)
     code = models.CharField(max_length=10, unique=True)
     description = models.CharField(max_length=100, blank=True)
+    icon_file_name = models.ImageField(blank=True)
+    icon_external_url = models.URLField(max_length=2000, blank=True)
     
     def __str__(self):
         return self.code + ' – ' + self.name
+
+    @property
+    def icon_url(self):
+        if self.icon_file_name != '':
+            return settings.MEDIA_URL + str(self.icon_file_name)
+        elif self.icon_external_url != '':
+            return self.icon_external_url
+        else:
+            # icon from https://pixabay.com/p-2268948/?no_redirect
+            return '/static/course/course-default-icon.png'
 
 
 class CourseClass(models.Model):

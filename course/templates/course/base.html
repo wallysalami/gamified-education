@@ -24,9 +24,12 @@
         {% if course_class != None %}
             <nav class="nav-extended light-blue darken-4">
                 <div class="nav-wrapper">
-                    <a id='course-logo' href="me">
-                        {{course_class.course.code}}
-                    </a>
+                    <div id='course-logo'>
+                        <a id='course-home-url' href='/'>
+                            <img class='course-icon' src='{{course_class.course.icon_url}}'>
+                            <span id='course-code'>{{course_class.course.code}}</span>
+                        </a>
+                    </div>
                     <ul class="nav-items">
                         <li {% ifequal active_tab "assignments" %}class="active"{% endifequal %}>
                             <a href="/{{course_class.course.code}}/{{course_class.code}}/assignments">{% trans 'Assignments' %}</a>
@@ -35,7 +38,7 @@
                             <a href="/{{course_class.course.code}}/{{course_class.code}}/class">{% trans 'Class' %}</a>
                         </li>
                     </ul>
-                    <ul class="nav-items">
+                    <ul class="nav-items" id='logout-button'>
                         <li>
                             <a href="/logout?next=/login">{% trans 'Logout' %}</a>
                         </li>

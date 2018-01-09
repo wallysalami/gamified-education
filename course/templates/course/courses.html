@@ -26,13 +26,17 @@
                     <h5>{% trans 'My Courses' %}</h5>
                 </div>
                 {% for enrollment in enrollments %}
-                    <a href='/{{enrollment.course_class.course.code}}/{{enrollment.course_class.code}}/assignments' class='collection-item' style='display: flex; justify-content: space-between; align-items: center'>
-                        <div class='course-list-info'>
-                            <div class="title">{{ enrollment.course_class.course }}</div>
-                            <div class='grey-text'>{{ enrollment.course_class.code }}</div>
-                        </div>
-                        <i class="material-icons">keyboard_arrow_right</i>
-                    </a>
+                    {% with enrollment.course_class as class %}
+                        <a href='/{{class.course.code}}/{{class.code}}/assignments' class='collection-item course-item'>
+                            <img class='course-icon' src='{{class.course.icon_url}}'>
+                            
+                            <div class='course-list-info'>
+                                <div class="title">{{ class.course }}</div>
+                                <div class='grey-text'>{{ class.code }}</div>
+                            </div>
+                            <i class="material-icons">keyboard_arrow_right</i>
+                        </a>
+                    {% endwith %}
                 {% endfor %}
             </div>
         {% endif %}

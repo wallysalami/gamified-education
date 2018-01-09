@@ -8,18 +8,45 @@ body {
 
 #course-logo {
     margin-left: 14px;
-    float: none;
     font-size: 24px;
     overflow: hidden;
     text-overflow: ellipsis;
     margin-right: 5px;
+    width: 33%;
     height: 50px;
 }
 
-@media(max-width: 350px) {
-    #course-logo {
+#course-home-url {
+    height: 50px;
+    display: inline-flex;
+    align-items: center;
+}
+
+#course-code {
+    min-width: 0;
+    overflow:hidden;
+    text-overflow: ellipsis;
+}
+
+@media(max-width: 555px) {
+    #course-code {
         display: none;
     }
+}
+
+.course-icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    object-fit: contain;
+}
+
+.generic-course-icon {
+    width: 46px;
+    margin-right: 10px;
+    text-align: center;
+    color: #999;
+    font-size: 30px !important;
 }
 
 #page-content {
@@ -29,10 +56,18 @@ body {
 .nav-wrapper {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .nav-items {
     display: flex;
+    flex: 1;
+    width: 33%;
+    justify-content: center;
+}
+
+#logout-button {
+    justify-content: flex-end;
 }
 
 /****************************
@@ -52,6 +87,14 @@ body {
 .course-list-info > * {
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+#course-list .course-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 20px;
+    display: flex;
 }
 
 #no-enrollment-card {
