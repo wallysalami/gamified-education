@@ -24,7 +24,6 @@ class BasicAdmin(admin.ModelAdmin):
 
 
 class CourseAdmin(BasicAdmin):
-    icon = '<i class="material-icons">class</i>'
     list_display = ('name', 'code', 'description')
     ordering = ('name',)
 
@@ -32,15 +31,13 @@ admin.site.register(Course, CourseAdmin)
 
 
 class CourseClassAdmin(BasicAdmin):
-    icon = '<i class="material-icons">people</i>'
-    list_display = ('code', 'start_date', 'end_date')
-    ordering = ('start_date', 'code',)
+    list_display = ('code', 'course', 'start_date', 'end_date')
+    ordering = ('-start_date', 'course', 'code')
 
 admin.site.register(CourseClass, CourseClassAdmin)
 
 
 class TaskAdmin(BasicAdmin):
-    icon = '<i class="material-icons">list</i>'
     list_display = ('name', 'description')
     ordering = ('name',)
 
@@ -53,9 +50,9 @@ class AssignmentTaskInline(admin.TabularInline):
     ordering = ('id',)
 
 class AssignmentAdmin(BasicAdmin):
-    icon = '<i class="material-icons">assignment</i>'
     inlines = [AssignmentTaskInline]
-    list_display = ('name', 'description')
+    list_display = ('name', 'course', 'description')
+    list_filter = ('course',)
     ordering = ('name',)
 
 admin.site.register(Assignment, AssignmentAdmin)
@@ -101,10 +98,13 @@ class GradeInline(admin.TabularInline):
     raw_id_fields = ("enrollment",)
     
 class AssignmentTaskAdmin(BasicAdmin):
-    icon = '<i class="material-icons">playlist_add_check</i>'
     inlines = [GradeInline]
-    # list_display = ('name', 'description')
+    list_display = ('__str__', 'course')
+    list_filter = ('assignment__course',)
     ordering = ('assignment_id','id',)
+
+    def course(self, obj):
+        return obj.assignment.course
 
 admin.site.register(AssignmentTask, AssignmentTaskAdmin)
 
@@ -121,20 +121,22 @@ class SimpleGradeInline(admin.TabularInline):
     ordering = ('assignment_task__assignment_id', 'assignment_task')
 
 class EnrollmentAdmin(BasicAdmin):
-    icon = '<i class="material-icons">person</i>'
     inlines = [SimpleGradeInline]
     list_display = ('student', 'course_class')
-    ordering = ('course_class__code', 'student__full_name',)
+    list_filter = ('course_class',)
+    ordering = ('-course_class__start_date', 'student__full_name')
+    search_fields = ('student__full_name',)
+    
 
 admin.site.register(Enrollment, EnrollmentAdmin)
 
 
 class StudentAdmin(BasicAdmin):
-    icon = '<i class="material-icons">person</i>'
     inlines = [EnrollmentInline]
     list_display = ('full_name', 'id_number', 'enrollments')
-    search_fields = ['full_name']
+    search_fields = ('full_name',)
     ordering = ('full_name',)
+    raw_id_fields = ("user",)
 
 admin.site.register(Student, StudentAdmin)
 
@@ -146,9 +148,10 @@ class ClassInstructorInline(admin.TabularInline):
 
 class InstructorAdmin(BasicAdmin):
     list_display = ('full_name',)
-    search_fields = ['full_name']
+    search_fields = ('full_name',)
     ordering = ('full_name',)
     inlines = [ClassInstructorInline]
+    raw_id_fields = ('user',)
 
 admin.site.register(Instructor, InstructorAdmin)
 
