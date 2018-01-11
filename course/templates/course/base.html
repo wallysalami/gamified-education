@@ -22,29 +22,60 @@
     </head>
     <body>
         {% if course_class != None %}
-            <nav class="nav-extended light-blue darken-4">
-                <div class="nav-wrapper">
-                    <div id='course-logo'>
-                        <a id='course-home-url' href='/'>
-                            <img class='course-icon' src='{{course_class.course.icon_url}}'>
-                            <span id='course-code'>{{course_class.course.code}}</span>
-                        </a>
+            {% with course_class.course as course %}
+                <style>
+                    .primary-color {
+                        background-color: {{course.primary_hex_color }} !important;
+                    }
+                    .light-primary-color {
+                        background-color: {{course.light_primary_color }} !important;
+                    }
+                    .light-primary-color-hover:hover {
+                        background-color: {{course.light_primary_color }} !important;
+                    }
+                    .primary-color-text {
+                        color: {{course.primary_hex_color }} !important;
+                    }
+
+
+                    .secondary-color {
+                        background-color: {{course.secondary_hex_color }} !important;
+                    }
+                    .light-secondary-color {
+                        background-color: {{course.light_secondary_color }} !important;
+                    }
+                    .light-secondary-color-hover:hover {
+                        background-color: {{course.light_secondary_color }} !important;
+                    }
+                    .secondary-color-text {
+                        color: {{course.secondary_hex_color }} !important;
+                    }
+                </style>
+
+                <nav class="nav-extended primary-color">
+                    <div class="nav-wrapper">
+                        <div id='course-logo'>
+                            <a id='course-home-url' href='/'>
+                                <img class='course-icon' src='{{course_class.course.icon_url}}'>
+                                <span id='course-code'>{{course.code}}</span>
+                            </a>
+                        </div>
+                        <ul class="nav-items">
+                            <li {% ifequal active_tab "assignments" %}class="active"{% endifequal %}>
+                                <a href="/{{course_class.course.code}}/{{course_class.code}}/assignments">{% trans 'Assignments' %}</a>
+                            </li>
+                            <li {% ifequal active_tab "class" %}class="active"{% endifequal %}>
+                                <a href="/{{course_class.course.code}}/{{course_class.code}}/class">{% trans 'Class' %}</a>
+                            </li>
+                        </ul>
+                        <ul class="nav-items" id='logout-button'>
+                            <li>
+                                <a href="/logout?next=/login">{% trans 'Logout' %}</a>
+                            </li>
+                        </ul>
                     </div>
-                    <ul class="nav-items">
-                        <li {% ifequal active_tab "assignments" %}class="active"{% endifequal %}>
-                            <a href="/{{course_class.course.code}}/{{course_class.code}}/assignments">{% trans 'Assignments' %}</a>
-                        </li>
-                        <li {% ifequal active_tab "class" %}class="active"{% endifequal %}>
-                            <a href="/{{course_class.course.code}}/{{course_class.code}}/class">{% trans 'Class' %}</a>
-                        </li>
-                    </ul>
-                    <ul class="nav-items" id='logout-button'>
-                        <li>
-                            <a href="/logout?next=/login">{% trans 'Logout' %}</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
+                </nav>
+            {% endwith %}
         {% endif %}
         <div id='page-content'>
             {% block content %}

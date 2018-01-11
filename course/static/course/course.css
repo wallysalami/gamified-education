@@ -276,13 +276,7 @@ body {
 
 .change-to-percentage:hover,
 .change-to-xp:hover {
-    background-color: #d9e6f2;
     border-radius: 3px;
-}
-
-.change-to-percentage i,
-.change-to-xp i{
-    color: #1976d2 !important;
 }
 
 .assignment-no-points {

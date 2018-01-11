@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.apps import apps
 from .models import *
-from django.forms import BaseInlineFormSet
+from django.forms import BaseInlineFormSet, ModelForm
+from django.forms.widgets import TextInput
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 import markdown2
@@ -23,7 +24,17 @@ class BasicAdmin(admin.ModelAdmin):
         js = ["course/admin.js"]
 
 
+class CourseForm(ModelForm):
+    class Meta:
+        model = CourseClass
+        fields = '__all__'
+        widgets = {
+            'primary_hex_color': TextInput(attrs={'type': 'color'}),
+            'secondary_hex_color': TextInput(attrs={'type': 'color'}),
+        }
+
 class CourseAdmin(BasicAdmin):
+    form = CourseForm
     list_display = ('name', 'code', 'description')
     ordering = ('name',)
 

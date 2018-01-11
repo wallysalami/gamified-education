@@ -26,7 +26,7 @@
         
     {% if assignment_items_data != None %}
         <header id='student-header' class='flow-text'>
-            <i id='student-icon' class="material-icons circle orange">person</i>
+            <i id='student-icon' class="material-icons circle secondary-color">person</i>
             <div id='student-info'>
                 <h1 id='student-name'>
                     {{enrollment.student.full_name}}
@@ -55,8 +55,8 @@
                                     <small>{{assignment_item.total_task_points}} XP</small>
                                 </div> 
 
-                                <div class="progress">
-                                    <div class="determinate" style="width: {{assignment_item.total_grade_percentage|safe}}%"></div>
+                                <div class="progress light-primary-color">
+                                    <div class="determinate primary-color" style="width: {{assignment_item.total_grade_percentage|safe}}%"></div>
                                 </div>
                             {% endif %}
 
@@ -65,16 +65,16 @@
                                     {{assignment_item.total_grade_points}} XP
 
                                     {% if assignment_item.total_grade_percentage != None %}
-                                        <a class='change-to-percentage' href='#assignment-list'>
-                                            <i class="material-icons">swap_horiz</i>
+                                        <a class='change-to-percentage light-primary-color-hover' href='#assignment-list'>
+                                            <i class="material-icons primary-color-text">swap_horiz</i>
                                         </a>
                                     {% endif %}
                                 </h5>
                                 {% if assignment_item.total_grade_percentage != None %}
                                     <h5 class='assignment-score-points percentage-label'>
                                         {{assignment_item.total_grade_percentage}} %
-                                        <a class='change-to-xp' href='#!'>
-                                            <i class="material-icons">swap_horiz</i>
+                                        <a class='change-to-xp light-primary-color-hover' href='#!'>
+                                            <i class="material-icons primary-color-text">swap_horiz</i>
                                         </a>
                                     </h5>
                                 {% endif %}
@@ -92,11 +92,11 @@
                                         {% elif task.grade_points == None %}
                                             <i class="material-icons no-grade-icon">lens</i>
                                         {% elif task.task_points == None %}
-                                            <i class="material-icons circle-icon orange-text">
+                                            <i class="material-icons circle-icon secondary-color-text">
                                                 add_circle
                                             </i>
                                         {% else %}
-                                            <i class="material-icons orange-text">
+                                            <i class="material-icons secondary-color-text">
                                                 {% if task.grade_percentage == 100 %}
                                                     star
                                                 {% elif task.grade_percentage >= 50 %}

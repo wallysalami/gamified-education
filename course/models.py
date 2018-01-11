@@ -1,3 +1,4 @@
+import re
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator 
@@ -8,12 +9,34 @@ from django.conf import settings
 
 # Create your models here.
 
+def convert_hex_to_rgba(color_hex, alpha):
+    rgb_text = color_hex.lstrip('#')
+    rgb_values = tuple( int(rgb_text[i:i+2], 16) for i in (0, 2, 4) )
+    rgba_text = 'rgba(%d, %d, %d, %f)' % (rgb_values + (alpha,))
+    return rgba_text
+
+def validate_hex_color(value):
+    if not re.search(r'^#[0-9a-fA-F]{6}$', value):
+        raise ValidationError(
+            _('Color format must be a # followed by 6 hexadecimal digits'),
+        )
+
 class Course(models.Model):
     name = models.CharField(max_length=100)
     code = models.CharField(max_length=10, unique=True)
     description = models.CharField(max_length=100, blank=True)
     icon_file_name = models.ImageField(blank=True)
     icon_external_url = models.URLField(max_length=2000, blank=True)
+    primary_hex_color = models.CharField(max_length=7, default='#0062b2', validators=[validate_hex_color])
+    secondary_hex_color = models.CharField(max_length=7, default='#ff9800', validators=[validate_hex_color])
+
+    @property
+    def light_primary_color(self):
+        return convert_hex_to_rgba(self.primary_hex_color, 0.2)
+
+    @property
+    def light_secondary_color(self):
+        return convert_hex_to_rgba(self.secondary_hex_color, 0.1)
     
     def __str__(self):
         return self.code + ' – ' + self.name
