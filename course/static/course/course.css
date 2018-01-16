@@ -74,10 +74,18 @@ body {
 * Course list  page
 *****************************/
 
-#course-list {
+#current-and-past-classes,
+#future-classes {
+    flex-grow: 1;
+    flex-basis: 0;
+    max-width: 500px;
+}
+
+.card.course-list {
     width: auto;
     min-width: 300px;
     max-width: 500px;
+    margin: 0px 20px 40px;
 }
 
 .course-list-info {
@@ -89,7 +97,7 @@ body {
     text-overflow: ellipsis;
 }
 
-#course-list .course-item {
+.course-list .collection-item.course-item {
     display: flex;
     justify-content: space-between;
     align-items: center;

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-29 14:05+0000\n"
+"POT-Creation-Date: 2018-01-16 19:09+0000\n"
 "PO-Revision-Date: 2017-08-13 16:27+0000\n"
 "Last-Translator: Jan K. S. <EMAIL@ADDRESS>\n"
 "Language-Team: PT_BR <LL@li.org>\n"
@@ -18,18 +18,30 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: course/models.py:168
-msgid "Score must be an integer value, since the assignment task has no points"
-msgstr "Pontuação precisa ser um valor inteiro, já que a tarefa da atividade não tem pontos"
+#: course/models.py:21
+msgid "Color format must be a # followed by 6 hexadecimal digits"
+msgstr "Formato da cor dever ser # seguido de 6 dígitos hexadecimais"
 
-#: course/models.py:170
+#: course/models.py:76
+msgid "End date cannot be earlier than start date"
+msgstr "Data de término não pode ser anterior à de começo"
+
+#: course/models.py:222
+msgid "Score must be an integer value, since the assignment task has no points"
+msgstr ""
+"Pontuação precisa ser um valor inteiro, já que a tarefa da atividade não tem "
+"pontos"
+
+#: course/models.py:229
 msgid ""
-"Score must be a value between 0 and 1, representing the percentage of the assignment "
-"task points"
-msgstr "Pontuação precisa ser um valor entre 0 e 1, representando o percentual de pontos da tarefa da atividade"
+"Score must be a value between 0 and 1, representing the percentage of the "
+"assignment task points"
+msgstr ""
+"Pontuação precisa ser um valor entre 0 e 1, representando o percentual de "
+"pontos da tarefa da atividade"
 
 #: course/templates/course/assignments.html:6
-#: course/templates/course/base.html:32
+#: course/templates/course/base.html:65
 msgid "Assignments"
 msgstr "Atividades"
 
@@ -45,11 +57,11 @@ msgstr "(nenhum ponto)"
 msgid "CANCELED"
 msgstr "ANULADO"
 
-#: course/templates/course/base.html:35 course/templates/course/class.html:6
+#: course/templates/course/base.html:68 course/templates/course/class.html:6
 msgid "Class"
 msgstr "Turma"
 
-#: course/templates/course/base.html:40
+#: course/templates/course/base.html:73
 msgid "Logout"
 msgstr "Sair"
 
@@ -62,18 +74,29 @@ msgstr "Top %(number_of_items)s"
 msgid "(no student has scored so far)"
 msgstr "(nenhum aluno pontuou até agora)"
 
-#: course/templates/course/courses.html:6
-#: course/templates/course/courses.html:26
-msgid "My Courses"
-msgstr "Meus Cursos"
+#: course/templates/course/classes.html:6
+msgid "My Classes"
+msgstr "Minhas Turmas"
 
-#: course/templates/course/courses.html:15
+#: course/templates/course/classes.html:15
 msgid "You have no enrollments yet."
 msgstr "Você não está matriculado em nada."
 
-#: course/templates/course/courses.html:19
+#: course/templates/course/classes.html:19
 msgid "Return to Login"
 msgstr "Retornar ao Login"
+
+#: course/templates/course/classes.html:25
+msgid "Current Classes"
+msgstr "Turmas Atuais"
+
+#: course/templates/course/classes.html:28
+msgid "Future Classes"
+msgstr "Turmas Futuras"
+
+#: course/templates/course/classes.html:32
+msgid "Past Classes"
+msgstr "Turmas Passadas"
 
 #: course/templates/course/error_page.html:6
 msgid "Error"

@@ -59,14 +59,24 @@ class CourseClass(models.Model):
     end_date = models.DateField()
     ranking_size = models.IntegerField(default=10, validators=[MinValueValidator(0)])
     
-    def __str__(self):
-        return self.course.code + ' – ' + self.code
-
     class Meta:
         verbose_name_plural = "Classes"
         db_table = 'course_class'
         unique_together = ('code', 'course')
 
+    def __str__(self):
+        return self.course.code + ' – ' + self.code
+
+    def clean(self):
+        super(CourseClass, self).clean()
+
+        if self.end_date < self.start_date:
+            raise ValidationError(
+                {
+                    'end_date': _('End date cannot be earlier than start date')
+                },
+                code='invalid'
+            )
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

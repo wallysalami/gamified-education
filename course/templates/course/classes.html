@@ -1,0 +1,42 @@
+{% extends "course/base.html" %}
+
+{% load i18n %}
+
+{% block title %}
+    {% trans 'My Classes' %}
+{% endblock %}
+
+{% block content %}
+    <div class='flex-center-container'>
+        {% if past_classes|length == 0 and current_classes|length == 0 and future_classes|length == 0%}
+            <div id='no-enrollment-card' class="card">
+                <div class="card-content">
+                    <div class="card-title">
+                        <h5>{% trans 'You have no enrollments yet.' %}</h5>
+                    </div>
+                    
+                    <a id='return-to-login-button' type="submit" class="btn waves-effect waves-light" href="/logout?next=/login">
+                        {% trans "Return to Login" %}
+                    </a>
+                </div>
+            </div>
+        {% else %}
+            {% if future_classes|length > 0 or current_classes|length > 0 %}
+                <div id='current-and-past-classes'>
+                    {% trans "Current Classes" as current_classes_title %} 
+                    {% include 'course/_class_list.html' with classes=current_classes title=current_classes_title %}
+
+                    {% trans "Future Classes" as future_classes_title %} 
+                    {% include 'course/_class_list.html' with classes=future_classes title=future_classes_title %}
+                </div>
+            {% endif %}
+
+            {% if past_classes|length > 0 %}
+                <div id='future-classes'>
+                    {% trans "Past Classes" as past_classes_title %}
+                    {% include 'course/_class_list.html' with classes=past_classes title=past_classes_title %}    
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+{% endblock content %}

@@ -1,5 +1,5 @@
+import datetime
 from functools import reduce
-
 from django.contrib.auth.views import login as contrib_login
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
@@ -30,31 +30,38 @@ def index(request):
     
 def login(request, **kwargs):
     if request.user.is_authenticated():
-        return redirect('/courses')
+        return redirect('/classes')
     else:
         return contrib_login(request, **kwargs)
 
 
 @login_required(login_url='/login/')
-def courses(request):
+def classes(request):
+    today = datetime.date.today()
     if hasattr(request.user, 'student'):
         student = request.user.student
-        enrollments = student.enrollment_set.all()
+        all_classes = CourseClass.objects.filter(
+            enrollment__student=student
+        )
     elif hasattr(request.user, 'instructor'):
         instructor = request.user.instructor
-        enrollments = instructor.classinstructor_set.all()
+        all_classes = CourseClass.objects.filter(
+            classinstructor__instructor=instructor
+        )
     else:
-        enrollments = []
+        all_classes = []
     
-    if len(enrollments) == 1:
-        enrollment = enrollments[0]
-        return redirect('/%s/%s/assignments' %(enrollment.course_class.course.code, enrollment.course_class.code))
+    if len(all_classes) == 1:
+        course_class = all_classes[0]
+        return redirect('/%s/%s/assignments' %(course_class.course.code, course_class.code))
     else:
         return render(
             request,
-            'course/courses.html',
+            'course/classes.html',
             {
-                'enrollments': enrollments
+                'past_classes': filter_past_classes(all_classes),
+                'current_classes': filter_current_classes(all_classes),
+                'future_classes': filter_future_classes(all_classes),
             }
         )
 
@@ -142,6 +149,22 @@ def get_class_instructor(request, course_code, class_code):
     class_instructor = ClassInstructor.objects.get(instructor=instructor, course_class=course_class)
 
     return class_instructor
+
+def filter_past_classes(query):
+    return query.filter(
+        end_date__lt=datetime.date.today()
+    ).order_by('-end_date', 'course__name', 'code').all()
+
+def filter_current_classes(query):
+    return query.filter(
+        start_date__lte=datetime.date.today(),
+        end_date__gte=datetime.date.today()
+    ).order_by('start_date', 'course__name', 'code').all()
+
+def filter_future_classes(query):
+    return query.filter(
+        start_date__gt=datetime.date.today()
+    ).order_by('start_date', 'course__name', 'code').all()
     
 def get_ranking_data(course_class, ranking_size):
     ranking = Grade.objects.values(
