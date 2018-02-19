@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'material.theme.amber',
     'material',
     'jquery',
+    'captcha',
     'course.apps.CourseConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -156,3 +157,17 @@ STATIC_URL = '/static/'
 STATIC_ROOT =  os.path.join(BASE_DIR, "static/")
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+
+# Email settings
+
+EMAIL_HOST = os.environ.get('EMAIL_HOST', '')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+EMAIL_PORT = os.environ.get('EMAIL_PORT', 25)
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', False)
+EMAIL_REPLY_TO = json.loads(os.environ.get('EMAIL_REPLY_TO', "[]"))
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', '')
+RECAPTCHA_PUBLIC_KEY = os.environ.get('RECAPTCHA_PUBLIC_KEY', '')
+RECAPTCHA_PRIVATE_KEY = os.environ.get('RECAPTCHA_PRIVATE_KEY', '')
+NOCAPTCHA = True

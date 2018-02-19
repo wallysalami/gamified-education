@@ -1,22 +1,8 @@
+{% extends 'registration/base.html' %}
+
 {% load i18n %}
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Login</title>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    {% load staticfiles %}
-    <link rel="stylesheet" type="text/css" href="{% static 'course/login.css' %}" />
-    {% include 'material/includes/material_css.html' %}
-
-    <script type="text/javascript" src="{% static 'js/jquery.js'%}"></script>
-    {% include 'material/includes/material_js.html' %}
-</head>
-<body>
-    {% block content %}
-
+{% block content %}
     {% if form.errors %}
          <div class="red card-panel">
             <span class="white-text text-darken-2">
@@ -38,7 +24,7 @@
     <div class='row'>
         <div class="card-panel">
             {% load material_form %}
-            <form method="post" action="{% url 'course:login' %}"> 
+            <form method="post" action="{% url 'login' %}"> 
                 {% csrf_token %}
                 <div>
                     <td>{{ form.username.label_tag }}</td>
@@ -52,13 +38,12 @@
                 <div id='button-container'>
                     <input type="submit" class="btn waves-effect waves-light" value="login" />
                     <input type="hidden" name="next" value="/classes" />
-                    <!-- <a id='lost-password' href="{% url 'course:password_reset' %}">{% trans 'Forgot password?' %}</a> -->
+                    {% if is_email_configured %}
+                        <a id='lost-password' href="{% url 'password_reset' %}">{% trans 'Forgot password?' %}</a>
+                    {% endif %}
                 </div>
-            </div>
+            </form>
         </div>
         
-    </form>
-    
-    {% endblock %}
-    </body>
-</html>
+    </div>
+{% endblock %}

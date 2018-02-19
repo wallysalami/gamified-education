@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Sum, Case, When, F, Q, IntegerField, ExpressionWrapper
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
+from django.conf import settings
 from rank import DenseRank, UpperRank, Rank
 
 from django.utils.timezone import get_default_timezone
@@ -32,7 +33,10 @@ def login(request, **kwargs):
     if request.user.is_authenticated():
         return redirect('/classes')
     else:
-        return contrib_login(request, **kwargs)
+        email_info = {
+            'is_email_configured': settings.EMAIL_HOST != ''
+        }
+        return contrib_login(request, extra_context=email_info, **kwargs)
 
 
 @login_required(login_url='/login/')

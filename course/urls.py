@@ -5,8 +5,6 @@ from . import views
 
 app_name = 'course'
 urlpatterns = [
-    url(r'^login/$', views.login, name='login'),
-    url(r'', include('django.contrib.auth.urls')),
     url(r'^classes/', views.classes, name='classes'),
     url(r'^(.*)/(.*)/class$', views.course_class, name='class'),
     url(r'^(.*)/(.*)/assignments$', views.assignments, name='assignments'),

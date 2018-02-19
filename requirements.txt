@@ -9,3 +9,4 @@ django-rank-query==0.1.0
 markdown2==2.3.5
 Pygments==2.2.0
 Pillow==4.3.0
+django-recaptcha==1.4.0

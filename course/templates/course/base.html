@@ -17,9 +17,13 @@
         {% block styles %}
         {% endblock %}
 
-        <script type="text/javascript" src="{% static 'js/jquery.js'%}"></script>
-        {% include 'material/includes/material_js.html' %}
+        <script async src="{% static 'js/jquery.js'%}"></script>
+        <script async src="{% static 'material/js/jquery.datetimepicker.full.js' %}"></script>
+        <script async src="{% static 'material/js/jquery.formset.js' %}"></script>
+        <script async src="{% static 'material/js/materialize.js' %}"></script>
+        <script async src="{% static 'material/js/materialize.forms.js' %}"></script>
     </head>
+
     <body>
         {% if course_class != None %}
             {% with course_class.course as course %}
@@ -77,6 +81,7 @@
                 </nav>
             {% endwith %}
         {% endif %}
+        
         <div id='page-content'>
             {% block content %}
             {% endblock %}

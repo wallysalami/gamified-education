@@ -1,0 +1,50 @@
+html {
+    display: table;
+    margin: auto;
+    height: 100%;
+}
+
+body {
+    display: table-cell;
+    vertical-align: middle;
+    min-width: 300px;
+    padding: 15px;
+}
+
+#button-container {
+    margin-top: 25px;
+}
+
+#form-title {
+    margin-bottom: 30px;
+}
+
+#lost-password {
+    float: right;
+    margin-top: 8px;
+    margin-left: 10px;
+}
+
+#password_reset_fieldset {
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+.row,
+.card-panel {
+    margin-bottom: 0px !important;
+}
+
+.card {
+    max-width: 500px;
+}
+
+#password-reset-card {
+    min-width: 352px;
+}
+
+.card .card-content p:not(:first-child),
+.card .card-content li:not(:first-child) {
+    margin-top: 1.2em;
+}
