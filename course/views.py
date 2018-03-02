@@ -99,6 +99,7 @@ def course_class(request, course_code, class_code):
         {
             'active_tab': 'class',
             'course_class': course_class,
+            'ranking_size': course_class.ranking_size,
             'ranking': ranking,
             'student_id': student_id,
             'posts': posts
