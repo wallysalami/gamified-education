@@ -1,18 +1,78 @@
 from django.contrib import admin
 from django.apps import apps
 from .models import *
+from .forms.forms import UserCreationForm, CaptchaPasswordResetForm
 from django.forms import BaseInlineFormSet, ModelForm
 from django.forms.widgets import TextInput
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
+from django.contrib import messages
+from django.utils.translation import gettext_lazy as _
+from django.utils.translation import ungettext
 import markdown2
 
-# app = apps.get_app_config('course')
+from django.utils.formats import date_format
 
-# for model_name, model in app.models.items():
-#     admin.site.register(model)
+def invite_user(modeladmin, request, queryset):
+    for user in queryset:
+        if user.has_usable_password():
+            messages.error(
+                request,
+                _("User %(username)s already has a password!") % {'username': user.username}
+            )
+            return
+        elif user.email == '':
+            messages.error(
+                request,
+                _("User %(username)s has no email!") % {'username': user.username }
+            )
+            return
 
-UserAdmin.list_display = ('email', 'first_name', 'last_name', 'last_login')
+    for user in queryset:
+        reset_form = CaptchaPasswordResetForm({'email': user.email})
+        reset_form.is_valid()
+        reset_form.save(
+            request=request,
+            use_https=request.is_secure(),
+            subject_template_name='email/password_creation_subject.txt',
+            html_email_template_name='email/password_creation_email.html',
+        )
+
+    success_message = ungettext(
+        "%(count)d email sent successfully!",
+        "%(count)d emails sent successfully!",
+        queryset.count()
+    )% {
+        'count': queryset.count(),
+    }
+    messages.success(request, success_message)
+
+invite_user.short_description = _("Send invitation to selected users")
+
+def has_usable_password(self):
+    return _( str( self.has_usable_password() ) )
+
+has_usable_password.short_description = _('Has Password?')
+
+
+def last_login(self):
+    if self.last_login == None:
+        return None
+    return date_format(self.last_login, format='SHORT_DATETIME_FORMAT', use_l10n=True)
+
+last_login.short_description = _('Last Login')
+
+
+class UserAdmin(UserAdmin):
+    list_display = ('email', 'first_name', 'last_name', has_usable_password, last_login)
+    actions = (invite_user,)
+    add_form = UserCreationForm
+    
+    def save_model(self, request, obj, form, change):
+        if not change and (not form.cleaned_data['password1'] or not obj.has_usable_password()):
+            obj.set_unusable_password()
+
+        super(UserAdmin, self).save_model(request, obj, form, change)
 
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)

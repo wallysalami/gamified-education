@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-19 10:50-0300\n"
+"POT-Creation-Date: 2018-03-02 11:42-0300\n"
 "PO-Revision-Date: 2017-08-13 16:27+0000\n"
 "Last-Translator: Jan K. S. <EMAIL@ADDRESS>\n"
 "Language-Team: PT_BR <LL@li.org>\n"
@@ -17,6 +17,35 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: course/admin.py:21
+#, python-format
+msgid "User %(username)s already has a password!"
+msgstr "Usuário %(username)s já tem uma senha!"
+
+#: course/admin.py:27
+#, python-format
+msgid "User %(username)s has no email!"
+msgstr "Usuário %(username)s não tem email!"
+
+#: course/admin.py:42
+#, python-format
+msgid "%(count)d email sent successfully!"
+msgid_plural "%(count)d emails sent successfully!"
+msgstr[0] "%(count)d email enviado com sucesso!"
+msgstr[1] "%(count)d emails enviados com sucesso!"
+
+#: course/admin.py:50
+msgid "Send invitation to selected users"
+msgstr "Enviar convite para usuários selecionados"
+
+#: course/admin.py:55
+msgid "Has Password?"
+msgstr "Tem Senha?"
+
+#: course/admin.py:63
+msgid "Last Login"
+msgstr "Último Login"
 
 #: course/models.py:21
 msgid "Color format must be a # followed by 6 hexadecimal digits"
@@ -110,6 +139,28 @@ msgstr "Página não encontrada"
 msgid "Return to Home Page"
 msgstr "Retornar à Página de Início"
 
+#: course/templates/email/password_creation_email.html:7
+#: course/templates/registration/password_reset_email.html:7
+#, python-format
+msgid "Hello, %(first_name)s!"
+msgstr "Olá, %(first_name)s!"
+
+#: course/templates/email/password_creation_email.html:12
+msgid ""
+"You are invited to use %(url)s, a platform to keep track of your course "
+"activities. Click the button below to create your password."
+msgstr ""
+"Você foi convidado para usar %(url)s, uma plataforma para acompanhar as "
+"atividades do seu curso. Clique no botão abaixo para criar a sua senha."
+
+#: course/templates/email/password_creation_email.html:17
+msgid "Create Password"
+msgstr "Criar Senha"
+
+#: course/templates/email/password_creation_subject.txt:3
+msgid "Password Creation"
+msgstr "Criação de Senha"
+
 #: course/templates/registration/login.html:9
 msgid "Username and password didn't match."
 msgstr "Combinação inválida de usuário/senha."
@@ -173,11 +224,6 @@ msgid ""
 msgstr ""
 "Caso não receba o email, confira se o endereço digitado estava correto, e "
 "verifique sua caixa de spam."
-
-#: course/templates/registration/password_reset_email.html:7
-#, python-format
-msgid "Hello, %(first_name)s!"
-msgstr "Olá, %(first_name)s!"
 
 #: course/templates/registration/password_reset_email.html:12
 #, python-format
