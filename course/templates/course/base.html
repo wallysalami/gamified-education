@@ -64,14 +64,16 @@
                                 <span id='course-code'>{{course.code}}</span>
                             </a>
                         </div>
+
                         <ul class="nav-items">
+                            <li {% ifequal active_tab "home" %}class="active"{% endifequal %}>
+                                <a href="/{{course_class.course.code}}/{{course_class.code}}/">{% trans 'Home' %}</a>
+                            </li>
                             <li {% ifequal active_tab "assignments" %}class="active"{% endifequal %}>
                                 <a href="/{{course_class.course.code}}/{{course_class.code}}/assignments">{% trans 'Assignments' %}</a>
                             </li>
-                            <li {% ifequal active_tab "class" %}class="active"{% endifequal %}>
-                                <a href="/{{course_class.course.code}}/{{course_class.code}}/class">{% trans 'Class' %}</a>
-                            </li>
                         </ul>
+                        
                         <ul class="nav-items" id='logout-button'>
                             <li>
                                 <a href="/logout?next=/login">{% trans 'Logout' %}</a>

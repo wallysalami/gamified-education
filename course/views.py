@@ -31,7 +31,7 @@ def index(request):
     
 def login(request, **kwargs):
     if request.user.is_authenticated():
-        return redirect('/classes')
+        return redirect('/classes/')
     else:
         email_info = {
             'is_email_configured': settings.EMAIL_HOST != ''
@@ -57,7 +57,7 @@ def classes(request):
     
     if len(all_classes) == 1:
         course_class = all_classes[0]
-        return redirect('/%s/%s/assignments' %(course_class.course.code, course_class.code))
+        return redirect('/%s/%s/' %(course_class.course.code, course_class.code))
     else:
         return render(
             request,
@@ -71,7 +71,7 @@ def classes(request):
 
 
 @login_required(login_url='/login/')
-def course_class(request, course_code, class_code):
+def home(request, course_code, class_code):
     try:
         enrollment = get_enrollment(request.user.id, course_code, class_code)
         course_class = enrollment.course_class
@@ -97,7 +97,7 @@ def course_class(request, course_code, class_code):
         request,
         'course/class.html',
         {
-            'active_tab': 'class',
+            'active_tab': 'home',
             'course_class': course_class,
             'ranking_size': course_class.ranking_size,
             'ranking': ranking,
