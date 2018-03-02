@@ -5,6 +5,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db.models import Sum, F, IntegerField, Case, When
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext as _
+from django.utils import timezone
 from django.conf import settings
 
 # Create your models here.
@@ -237,7 +238,7 @@ class Post(models.Model):
     title = models.CharField(max_length=255)
     markdown_text = models.TextField()
     html_code = models.TextField(blank=True)
-    post_datetime = models.DateTimeField(auto_now_add=True, blank=True)
+    post_datetime = models.DateTimeField(default=timezone.now)
     is_pinned_to_the_top = models.BooleanField(default=False)
     
     def __str__(self):

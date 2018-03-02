@@ -87,7 +87,8 @@ def course_class(request, course_code, class_code):
     ranking = get_ranking_data(course_class, course_class.ranking_size)
 
     posts = Post.objects.filter(
-        course_class=course_class
+        course_class=course_class,
+        post_datetime__lte=datetime.datetime.now()
     ).order_by(
         '-is_pinned_to_the_top', '-post_datetime'
     ).all()
