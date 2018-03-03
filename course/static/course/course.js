@@ -30,5 +30,18 @@ document.addEventListener(
             }
         }
         
+        var showMore = document.getElementById('show-more-ranking');
+        var ranking = document.getElementById('class-ranking');
+        if (showMore != null && ranking != null) {
+            showMore.addEventListener(
+                'click',
+                function (event)
+                {
+                    ranking.classList.add('expanded');
+                    event.preventDefault();
+                },
+                true
+            );
+        }
     }
 );
