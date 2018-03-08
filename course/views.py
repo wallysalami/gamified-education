@@ -53,7 +53,7 @@ def classes(request):
             classinstructor__instructor=instructor
         )
     else:
-        all_classes = []
+        all_classes = CourseClass.objects.none()
     
     if len(all_classes) == 1:
         course_class = all_classes[0]
