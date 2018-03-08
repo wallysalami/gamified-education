@@ -18,13 +18,18 @@ from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib.auth import views as auth_views
-from course.forms.forms import CaptchaPasswordResetForm
+from course.forms.forms import CaptchaPasswordResetForm, UsernameOrEmailAuthenticationForm
 
 from course import views
 
 urlpatterns = [
     url(r'^admin/?', admin.site.urls),
-    url(r'^login/?$', views.login, name='login'),
+    url(
+        r'^login/?$',
+        views.login,
+        {'authentication_form': UsernameOrEmailAuthenticationForm},
+        name='login'
+    ),
     url(r'^logout/?$', auth_views.logout, name='logout'),
     url(r'', include('course.urls')),
 ]

@@ -1,5 +1,6 @@
 from django import forms
-from django.contrib.auth.forms import PasswordResetForm, UserCreationForm
+from django.contrib.auth.forms import PasswordResetForm, UserCreationForm, AuthenticationForm
+from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
 from captcha.fields import ReCaptchaField
 from django.conf import settings
@@ -24,6 +25,11 @@ class CaptchaPasswordResetForm(PasswordResetForm):
         })
 
 		return active_users
+
+class UsernameOrEmailAuthenticationForm(AuthenticationForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].label = _("Username / Email")
 
 
 class UserCreationForm(UserCreationForm):
