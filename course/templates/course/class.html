@@ -33,6 +33,10 @@
                         <p class='grey-text'>{{ ranking_item.total }} XP</p>
                     </li>
                 {% endfor %}
+                
+                <li id='show-more-ranking' class="collection-item">
+                    <a href="#class-ranking">{% trans 'Show more...' %}</a>
+                </li>
             {% endif %}
         </ol>
         

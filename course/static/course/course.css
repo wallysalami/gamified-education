@@ -170,6 +170,21 @@ body {
     }
 }
 
+#show-more-ranking {
+    display: none;
+    text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+    #class-ranking:not(.expanded):not(:target) .ranking-item:nth-of-type(n+4) {
+        display: none;
+    }
+    
+    #class-ranking:not(.expanded):not(:target) #show-more-ranking {
+        display: block;
+    }
+}
+
 #posts article {
     margin-top: 0px;
     margin-bottom: 100px;
