@@ -55,18 +55,20 @@ def has_usable_password(self):
 has_usable_password.short_description = _('Has Password?')
 
 
-def last_login(self):
+def last_login_formatted(self):
     if self.last_login == None:
         return None
     return date_format(self.last_login, format='SHORT_DATETIME_FORMAT', use_l10n=True)
 
-last_login.short_description = _('Last Login')
+last_login_formatted.short_description = _('Last Login')
 
 
 class UserAdmin(UserAdmin):
-    list_display = ('email', 'first_name', 'last_name', has_usable_password, last_login)
+    list_display = ('email', 'first_name', 'last_name', has_usable_password, last_login_formatted)
     actions = (invite_user,)
     add_form = UserCreationForm
+    list_filter = ('last_login', 'groups',)
+    ordering = ('first_name', 'last_name')
     
     def save_model(self, request, obj, form, change):
         if not change and (not form.cleaned_data['password1'] or not obj.has_usable_password()):
