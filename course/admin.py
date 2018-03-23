@@ -58,7 +58,7 @@ has_usable_password.short_description = _('Has Password?')
 def last_login_formatted(self):
     if self.last_login == None:
         return None
-    return date_format(self.last_login, format='SHORT_DATETIME_FORMAT', use_l10n=True)
+    return date_format(timezone.localtime(self.last_login), format='SHORT_DATETIME_FORMAT', use_l10n=True)
 
 last_login_formatted.short_description = _('Last Login')
 
