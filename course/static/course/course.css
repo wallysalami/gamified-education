@@ -70,6 +70,11 @@ body {
     justify-content: flex-end;
 }
 
+.center-container-for-button {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
 /****************************
 * Course list  page
 *****************************/

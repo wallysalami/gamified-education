@@ -7,6 +7,14 @@
 {% endblock %}
 
 {% block content %}
+    {% if user.is_superuser %}
+        <div class="center-container-for-button">
+            <a class='btn grey lighten-3 grey-text text-darken-3' href="/admin/">
+                {% trans "Go to Admin" %}
+            </a>
+        </div>
+    {% endif %}
+    
     <div class='flex-center-container'>
         {% if past_classes|length == 0 and current_classes|length == 0 and future_classes|length == 0%}
             <div id='no-enrollment-card' class="card">
