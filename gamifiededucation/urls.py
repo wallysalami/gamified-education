@@ -23,7 +23,7 @@ from course.forms.forms import CaptchaPasswordResetForm, UsernameOrEmailAuthenti
 from course import views
 
 urlpatterns = [
-    url(r'^admin/?', admin.site.urls),
+    url(r'^admin/', admin.site.urls),
     url(
         r'^login/?$',
         views.login,
