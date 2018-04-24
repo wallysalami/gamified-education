@@ -88,7 +88,8 @@ def home(request, course_code, class_code):
 
     posts = Post.objects.filter(
         course_class=course_class,
-        post_datetime__lte=datetime.datetime.now()
+        post_datetime__lte=datetime.datetime.now(),
+        is_draft=False,
     ).order_by(
         '-is_pinned_to_the_top', '-post_datetime'
     ).all()

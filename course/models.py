@@ -240,6 +240,7 @@ class Post(models.Model):
     html_code = models.TextField(blank=True)
     post_datetime = models.DateTimeField(default=timezone.now)
     is_pinned_to_the_top = models.BooleanField(default=False)
+    is_draft = models.BooleanField(default=False)
     
     def __str__(self):
         return self.title
