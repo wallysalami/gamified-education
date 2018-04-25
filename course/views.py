@@ -87,13 +87,17 @@ def home(request, course_code, class_code):
     ranking = get_ranking_data(course_class, course_class.ranking_size)
 
     posts = Post.objects.filter(
-        course_class=course_class,
-        post_datetime__lte=datetime.datetime.now(),
-        is_draft=False,
+        course_class=course_class
     ).order_by(
         '-is_pinned_to_the_top', '-post_datetime'
-    ).all()
-
+    )
+    
+    if hasattr(request.user, 'student'):
+        posts = posts.filter(
+            post_datetime__lte=datetime.datetime.now(),
+            is_draft=False,
+        )
+    
     return render(
         request,
         'course/class.html',

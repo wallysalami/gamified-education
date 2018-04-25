@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-20 22:00-0300\n"
+"POT-Creation-Date: 2018-04-24 20:56-0300\n"
 "PO-Revision-Date: 2017-08-13 16:27+0000\n"
 "Last-Translator: Jan K. S. <EMAIL@ADDRESS>\n"
 "Language-Team: PT_BR <LL@li.org>\n"
@@ -115,6 +115,18 @@ msgstr "(nenhum aluno pontuou até agora)"
 msgid "Show more..."
 msgstr ""
 
+#: course/templates/course/class.html:53
+msgid "Draft"
+msgstr "Rascunho"
+
+#: course/templates/course/class.html:57
+msgid "Scheduled"
+msgstr "Agendado"
+
+#: course/templates/course/class.html:61
+msgid "Pinned"
+msgstr "Fixo"
+
 #: course/templates/course/classes.html:6
 msgid "My Classes"
 msgstr "Minhas Turmas"
@@ -123,23 +135,23 @@ msgstr "Minhas Turmas"
 msgid "Go to Admin"
 msgstr "Ir para Admin"
 
-#: course/templates/course/classes.html:22
+#: course/templates/course/classes.html:23
 msgid "You have no enrollments yet."
 msgstr "Você não está matriculado em nada."
 
-#: course/templates/course/classes.html:26
+#: course/templates/course/classes.html:27
 msgid "Return to Login"
 msgstr "Retornar ao Login"
 
-#: course/templates/course/classes.html:33
+#: course/templates/course/classes.html:34
 msgid "Current Classes"
 msgstr "Turmas Atuais"
 
-#: course/templates/course/classes.html:36
+#: course/templates/course/classes.html:37
 msgid "Future Classes"
 msgstr "Turmas Futuras"
 
-#: course/templates/course/classes.html:43
+#: course/templates/course/classes.html:44
 msgid "Past Classes"
 msgstr "Turmas Passadas"
 

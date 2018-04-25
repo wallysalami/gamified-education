@@ -49,6 +49,17 @@
                             <time datetime="{{ post.post_datetime|date:'c'}}" pubdate="pubdate">
                                 {{ post.post_datetime }}
                             </time>
+                            {% if post.is_draft %}
+                                <span class="badge secondary-color">{% trans 'Draft' %}</span>
+                            {% endif %}
+                            
+                            {% if post.is_scheduled %}
+                                <span class="badge secondary-color">{% trans 'Scheduled' %}</span>
+                            {% endif %}
+                            
+                            {% if post.is_pinned_to_the_top %}
+                                <span class="badge secondary-color">{% trans 'Pinned' %}</span>
+                            {% endif %}   
                         </header>
                         
                         {{ post.html_code|safe }}
