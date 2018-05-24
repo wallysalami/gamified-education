@@ -113,7 +113,7 @@ msgstr "(nenhum aluno pontuou até agora)"
 
 #: course/templates/course/class.html:38
 msgid "Show more..."
-msgstr ""
+msgstr "Mostrar mais..."
 
 #: course/templates/course/class.html:53
 msgid "Draft"
