@@ -45,7 +45,7 @@
                 {% for post in posts %}
                     <article>
                         <header>
-                            <h4>{{ post.title }}</h4>
+                            <h5>{{ post.title }}</h5>
                             <time datetime="{{ post.post_datetime|date:'c'}}" pubdate="pubdate">
                                 {{ post.post_datetime }}
                             </time>
