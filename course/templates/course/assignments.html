@@ -61,23 +61,23 @@
                             {% endif %}
 
                             {% if assignment_item.total_grade_points != None %}
-                                <h5 class='assignment-score-points xp-label'>
-                                    {{assignment_item.total_grade_points}} XP
-
-                                    {% if assignment_item.total_grade_percentage != None %}
-                                        <a class='change-to-percentage light-primary-color-hover' href='#assignment-list'>
-                                            <i class="material-icons primary-color-text">swap_horiz</i>
-                                        </a>
-                                    {% endif %}
-                                </h5>
-                                {% if assignment_item.total_grade_percentage != None %}
-                                    <h5 class='assignment-score-points percentage-label'>
-                                        {{assignment_item.total_grade_percentage}} %
-                                        <a class='change-to-xp light-primary-color-hover' href='#!'>
-                                            <i class="material-icons primary-color-text">swap_horiz</i>
-                                        </a>
+                                <div class="assignment-score-value">
+                                    <h5 class='assignment-score-points xp-label'>
+                                        {{assignment_item.total_grade_points}} XP
                                     </h5>
-                                {% endif %}
+                                    {% if assignment_item.total_grade_percentage != None %}
+                                        <h5 class='assignment-score-points percentage-label'>
+                                            {{assignment_item.total_grade_percentage}} %
+                                        </h5>
+                                        
+                                        {% if assignment_item.total_grade_percentage != None %}
+                                            <div class="xp-percentage-switch">
+                                                <a class="score-switch xp-switch" href='#!'>XP</a>
+                                                <a class="score-switch percentage-switch" href='#assignment-list'>%</a>
+                                            </div>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
                             {% else %}
                                 <small class='assignment-no-points'>{% trans '(no points)' %}</small>
                             {% endif %}

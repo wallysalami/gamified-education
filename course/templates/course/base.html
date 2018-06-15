@@ -10,9 +10,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
         {% load staticfiles %}
+        {% include 'material/includes/material_css.html' %}
             <link rel="stylesheet" type="text/css" href="{% static 'course/course.css' %}" />  
             <script type="text/javascript" src="{% static 'course/course.js'%}"></script>
-        {% include 'material/includes/material_css.html' %}
+        
         
         {% block styles %}
         {% endblock %}

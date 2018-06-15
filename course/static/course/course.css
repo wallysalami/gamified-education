@@ -291,18 +291,55 @@ body {
     height: 70px;
 }
 
+.assignment-score-value {
+    position: relative;
+}
+
+
+#assignment-list:target .percentage-switch,
+.show-percentage .percentage-switch {
+    background-color: #eee;
+}
 .percentage-label {
     display: none;
 }
-
 #assignment-list:target .percentage-label,
 .show-percentage .percentage-label {
     display: block;
 }
 
+.xp-switch {
+    background-color: #eee;
+    border-right: 1px solid lightgray;
+}
+#assignment-list:target .xp-switch,
+.show-percentage .xp-switch{
+    background-color: rgba(0, 0, 0, 0);
+}
 #assignment-list:target .xp-label,
 .show-percentage .xp-label {
     display: none;
+}
+
+.xp-percentage-switch {
+    display: flex;
+    position: absolute;
+    right: 0px;
+    top: calc(50% - 11.5px);
+    height: 23px;
+    border-radius: 2px;
+    border: 1px solid lightgray;
+    font-size: 12px;
+}
+
+.card .card-action a:not(.btn):not(.btn-large):not(.btn-large):not(.btn-floating).score-switch {
+    width: 27px;
+    color: rgba(0, 0, 0, 0.87) !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0px;
+    padding: 1px 7px 0px;
 }
 
 .change-to-percentage,
@@ -370,4 +407,5 @@ body {
     margin-left: auto;
     white-space: nowrap;
     padding-top: 1px;
+    padding-right: 0px;
 }

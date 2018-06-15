@@ -3,7 +3,7 @@ document.addEventListener(
     function() {
         var list = document.getElementById('assignment-list');
         if (list != null) {
-            var buttons = document.getElementsByClassName('change-to-xp');
+            var buttons = document.getElementsByClassName('xp-switch');
             for (var i = 0; i < buttons.length; i++) {
                 buttons[i].addEventListener(
                     'click',
@@ -16,7 +16,7 @@ document.addEventListener(
                 );
             }
             
-            buttons = document.getElementsByClassName('change-to-percentage');
+            buttons = document.getElementsByClassName('percentage-switch');
             for (var i = 0; i < buttons.length; i++) {
                 buttons[i].addEventListener(
                     'click',
