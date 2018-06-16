@@ -188,9 +188,42 @@ class EnrollmentInline(admin.TabularInline):
     ordering = ('id',)
 
 
+class EnrollmentGradeInlineFormSet(BaseInlineFormSet):
+    model = Grade
+    _assignment_tasks_ids = None
+
+    @property
+    def assignment_task_ids(self):
+        if self.instance.course_class_id == None:
+            return []
+        if not self._assignment_tasks_ids:
+            self._assignment_tasks_ids = list(AssignmentTask.objects.filter(
+                assignment__course = self.instance.course_class.course
+            ).order_by(
+                'assignment_id', 'id'
+            ).values_list('id', flat=True))
+        return self._assignment_tasks_ids
+
+    def total_form_count(self):
+        return len(self.assignment_task_ids) if self.instance.id != None else 0
+
+    def __init__(self, *args, **kwargs):
+        super(EnrollmentGradeInlineFormSet, self).__init__(*args, **kwargs)            
+        
+        assignment_task_ids = list(self.assignment_task_ids) # make a copy of the list
+        index = 0
+        for form in self:
+            if form.instance.id != None:
+                assignment_task_ids.remove(form.instance.assignment_task.id)
+            else:
+                form.initial['assignment_task'] = assignment_task_ids[index]
+                form.initial['percentage'] = ""
+                index += 1
+
 class SimpleGradeInline(admin.TabularInline):
     model = Grade
     raw_id_fields = ("assignment_task",)
+    formset = EnrollmentGradeInlineFormSet
     ordering = ('assignment_task__assignment_id', 'assignment_task')
 
 class EnrollmentAdmin(BasicAdmin):

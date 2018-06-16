@@ -8,7 +8,9 @@ td.original p {
 
 /* hide id input and search icon when using raw_id_fields */
 td.field-enrollment .vForeignKeyRawIdAdminField,
-td.field-enrollment .related-lookup {
+td.field-enrollment .related-lookup,
+td.field-assignment_task .vForeignKeyRawIdAdminField,
+td.field-assignment_task .related-lookup {
     display: none;
 }
 
