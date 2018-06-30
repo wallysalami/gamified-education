@@ -111,8 +111,9 @@ admin.site.register(CourseClass, CourseClassAdmin)
 
 
 class TaskAdmin(BasicAdmin):
-    list_display = ('name', 'description')
-    ordering = ('name',)
+    list_display = ('name', 'course', 'description')
+    list_filter = ('course',)
+    ordering = ('course', 'name',)
 
 admin.site.register(Task, TaskAdmin)
 

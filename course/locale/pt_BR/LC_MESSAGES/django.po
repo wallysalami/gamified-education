@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-24 20:56-0300\n"
+"POT-Creation-Date: 2018-06-30 13:44-0300\n"
 "PO-Revision-Date: 2017-08-13 16:27+0000\n"
 "Last-Translator: Jan K. S. <EMAIL@ADDRESS>\n"
 "Language-Team: PT_BR <LL@li.org>\n"
@@ -59,13 +59,17 @@ msgstr "Formato da cor dever ser # seguido de 6 dígitos hexadecimais"
 msgid "End date cannot be earlier than start date"
 msgstr "Data de término não pode ser anterior à de começo"
 
-#: course/models.py:223
+#: course/models.py:199
+msgid "Assignment and Task must be from the same course"
+msgstr "Atividade e Tarefa precisam ser do mesmo curso"
+
+#: course/models.py:236
 msgid "Score must be an integer value, since the assignment task has no points"
 msgstr ""
 "Pontuação precisa ser um valor inteiro, já que a tarefa da atividade não tem "
 "pontos"
 
-#: course/models.py:230
+#: course/models.py:243
 msgid ""
 "Score must be a value between 0 and 1, representing the percentage of the "
 "assignment task points"
@@ -74,7 +78,7 @@ msgstr ""
 "pontos da tarefa da atividade"
 
 #: course/templates/course/assignments.html:6
-#: course/templates/course/base.html:77
+#: course/templates/course/base.html:78
 msgid "Assignments"
 msgstr "Atividades"
 
@@ -90,11 +94,11 @@ msgstr "(nenhum ponto)"
 msgid "CANCELED"
 msgstr "ANULADO"
 
-#: course/templates/course/base.html:74
+#: course/templates/course/base.html:75
 msgid "Home"
 msgstr ""
 
-#: course/templates/course/base.html:83
+#: course/templates/course/base.html:84
 msgid "Logout"
 msgstr "Sair"
 

@@ -140,13 +140,15 @@ class ClassInstructor(models.Model):
 
 
 class Task(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=100)
     description = models.CharField(max_length=2000, blank=True)
-    enabled_from = models.DateField(null=True, blank=True)
-    enabled_until = models.DateField(null=True, blank=True)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
     
     def __str__(self):
-        return self.name
+        return "%s (%s)" % (self.name, self.course.code)
+
+    class Meta:
+        unique_together = ('name', 'course')
 
 
 class Assignment(models.Model):
@@ -159,7 +161,7 @@ class Assignment(models.Model):
     tasks = models.ManyToManyField(Task, through='AssignmentTask')
 
     def __str__(self):
-        return self.name
+        return "%s (%s)" % (self.name, self.course.code)
 
     def points (self):
         return self.assignmenttask_set.all().filter(
@@ -180,13 +182,24 @@ class AssignmentTask(models.Model):
     is_optional = models.BooleanField(default=False)
 
     def __str__(self):
-        return "%s – %s" % (self.assignment, self.task)
+        return "%s – %s" % (self.assignment.name, self.task.name)
 
     class Meta:
         verbose_name = "Assignment Task"
         verbose_name_plural = "Assignment Tasks"
         db_table = 'course_assignment_task'
         unique_together = ('assignment', 'task')
+
+    def clean(self):
+        super(AssignmentTask, self).clean()
+
+        if self.assignment.course != self.task.course:
+            raise ValidationError(
+                {
+                    'task': _('Assignment and Task must be from the same course')
+                },
+                code='invalid'
+            )
 
 
 class Grade(models.Model):
