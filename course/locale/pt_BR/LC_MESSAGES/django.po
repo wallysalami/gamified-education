@@ -59,9 +59,9 @@ msgstr "Formato da cor dever ser # seguido de 6 dígitos hexadecimais"
 msgid "End date cannot be earlier than start date"
 msgstr "Data de término não pode ser anterior à de começo"
 
-#: course/models.py:199
-msgid "Assignment and Task must be from the same course"
-msgstr "Atividade e Tarefa precisam ser do mesmo curso"
+#: course/models.py:196
+msgid "Assignment, Task and Class must be from the same course"
+msgstr "Atividade, Tarefa e Turma precisam ser do mesmo curso"
 
 #: course/models.py:236
 msgid "Score must be an integer value, since the assignment task has no points"

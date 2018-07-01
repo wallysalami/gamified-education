@@ -142,9 +142,9 @@ class GradeInlineFormSet(BaseInlineFormSet):
             return []
         if not self._enrollment_ids:
             self._enrollment_ids = list(Enrollment.objects.filter(
-                course_class__course = self.instance.assignment.course
+                course_class = self.instance.course_class
             ).order_by(
-                'course_class__code', 'student__full_name'
+                'student__full_name'
             ).values_list('id', flat=True))
         return self._enrollment_ids
 
@@ -158,7 +158,8 @@ class GradeInlineFormSet(BaseInlineFormSet):
         index = 0
         for form in self:
             if form.instance.id != None:
-                enrollment_ids.remove(form.instance.enrollment.id)
+                if form.instance.enrollment.id in enrollment_ids:
+                    enrollment_ids.remove(form.instance.enrollment.id)
             else:
                 form.initial['enrollment'] = enrollment_ids[index]
                 form.initial['percentage'] = ""
@@ -173,9 +174,9 @@ class GradeInline(admin.TabularInline):
     
 class AssignmentTaskAdmin(BasicAdmin):
     inlines = [GradeInline]
-    list_display = ('__str__', 'course')
-    list_filter = ('assignment__course',)
-    ordering = ('assignment_id','id',)
+    list_display = ('__str__', 'course_class')
+    list_filter = ('course_class',)
+    ordering = ('-course_class', 'assignment_id', 'id',)
 
     def course(self, obj):
         return obj.assignment.course
@@ -199,7 +200,7 @@ class EnrollmentGradeInlineFormSet(BaseInlineFormSet):
             return []
         if not self._assignment_tasks_ids:
             self._assignment_tasks_ids = list(AssignmentTask.objects.filter(
-                assignment__course = self.instance.course_class.course
+                course_class = self.instance.course_class
             ).order_by(
                 'assignment_id', 'id'
             ).values_list('id', flat=True))
