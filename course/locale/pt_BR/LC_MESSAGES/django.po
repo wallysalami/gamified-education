@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-30 13:44-0300\n"
+"POT-Creation-Date: 2018-07-01 13:13-0300\n"
 "PO-Revision-Date: 2017-08-13 16:27+0000\n"
 "Last-Translator: Jan K. S. <EMAIL@ADDRESS>\n"
 "Language-Team: PT_BR <LL@li.org>\n"
@@ -47,6 +47,10 @@ msgstr "Tem Senha?"
 msgid "Last Login"
 msgstr "Último Login"
 
+#: course/admin.py:130
+msgid "Duplicate course class"
+msgstr "Duplicar turma"
+
 #: course/forms/forms.py:32
 msgid "Username / Email"
 msgstr "Usuário / Email"
@@ -63,13 +67,13 @@ msgstr "Data de término não pode ser anterior à de começo"
 msgid "Assignment, Task and Class must be from the same course"
 msgstr "Atividade, Tarefa e Turma precisam ser do mesmo curso"
 
-#: course/models.py:236
+#: course/models.py:238
 msgid "Score must be an integer value, since the assignment task has no points"
 msgstr ""
 "Pontuação precisa ser um valor inteiro, já que a tarefa da atividade não tem "
 "pontos"
 
-#: course/models.py:243
+#: course/models.py:245
 msgid ""
 "Score must be a value between 0 and 1, representing the percentage of the "
 "assignment task points"

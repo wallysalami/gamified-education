@@ -103,9 +103,36 @@ class CourseAdmin(BasicAdmin):
 admin.site.register(Course, CourseAdmin)
 
 
+def duplicate_course_class(modeladmin, request, queryset):
+    for course_class in queryset:
+        new_course_class = CourseClass.objects.get(pk=course_class.id)
+        new_course_class.id = None
+        
+        # Duplicate course class, adding a (number) on the code
+        copy_number = 2
+        while True:
+            new_code = "%s (%d)" % (course_class.code, copy_number)
+            if CourseClass.objects.filter(code=new_code).first() == None:
+                new_course_class.code = new_code
+                break
+            else:
+                copy_number += 1
+        new_course_class.save()
+        
+        # Duplicate assignment tasks from original course class
+        existing_assignment_tasks = AssignmentTask.objects.filter(course_class=course_class)
+        for existing_assignment_task in existing_assignment_tasks:
+            new_assignment_task = existing_assignment_task
+            new_assignment_task.id = None
+            new_assignment_task.course_class = new_course_class
+            new_assignment_task.save()
+            
+duplicate_course_class.short_description = _("Duplicate course class")
+
 class CourseClassAdmin(BasicAdmin):
     list_display = ('code', 'course', 'start_date', 'end_date')
     ordering = ('-start_date', 'course', 'code')
+    actions = (duplicate_course_class,)
 
 admin.site.register(CourseClass, CourseClassAdmin)
 
