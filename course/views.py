@@ -220,6 +220,9 @@ def get_assignments_data(enrollment):
     for assignment in assignments:
         tasks_data = get_tasks_data(assignment, enrollment)
         
+        if len(tasks_data) == 0:
+            continue
+        
         is_there_any_task_completed = reduce(
             lambda x, y: True if y['grade_points'] != None else x,
             tasks_data,
@@ -241,7 +244,6 @@ def get_assignments_data(enrollment):
                 tasks_data,
                 0
             )
-        
         
         if is_there_any_task_completed:
             total_grade_points = reduce(
@@ -271,7 +273,7 @@ def get_assignments_data(enrollment):
 
 def get_tasks_data(assignment, enrollment):
     tasks_data = []
-    for assignment_task in assignment.ordered_assignment_tasks():
+    for assignment_task in assignment.ordered_assignment_tasks(enrollment.course_class):
         grade = assignment_task.grade_set.all().filter(enrollment=enrollment).first()
 
         task_data = {}

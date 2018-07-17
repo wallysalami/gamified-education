@@ -103,16 +103,44 @@ class CourseAdmin(BasicAdmin):
 admin.site.register(Course, CourseAdmin)
 
 
+def duplicate_course_class(modeladmin, request, queryset):
+    for course_class in queryset:
+        new_course_class = CourseClass.objects.get(pk=course_class.id)
+        new_course_class.id = None
+        
+        # Duplicate course class, adding a (number) on the code
+        copy_number = 2
+        while True:
+            new_code = "%s (%d)" % (course_class.code, copy_number)
+            if CourseClass.objects.filter(code=new_code).first() == None:
+                new_course_class.code = new_code
+                break
+            else:
+                copy_number += 1
+        new_course_class.save()
+        
+        # Duplicate assignment tasks from original course class
+        existing_assignment_tasks = AssignmentTask.objects.filter(course_class=course_class)
+        for existing_assignment_task in existing_assignment_tasks:
+            new_assignment_task = existing_assignment_task
+            new_assignment_task.id = None
+            new_assignment_task.course_class = new_course_class
+            new_assignment_task.save()
+            
+duplicate_course_class.short_description = _("Duplicate course class")
+
 class CourseClassAdmin(BasicAdmin):
     list_display = ('code', 'course', 'start_date', 'end_date')
     ordering = ('-start_date', 'course', 'code')
+    actions = (duplicate_course_class,)
 
 admin.site.register(CourseClass, CourseClassAdmin)
 
 
 class TaskAdmin(BasicAdmin):
-    list_display = ('name', 'description')
-    ordering = ('name',)
+    list_display = ('name', 'course', 'description')
+    list_filter = ('course',)
+    ordering = ('course', 'name',)
 
 admin.site.register(Task, TaskAdmin)
 
@@ -141,9 +169,9 @@ class GradeInlineFormSet(BaseInlineFormSet):
             return []
         if not self._enrollment_ids:
             self._enrollment_ids = list(Enrollment.objects.filter(
-                course_class__course = self.instance.assignment.course
+                course_class = self.instance.course_class
             ).order_by(
-                'course_class__code', 'student__full_name'
+                'student__full_name'
             ).values_list('id', flat=True))
         return self._enrollment_ids
 
@@ -157,7 +185,8 @@ class GradeInlineFormSet(BaseInlineFormSet):
         index = 0
         for form in self:
             if form.instance.id != None:
-                enrollment_ids.remove(form.instance.enrollment.id)
+                if form.instance.enrollment.id in enrollment_ids:
+                    enrollment_ids.remove(form.instance.enrollment.id)
             else:
                 form.initial['enrollment'] = enrollment_ids[index]
                 form.initial['percentage'] = ""
@@ -172,9 +201,9 @@ class GradeInline(admin.TabularInline):
     
 class AssignmentTaskAdmin(BasicAdmin):
     inlines = [GradeInline]
-    list_display = ('__str__', 'course')
-    list_filter = ('assignment__course',)
-    ordering = ('assignment_id','id',)
+    list_display = ('__str__', 'course_class')
+    list_filter = ('course_class',)
+    ordering = ('-course_class', 'assignment_id', 'id',)
 
     def course(self, obj):
         return obj.assignment.course
@@ -198,7 +227,7 @@ class EnrollmentGradeInlineFormSet(BaseInlineFormSet):
             return []
         if not self._assignment_tasks_ids:
             self._assignment_tasks_ids = list(AssignmentTask.objects.filter(
-                assignment__course = self.instance.course_class.course
+                course_class = self.instance.course_class
             ).order_by(
                 'assignment_id', 'id'
             ).values_list('id', flat=True))

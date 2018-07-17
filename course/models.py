@@ -140,26 +140,26 @@ class ClassInstructor(models.Model):
 
 
 class Task(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=100)
     description = models.CharField(max_length=2000, blank=True)
-    enabled_from = models.DateField(null=True, blank=True)
-    enabled_until = models.DateField(null=True, blank=True)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
     
     def __str__(self):
-        return self.name
+        return "%s (%s)" % (self.name, self.course.code)
+
+    class Meta:
+        unique_together = ('name', 'course')
 
 
 class Assignment(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=2000, blank=True)
-    enabled_from = models.DateField(null=True, blank=True)
-    enabled_until = models.DateField(null=True, blank=True)
     is_optional = models.BooleanField(default=False)
     tasks = models.ManyToManyField(Task, through='AssignmentTask')
 
     def __str__(self):
-        return self.name
+        return "%s (%s)" % (self.name, self.course.code)
 
     def points (self):
         return self.assignmenttask_set.all().filter(
@@ -168,25 +168,40 @@ class Assignment(models.Model):
             total = Sum('points')
         )['total']
 
-    def ordered_assignment_tasks(self):
-        return self.assignmenttask_set.order_by('is_optional', 'id').all()
+    def ordered_assignment_tasks(self, course_class):
+        return self.assignmenttask_set.filter(course_class=course_class).order_by('is_optional', 'id').all()
 
 
 class AssignmentTask(models.Model):
     assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    course_class = models.ForeignKey(CourseClass, on_delete=models.CASCADE)
     points = models.IntegerField(null=True, blank=True)
     enrollments = models.ManyToManyField(Enrollment, through='Grade')
     is_optional = models.BooleanField(default=False)
 
     def __str__(self):
-        return "%s – %s" % (self.assignment, self.task)
+        return "%s – %s" % (self.assignment.name, self.task.name)
 
     class Meta:
         verbose_name = "Assignment Task"
         verbose_name_plural = "Assignment Tasks"
         db_table = 'course_assignment_task'
-        unique_together = ('assignment', 'task')
+        unique_together = ('assignment', 'task', 'course_class')
+
+    def clean(self):
+        super(AssignmentTask, self).clean()
+
+        if self.assignment.course != self.task.course or self.assignment.course != self.course_class.course:
+            error_message = _('Assignment, Task and Class must be from the same course')
+            raise ValidationError(
+                {
+                    'assignment': error_message,
+                    'task': error_message,
+                    'course_class': error_message
+                },
+                code='invalid'
+            )
 
 
 class Grade(models.Model):
