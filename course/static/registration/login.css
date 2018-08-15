@@ -31,11 +31,6 @@ body {
     padding: 0;
 }
 
-.row,
-.card-panel {
-    margin-bottom: 0px !important;
-}
-
 .card {
     max-width: 500px;
 }
@@ -47,4 +42,8 @@ body {
 .card .card-content p:not(:first-child),
 .card .card-content li:not(:first-child) {
     margin-top: 1.2em;
+}
+
+.validation-error-list {
+    margin: 0px;
 }
