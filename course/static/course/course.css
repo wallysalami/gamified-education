@@ -398,8 +398,9 @@ body {
 
 /* optional task item after a non-optional item */
 :not(.task-list-item.optional) + .task-list-item.optional {
-    margin-top: 3px;
+    margin-top: 7px;
     border-top: 1px solid #ccc;
+    padding-top: 5px;
 }
 
 .material-icons.no-grade-icon {
