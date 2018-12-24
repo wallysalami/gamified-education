@@ -86,7 +86,7 @@
                         <ul class='task-list'>
                             {% for task in assignment_item.tasks %}
                                 {% if task.grade_points != None or not task.is_optional %}
-                                    <li class='task-list-item {% if task.grade_is_canceled or task.grade_points < 0 %}red-text{% endif %}'>
+                                    <li class='task-list-item {% if task.grade_is_canceled or task.grade_points < 0 %}red-text{% endif %} {% if task.is_optional %}optional{% endif %}'>
                                         {% if task.grade_is_canceled or task.grade_points < 0 %}
                                             <i class="material-icons circle-icon">remove_circle</i>
                                         {% elif task.grade_points == None %}

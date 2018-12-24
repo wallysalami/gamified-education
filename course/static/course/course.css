@@ -396,6 +396,12 @@ body {
     align-items: center;
 }
 
+/* optional task item after a non-optional item */
+:not(.task-list-item.optional) + .task-list-item.optional {
+    margin-top: 3px;
+    border-top: 1px solid #ccc;
+}
+
 .material-icons.no-grade-icon {
     text-align: center;
     font-size: 8px;
