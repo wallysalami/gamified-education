@@ -6,6 +6,10 @@ body {
     min-width: 300px;
 }
 
+.dropdown-content {
+    -webkit-overflow-scrolling: touch;
+}
+
 #course-logo {
     margin-left: 14px;
     font-size: 24px;
@@ -145,7 +149,6 @@ body {
 
 #widgets-container {
     max-width: 450px; 
-    padding: 0px 20px;
 }
 
 .widget {
@@ -171,13 +174,24 @@ body {
         max-width: 100%;
         flex-flow: row;
         overflow: scroll;
+        -webkit-overflow-scrolling: touch;
         justify-content: flex-start; 
+        box-sizing: content-box;
+        padding-left: 10px;
     }
 
     .widget {
         width: 300px;
         min-width: 200px;
         max-width: calc(90vw - 80px);
+    }
+
+    #widgets-container::after {
+        content: "";
+        width: 10px;
+        height: 1px;
+        align-self: flex-start;
+        flex-shrink: 0;
     }
 }
 
