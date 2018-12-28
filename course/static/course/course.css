@@ -140,16 +140,45 @@ body {
     display: flex;
     justify-content: center; 
     flex-flow: row wrap;
+    align-items: flex-start;
+}
+
+#widgets-container {
+    max-width: 450px; 
+    padding: 0px 20px;
+}
+
+.widget {
+    display: inline-block;
+    align-self: flex-start;
+    flex-shrink: 0;
+    width: 360px;
+    margin: 0px 20px 30px;
+}
+
+.widget h4 {
+    font-size: 30px;
 }
 
 #class-ranking {
-    display: inline-block;
-    align-self: flex-start;
     list-style: none;
     -webkit-padding-start: 0px;
-    min-width: 300px;
-    max-width: 450px;
-    margin: 0px 20px 30px;
+}
+
+
+@media screen and (max-width: 820px) {
+    #widgets-container {
+        max-width: 100%;
+        flex-flow: row;
+        overflow: scroll;
+        justify-content: flex-start; 
+    }
+
+    .widget {
+        width: 300px;
+        min-width: 200px;
+        max-width: calc(90vw - 80px);
+    }
 }
 
 #class-ranking .empty-list-message {
@@ -168,12 +197,24 @@ body {
     font-size: 18px;
 }
 
-.markdown ul {
-    padding-left: 40px !important;
+.markdown ul:not(.browser-default) {
+    padding-left: 40px;
 }
 
 .markdown li {
     list-style-type: disc !important;
+}
+
+.markdown a:hover {
+    text-decoration: underline;
+}
+
+.card .card-action.markdown a:not(.btn):not(.btn-large):not(.btn-large):not(.btn-floating) {
+    text-transform: none;
+}
+
+.card-action.markdown ul {
+    padding-left: 20px;
 }
 
 #posts {
@@ -205,7 +246,7 @@ body {
     text-align: center;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 820px) {
     #class-ranking:not(.expanded):not(:target) .ranking-item:nth-of-type(n+4) {
         display: none;
     }

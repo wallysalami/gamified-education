@@ -302,3 +302,16 @@ class PostAdmin(BasicAdmin):
         super().save_model(request, post, form, change)
     
 admin.site.register(Post, PostAdmin)
+
+
+class WidgetAdmin(BasicAdmin):
+    model = Widget
+    list_display = ('course_class', 'title', 'order')
+    ordering = ('order',)
+    read_only = ('html_code')
+    
+    def save_model(self, request, post, form, change):
+        post.html_code = markdown2.markdown(post.markdown_text, extras=["tables", "fenced-code-blocks"])
+        super().save_model(request, post, form, change)
+    
+admin.site.register(Widget, WidgetAdmin)

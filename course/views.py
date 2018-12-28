@@ -91,6 +91,10 @@ def home(request, course_code, class_code):
     ).order_by(
         '-is_pinned_to_the_top', '-post_datetime'
     )
+
+    widgets = Widget.objects.filter(
+        course_class=course_class
+    ).order_by('order')
     
     if hasattr(request.user, 'student'):
         posts = posts.filter(
@@ -107,7 +111,8 @@ def home(request, course_code, class_code):
             'ranking_size': course_class.ranking_size,
             'ranking': ranking,
             'student_id': student_id,
-            'posts': posts
+            'posts': posts,
+            'widgets': widgets
         }
     )
 

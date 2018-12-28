@@ -14,31 +14,47 @@
 
 {% block content %}
     <div class='flex-center-container'>
-        <ol id='class-ranking' class="card collection with-header">
-            <div class="collection-header">
-                <h4>
-                    {% blocktrans %}Top {{ ranking_size }}{% endblocktrans %}
-                </h4>
-            </div>
-            
-            {% if ranking|length == 0 %}
-                <div class="empty-list-message collection-item">
-                    {% trans '(no student has scored so far)' %}
+        <div id='widgets-container' class='flex-center-container' style=''>
+            <ol id='class-ranking' class="widget card collection with-header">
+                <div class="collection-header">
+                    <h4>
+                        {% blocktrans %}Top {{ ranking_size }}{% endblocktrans %}
+                    </h4>
                 </div>
-            {% else %}
-                {% for ranking_item in ranking %}
-                    <li class="ranking-item collection-item avatar {% if ranking_item.student_id == student_id %}light-secondary-color{% endif %}">
-                        <span class="circle ranking-position {% if ranking_item.dense_rank == 1 %}amber lighten-3{% elif ranking_item.dense_rank == 2 %}grey lighten-2{% elif ranking_item.dense_rank == 3 %}brown lighten-3{%else %}{% endif %}">{{ ranking_item.dense_rank }}</span> 
-                        <span class="title truncate">{{ ranking_item.full_name }}</span>
-                        <p class='grey-text'>{{ ranking_item.total }} XP</p>
-                    </li>
-                {% endfor %}
                 
-                <li id='show-more-ranking' class="collection-item">
-                    <a href="#class-ranking">{% trans 'Show more...' %}</a>
-                </li>
-            {% endif %}
-        </ol>
+                {% if ranking|length == 0 %}
+                    <div class="empty-list-message collection-item">
+                        {% trans '(no student has scored so far)' %}
+                    </div>
+                {% else %}
+                    {% for ranking_item in ranking %}
+                        <li class="ranking-item collection-item avatar {% if ranking_item.student_id == student_id %}light-secondary-color{% endif %}">
+                            <span class="circle ranking-position {% if ranking_item.dense_rank == 1 %}amber lighten-3{% elif ranking_item.dense_rank == 2 %}grey lighten-2{% elif ranking_item.dense_rank == 3 %}brown lighten-3{%else %}{% endif %}">{{ ranking_item.dense_rank }}</span> 
+                            <span class="title truncate">{{ ranking_item.full_name }}</span>
+                            <p class='grey-text'>{{ ranking_item.total }} XP</p>
+                        </li>
+                    {% endfor %}
+                    
+                    <li id='show-more-ranking' class="collection-item">
+                        <a href="#class-ranking">{% trans 'Show more...' %}</a>
+                    </li>
+                {% endif %}
+            </ol>
+            {% for widget in widgets %}
+                <div class="widget card collection with-header">
+                    <div class="collection-header">
+                        <h4>
+                            {{ widget.title }}
+                        </h4>
+                    </div>
+
+                    <div class='card-action markdown'>
+                        {{ widget.html_code|safe }}
+                    </div>
+                    
+                </div>
+            {% endfor %}
+        </div>
         
         {% if posts|length > 0 %}
             <section id='posts' class='markdown'>
