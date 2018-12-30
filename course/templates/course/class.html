@@ -18,9 +18,9 @@
             {% if ranking_size > 0 %}
                 <ol id='class-ranking' class="widget card collection with-header">
                     <div class="collection-header">
-                        <h4>
+                        <h5>
                             {% blocktrans %}Top {{ ranking_size }}{% endblocktrans %}
-                        </h4>
+                        </h5>
                     </div>
                     
                     {% if ranking|length == 0 %}
@@ -45,9 +45,9 @@
             {% for widget in widgets %}
                 <div class="widget card collection with-header">
                     <div class="collection-header">
-                        <h4>
+                        <h5>
                             {{ widget.title }}
-                        </h4>
+                        </h5>
                     </div>
 
                     <div class='card-action markdown'>
