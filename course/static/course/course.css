@@ -223,11 +223,24 @@ strong {
     font-size: 18px;
 }
 
+.markdown td, th {
+    padding: 5px 5px;
+}
+.markdown tr:last-child th {
+    padding-bottom: 10px;
+}
+.markdown tr:first-child td{
+    padding-top: 10px;
+}
+
 .markdown ul:not(.browser-default) {
     padding-left: 40px;
 }
+.markdown ol:not(.browser-default) {
+    padding-left: 22px;
+}
 
-.markdown li {
+.markdown ul li {
     list-style-type: disc !important;
 }
 
