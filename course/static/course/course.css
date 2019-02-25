@@ -26,6 +26,11 @@ strong {
     -webkit-overflow-scrolling: touch;
 }
 
+.material-tooltip {
+    text-align: left;
+    max-width: 250px;
+}
+
 #course-logo {
     margin-left: 14px;
     font-size: 24px;
@@ -93,6 +98,7 @@ strong {
 .center-container-for-button {
     text-align: center;
     margin-bottom: 40px;
+    position: relative;
 }
 
 .video-wrapper {
@@ -110,7 +116,7 @@ strong {
 }
 
 /****************************
-* Course list  page
+* Course list page
 *****************************/
 
 #current-and-past-classes,
@@ -274,6 +280,32 @@ strong {
     top: -1px;
 }
 
+.material-tooltip {
+    max-width: 300px;
+    padding: 16px;
+}
+
+.badge-description {
+    margin: 0px;
+}
+
+.badge-description dt {
+    font-size: 21px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.badge-description dt .badge-image {
+    flex-shrink: 0;
+}
+
+.badge-description dd {
+    margin-left: 0;
+}
+
 @media screen and (min-width: 700px) {
     #posts {
         margin-left: 40px;
@@ -332,10 +364,9 @@ strong {
 
 #student-header {
     margin: 0px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    text-align: center; 
 }
+
 
 #student-icon {
     width: 1.8em;
@@ -361,6 +392,78 @@ strong {
     margin: 10px 0 0;
     font-size: 1.2em;
     font-weight: 300;
+}
+
+#achievement-list {
+    display: inline-flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    width: 1000px;
+    max-width: 100%;
+    padding: 0px 20px;
+}
+
+#achievement-list > li {
+    margin: 0px 10px;
+}
+
+.badge-incomplete {
+    position: relative;
+}
+
+.badge-progress,
+.badge-image,
+.badge-percentage {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+}
+
+.badge-incomplete .badge-image,
+.badge-incomplete .badge-percentage {
+    border: 5px solid #ddd;
+    transition: opacity 0.5s;
+    position: absolute;
+    top: 0;
+    z-index: -1;
+}
+
+.tooltip-content .badge-image {
+    width: 40px;
+    height: 40px;
+    margin-left: 10px;
+}
+
+.badge-incomplete .badge-image {
+    filter: grayscale(100%);
+    background-color: #eee;
+}
+
+.badge-incomplete .badge-percentage {
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 13px;
+    font-weight: bold;
+    opacity: 0;
+}
+
+.badge-incomplete:hover .badge-percentage {
+    opacity: 1;
+}
+
+.badge-circle {
+    fill: transparent;
+    stroke: black;
+    stroke-width: 15;
+    transform: rotate(270deg);
+    transform-origin: 50% 50%;
+    cx: 70;
+    cy: 68;
+    r: 64; /* 2 * pi * 64 = 402 */
+    stroke-dasharray: 402 402;
+    /* compute stroke-dashoffset as 402 * (1 - percentage) */
 }
 
 #assignment-list {

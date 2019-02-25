@@ -144,6 +144,7 @@ def assignments (request, course_code, class_code, student_id=None):
             'course_class': course_class,
             'enrollment': enrollment,
             'assignment_items_data': get_assignments_data(enrollment),
+            'achievements_data': get_achievements_data(enrollment),
             'students_data': students_data,
             'student_id': student_id
         }
@@ -297,3 +298,24 @@ def get_tasks_data(assignment, enrollment):
         tasks_data.append(task_data)
     
     return tasks_data
+
+def get_achievements_data(enrollment):
+    if enrollment == None:
+        return None
+    
+    achievements_data = []
+    class_badges = enrollment.course_class.classbadge_set.order_by('id').all()
+    for class_badge in class_badges:
+        achievement = class_badge.achievement_set.filter(enrollment=enrollment).first()
+        
+        achievement_data = {}
+        achievement_data['name'] = class_badge.badge.name
+        achievement_data['description'] = class_badge.description
+        achievement_data['percentage'] = achievement.percentage if achievement != None else 0
+        achievement_data['percentage_integer'] = int(achievement_data['percentage']*100)
+        achievement_data['icon'] = class_badge.badge.icon_url
+        achievements_data.append(achievement_data)
+        
+    print(achievements_data)
+
+    return achievements_data

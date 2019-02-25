@@ -1,6 +1,7 @@
 {% extends "course/base.html" %}
 
 {% load i18n %}
+{% load badges_helper %}
 
 {% block title %}
     {% trans 'Assignments' %}
@@ -9,7 +10,7 @@
 {% block content %}
     {% if students_data != None %}
         <div class='center-container-for-button'>
-            <a class='dropdown-button btn grey lighten-3 grey-text text-darken-3' href='#students-dropdown' data-activates='students-dropdown'>
+            <a class='dropdown-trigger btn grey lighten-3 grey-text text-darken-3' href='#students-dropdown' data-target='students-dropdown'>
                 {% trans 'Select Student' %}
             </a>
             <ul id='students-dropdown' class='dropdown-content'>
@@ -26,15 +27,25 @@
         
     {% if assignment_items_data != None %}
         <header id='student-header' class='flow-text'>
-            <i id='student-icon' class="material-icons circle secondary-color">person</i>
-            <div id='student-info'>
-                <h1 id='student-name'>
-                    {{enrollment.student.full_name}}
-                </h1>
-                <h2 id='student-total-score'>
-                    {{enrollment.total_score}} XP
-                </h2>
-            </div>
+            <h1 id='student-name'>
+                {{enrollment.student.full_name}}
+            </h1>
+            <h2 id='student-total-score'>
+                {{enrollment.total_score}} XP
+            </h2>
+            <ul id='achievement-list'>
+                {% for achievement_data in achievements_data %}
+                    <li class="{% if achievement_data.percentage < 1 %} badge-incomplete {% else %} badge-complete {% endif %} tooltipped" data-position="bottom" data-name="{{achievement_data.name}}" data-description="{{achievement_data.description}}" data-icon="{{achievement_data.icon}}">
+                        <img class="badge-image" src="{{achievement_data.icon}}">
+                        {% if achievement_data.percentage < 1 %}
+                            <div class="badge-percentage primary-color-text">{{achievement_data.percentage_integer}}%</div>
+                            <svg class='badge-progress' viewBox="0 0 140 140">
+                                <circle class='badge-circle' style='stroke-dashoffset: {{achievement_data.percentage|to_stroke_dashoffset}};'/>
+                            </svg>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
         </header>
     
         <ul id='assignment-list'>
