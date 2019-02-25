@@ -315,3 +315,60 @@ class WidgetAdmin(BasicAdmin):
         super().save_model(request, post, form, change)
     
 admin.site.register(Widget, WidgetAdmin)
+
+class BadgeAdmin(BasicAdmin):
+    model = Badge
+    list_display = ('name', 'course')
+    ordering = ('course', 'name')
+    
+admin.site.register(Badge, BadgeAdmin)
+
+
+class AchievementInlineFormSet(BaseInlineFormSet):
+    model = Achievement
+    _enrollment_ids = None
+
+    @property
+    def enrollment_ids(self):
+        if self.instance.badge_id == None:
+            return []
+        if not self._enrollment_ids:
+            self._enrollment_ids = list(Enrollment.objects.filter(
+                course_class = self.instance.course_class
+            ).order_by(
+                'student__full_name'
+            ).values_list('id', flat=True))
+        return self._enrollment_ids
+
+    def total_form_count(self):
+        return len(self.enrollment_ids) if self.instance.id != None else 0
+
+    def __init__(self, *args, **kwargs):
+        super(AchievementInlineFormSet, self).__init__(*args, **kwargs)            
+        
+        enrollment_ids = list(self.enrollment_ids) # make a copy of the list
+        index = 0
+        for form in self:
+            if form.instance.id != None:
+                if form.instance.enrollment.id in enrollment_ids:
+                    enrollment_ids.remove(form.instance.enrollment.id)
+            else:
+                form.initial['enrollment'] = enrollment_ids[index]
+                form.initial['percentage'] = ""
+                index += 1
+
+class AchievementInline(admin.TabularInline):
+    model = Achievement
+    ordering = ('enrollment__student__full_name',)
+    formset = AchievementInlineFormSet
+    raw_id_fields = ("enrollment",)
+
+
+class ClassBadgeAdmin(BasicAdmin):
+    model = ClassBadge
+    list_display = ('badge', 'course_class')
+    ordering = ('course_class', 'id')
+    inlines = [AchievementInline]
+    list_filter = ('course_class',)
+    
+admin.site.register(ClassBadge, ClassBadgeAdmin)

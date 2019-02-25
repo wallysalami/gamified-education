@@ -22,12 +22,31 @@ def validate_hex_color(value):
             _('Color format must be a # followed by 6 hexadecimal digits'),
         )
 
-class Course(models.Model):
+class ModelWithIcon(models.Model):
+    icon_file_name = models.ImageField(blank=True)
+    icon_external_url = models.URLField(max_length=2000, blank=True)
+    
+    class Meta:
+        abstract = True
+    
+    @property
+    def default_icon(self):
+        return ''
+    
+    @property
+    def icon_url(self):
+        if self.icon_file_name != '':
+            return settings.MEDIA_URL + str(self.icon_file_name)
+        elif self.icon_external_url != '':
+            return self.icon_external_url
+        else:
+            return self.default_icon
+            
+
+class Course(ModelWithIcon):
     name = models.CharField(max_length=100)
     code = models.CharField(max_length=10, unique=True)
     description = models.CharField(max_length=100, blank=True)
-    icon_file_name = models.ImageField(blank=True)
-    icon_external_url = models.URLField(max_length=2000, blank=True)
     primary_hex_color = models.CharField(max_length=7, default='#0062b2', validators=[validate_hex_color])
     secondary_hex_color = models.CharField(max_length=7, default='#ff9800', validators=[validate_hex_color])
 
@@ -42,15 +61,9 @@ class Course(models.Model):
     def __str__(self):
         return self.code + ' – ' + self.name
 
-    @property
-    def icon_url(self):
-        if self.icon_file_name != '':
-            return settings.MEDIA_URL + str(self.icon_file_name)
-        elif self.icon_external_url != '':
-            return self.icon_external_url
-        else:
-            # icon from https://pixabay.com/p-2268948/?no_redirect
-            return '/static/course/course-default-icon.png'
+    def default_icon(self):
+        # icon from https://pixabay.com/p-2268948/?no_redirect
+        return '/static/course/course-default-icon.png'
 
 
 class CourseClass(models.Model):
@@ -272,4 +285,68 @@ class Widget(models.Model):
     
     def __str__(self):
         return self.title
+
+
+class Badge(ModelWithIcon):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    
+    class Meta:
+        unique_together = ('course', 'name')
+    
+    @property
+    def default_icon(self):
+        return '/static/course/trophy.svg'
+    
+    def __str__(self):
+        return self.name
+        
+        
+class ClassBadge(models.Model):
+    badge = models.ForeignKey(Badge, on_delete=models.CASCADE)
+    course_class = models.ForeignKey(CourseClass, on_delete=models.CASCADE)
+    description = models.CharField(max_length=2000, blank=True)
+    
+    class Meta:
+        unique_together = ('badge', 'course_class')
+        
+    def __str__(self):
+        return "%s (%s)" % (self.badge.name, self.course_class)
+
+    def clean(self):
+        super(ClassBadge, self).clean()
+
+        if self.badge.course != self.course_class.course:
+            error_message = _('Badge and Class must be from the same course')
+            raise ValidationError(
+                {
+                    'badge': error_message,
+                    'course_class': error_message
+                },
+                code='invalid'
+            )
+    
+    
+class Achievement(models.Model):
+    enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
+    class_badge = models.ForeignKey(ClassBadge, on_delete=models.CASCADE)
+    percentage = models.FloatField(default=1.0, validators=[MinValueValidator(0), MaxValueValidator(1)])
+    is_canceled = models.BooleanField(default=False, verbose_name='Canceled')
+    
+    class Meta:
+        unique_together = ('enrollment', 'class_badge')
+
+    def clean(self):
+        super(Achievement, self).clean()
+
+        if self.enrollment.course_class != self.class_badge.course_class:
+            error_message = _('Badge and Class must be from the same course class')
+            raise ValidationError(
+                {
+                    'enrollment': error_message,
+                    'class_badge': error_message
+                },
+                code='invalid'
+            )
+
     
