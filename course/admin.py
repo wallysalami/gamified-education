@@ -64,7 +64,7 @@ last_login_formatted.short_description = _('Last Login')
 
 
 class UserAdmin(UserAdmin):
-    list_display = ('email', 'first_name', 'last_name', has_usable_password, last_login_formatted)
+    list_display = ('email', 'first_name', 'last_name', has_usable_password, last_login_formatted, 'date_joined')
     actions = (invite_user,)
     add_form = UserCreationForm
     list_filter = ('last_login', 'groups',)
