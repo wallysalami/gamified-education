@@ -64,6 +64,7 @@ class CourseClass(models.Model):
         verbose_name_plural = "Classes"
         db_table = 'course_class'
         unique_together = ('code', 'course')
+        ordering = ['-end_date', 'code']
 
     def __str__(self):
         return self.course.code + ' – ' + self.code

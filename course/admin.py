@@ -295,7 +295,8 @@ class PostAdmin(BasicAdmin):
     model = Post
     list_display = ('course_class', 'title','post_datetime')
     ordering = ('-post_datetime',)
-    read_only = ('html_code')
+    read_only = ('html_code',)
+    list_filter = ('course_class',)
     
     def save_model(self, request, post, form, change):
         post.html_code = markdown2.markdown(post.markdown_text, extras=["tables", "fenced-code-blocks"])
@@ -308,7 +309,8 @@ class WidgetAdmin(BasicAdmin):
     model = Widget
     list_display = ('course_class', 'title', 'order')
     ordering = ('order',)
-    read_only = ('html_code')
+    read_only = ('html_code',)
+    list_filter = ('course_class',)
     
     def save_model(self, request, post, form, change):
         post.html_code = markdown2.markdown(post.markdown_text, extras=["tables", "fenced-code-blocks"])
