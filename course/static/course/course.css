@@ -511,3 +511,63 @@ strong {
     padding-top: 1px;
     padding-right: 0px;
 }
+
+/****************************
+* Dark Theme
+*****************************/
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #222;
+        color: #ddd;
+    }
+
+    .xp-switch,
+    #assignment-list:target .percentage-switch, .show-percentage .percentage-switch {
+        background-color: #666;
+    }
+
+    .card .card-action a:not(.btn):not(.btn-large):not(.btn-large):not(.btn-floating).score-switch {
+        color: white !important;
+    }
+
+    .assignment-name.card-title {
+        color: #ccc !important;
+    }
+
+    .collection.with-header .collection-header,
+    .collection .collection-item,
+    .card .card-action,
+    .card {
+        background-color: #2d2d2d;
+    }
+
+    .card-content.grey.lighten-4 {
+        background-color: #2d2d2d !important;
+    }
+
+    .collection.with-header .collection-header,
+    .collection .collection-item {
+        border-bottom: 1px solid #666;    
+    }
+    
+    .ranking-position.amber,
+    .ranking-position.grey,
+    .ranking-position.brown {
+        color: #222;
+    }
+
+    .collection {
+        border: 1px solid #666;
+    }
+
+    .codehilite {
+        background-color: #222;
+    }
+
+    .codehilite .k,
+    .codehilite .kn,
+    .codehilite .kc {
+        color: #0050ff;
+    }
+}

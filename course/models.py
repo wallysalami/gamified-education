@@ -10,10 +10,10 @@ from django.conf import settings
 
 # Create your models here.
 
-def convert_hex_to_rgba(color_hex, alpha):
+def convert_hex_to_rgba(color_hex, multiplier=1, alpha=1):
     rgb_text = color_hex.lstrip('#')
-    rgb_values = tuple( int(rgb_text[i:i+2], 16) for i in (0, 2, 4) )
-    rgba_text = 'rgba(%d, %d, %d, %f)' % (rgb_values + (alpha,))
+    rgb_values = tuple( int(int(rgb_text[i:i+2], 16) * multiplier) for i in (0, 2, 4) )
+    rgba_text = 'rgb(%d, %d, %d, %f)' % (rgb_values + (alpha,))
     return rgba_text
 
 def validate_hex_color(value):
@@ -32,12 +32,20 @@ class Course(models.Model):
     secondary_hex_color = models.CharField(max_length=7, default='#ff9800', validators=[validate_hex_color])
 
     @property
+    def transparent_primary_color(self):
+        return convert_hex_to_rgba(self.primary_hex_color, 1, 0.2)
+
+    @property
+    def transparent_secondary_color(self):
+        return convert_hex_to_rgba(self.secondary_hex_color, 1, 0.1)
+
+    @property
     def light_primary_color(self):
-        return convert_hex_to_rgba(self.primary_hex_color, 0.2)
+        return convert_hex_to_rgba(self.primary_hex_color, 1.3, 1)
 
     @property
     def light_secondary_color(self):
-        return convert_hex_to_rgba(self.secondary_hex_color, 0.1)
+        return convert_hex_to_rgba(self.secondary_hex_color, 1.1, 1)
     
     def __str__(self):
         return self.code + ' – ' + self.name

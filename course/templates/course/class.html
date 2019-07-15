@@ -29,7 +29,7 @@
                         </div>
                     {% else %}
                         {% for ranking_item in ranking %}
-                            <li class="ranking-item collection-item avatar {% if ranking_item.student_id == student_id %}light-secondary-color{% endif %}">
+                            <li class="ranking-item collection-item avatar {% if ranking_item.student_id == student_id %}transparent-secondary-color{% endif %}">
                                 <span class="circle ranking-position {% if ranking_item.dense_rank == 1 %}amber lighten-3{% elif ranking_item.dense_rank == 2 %}grey lighten-2{% elif ranking_item.dense_rank == 3 %}brown lighten-3{%else %}{% endif %}">{{ ranking_item.dense_rank }}</span> 
                                 <span class="title truncate">{{ ranking_item.full_name }}</span>
                                 <p class='grey-text'>{{ ranking_item.total }} XP</p>
