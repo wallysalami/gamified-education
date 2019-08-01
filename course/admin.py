@@ -201,7 +201,7 @@ class GradeInline(admin.TabularInline):
     
 class AssignmentTaskAdmin(BasicAdmin):
     inlines = [GradeInline]
-    list_display = ('__str__', 'course_class')
+    list_display = ('__str__', 'points', 'course_class')
     list_filter = ('course_class',)
     ordering = ('-course_class', 'assignment_id', 'id',)
 
@@ -257,10 +257,13 @@ class SimpleGradeInline(admin.TabularInline):
 
 class EnrollmentAdmin(BasicAdmin):
     inlines = [SimpleGradeInline]
-    list_display = ('student', 'course_class')
+    list_display = ('student', 'id_number', 'course_class')
     list_filter = ('course_class',)
     ordering = ('-course_class__start_date', 'student__full_name')
     search_fields = ('student__full_name',)
+    
+    def id_number(self, object):
+        return object.student.id_number
     
 
 admin.site.register(Enrollment, EnrollmentAdmin)
@@ -308,7 +311,7 @@ admin.site.register(Post, PostAdmin)
 class WidgetAdmin(BasicAdmin):
     model = Widget
     list_display = ('course_class', 'title', 'order')
-    ordering = ('order',)
+    ordering = ('course_class','order')
     read_only = ('html_code',)
     list_filter = ('course_class',)
     
