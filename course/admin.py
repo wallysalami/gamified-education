@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.apps import apps
+from course.management.commands import refreshachievements
 from .models import *
 from .forms.forms import UserCreationForm, CaptchaPasswordResetForm
 from django.forms import BaseInlineFormSet, ModelForm
@@ -129,10 +130,16 @@ def duplicate_course_class(modeladmin, request, queryset):
             
 duplicate_course_class.short_description = _("Duplicate course class")
 
+def refresh_achievements(modeladmin, request, queryset):
+    refreshachievements.refresh_achievements(queryset)
+
+
+refresh_achievements.short_description = _("Refresh achievements")
+
 class CourseClassAdmin(BasicAdmin):
     list_display = ('code', 'course', 'start_date', 'end_date')
     ordering = ('-start_date', 'course', 'code')
-    actions = (duplicate_course_class,)
+    actions = (duplicate_course_class, refresh_achievements)
 
 admin.site.register(CourseClass, CourseClassAdmin)
 
@@ -364,11 +371,17 @@ class AchievementInline(admin.TabularInline):
     raw_id_fields = ("enrollment",)
 
 
+class ClassBadgeCriteriaInline(admin.TabularInline):
+    model = ClassBadgeCriteria
+    extra = 1
+    ordering = ('id',)
+
+
 class ClassBadgeAdmin(BasicAdmin):
     model = ClassBadge
     list_display = ('badge', 'course_class')
     ordering = ('course_class', 'id')
-    inlines = [AchievementInline]
+    inlines = [ClassBadgeCriteriaInline, AchievementInline]
     list_filter = ('course_class',)
     
 admin.site.register(ClassBadge, ClassBadgeAdmin)

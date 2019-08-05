@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator 
 from django.db.models import Sum, F, IntegerField, Case, When
 from django.core.exceptions import ValidationError
-from django.utils.translation import gettext as _
+from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 from django.conf import settings
 
@@ -174,9 +174,10 @@ class Assignment(models.Model):
     def __str__(self):
         return "%s (%s)" % (self.name, self.course.code)
 
-    def points (self):
+    def points (self, course_class):
         return self.assignmenttask_set.all().filter(
-            is_optional=False
+            is_optional=False,
+            course_class=course_class
         ).aggregate(
             total = Sum('points')
         )['total']
@@ -230,6 +231,8 @@ class Grade(models.Model):
     def points(self):
         if self.score == None:
             return None
+        elif self.is_canceled:
+            return 0
         elif self.assignment_task.points == None:
             return round(self.score)
         else:
@@ -306,6 +309,13 @@ class ClassBadge(models.Model):
     badge = models.ForeignKey(Badge, on_delete=models.CASCADE)
     course_class = models.ForeignKey(CourseClass, on_delete=models.CASCADE)
     description = models.CharField(max_length=2000, blank=True)
+
+    AND = 'AND'
+    OR = 'OR'
+    AGGREGATION_TYPES = ((AND, _('AND')), (OR, _('OR')))
+    aggregation_type_for_criteria = models.CharField(choices=AGGREGATION_TYPES, max_length=3, default=AND)
+
+    
     
     class Meta:
         unique_together = ('badge', 'course_class')
@@ -325,6 +335,62 @@ class ClassBadge(models.Model):
                 },
                 code='invalid'
             )
+
+class ClassBadgeCriteria(models.Model):
+    class_badge = models.ForeignKey(ClassBadge, on_delete=models.CASCADE)
+    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE, null=True, blank=True)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, null=True, blank=True)
+    goal = models.FloatField(validators=[MinValueValidator(0)])
+    
+    PERCENTAGE = 'PERCENTAGE'
+    XP = 'XP'
+    GOAL_TYPES = ((PERCENTAGE, _('percentage')), (XP, _('xp')))
+    goal_type = models.CharField(choices=GOAL_TYPES, max_length=10, default=PERCENTAGE)
+
+    accepts_partial_goal = models.BooleanField(default=True)
+
+    def clean(self):
+        super(ClassBadgeCriteria, self).clean()
+
+        if self.assignment == None and self.task == None:
+            error_message = _('Assignment and Task cannot be empty at the same time')
+            raise ValidationError(
+                {
+                    'assignment': error_message,
+                    'task': error_message,
+                },
+                code='invalid'
+            )
+
+        elif self.assignment != None and self.class_badge.course_class.course != self.assignment.course:
+            error_message = _('Assignment and Class Badge must be from the same course')
+            raise ValidationError(
+                {
+                    'class_badge': error_message,
+                    'assignment': error_message
+                },
+                code='invalid'
+            )
+        elif self.task != None and self.class_badge.course_class.course != self.task.course:
+            error_message = _('Task and Class Badge must be from the same course')
+            raise ValidationError(
+                {
+                    'class_badge': error_message,
+                    'task': error_message
+                },
+                code='invalid'
+            )
+        elif self.assignment != None and self.task != None:
+            assignment_task = AssignmentTask.objects.filter(assignment=self.assignment, task=self.task, course_class=self.class_badge.course_class).first()
+            if assignment_task == None:
+                error_message = _('There is no Assignment Task with this Assignment and this Task for this Course Class')
+                raise ValidationError(
+                    {
+                        'assignment': error_message,
+                        'task': error_message
+                    },
+                    code='invalid'
+                )
     
     
 class Achievement(models.Model):
@@ -340,7 +406,7 @@ class Achievement(models.Model):
         super(Achievement, self).clean()
 
         if self.enrollment.course_class != self.class_badge.course_class:
-            error_message = _('Badge and Class must be from the same course class')
+            error_message = _('Enrollment and Class Badge must be from the same Course Class')
             raise ValidationError(
                 {
                     'enrollment': error_message,
