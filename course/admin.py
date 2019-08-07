@@ -345,8 +345,14 @@ admin.site.register(Widget, WidgetAdmin)
 
 class BadgeAdmin(BasicAdmin):
     model = Badge
-    list_display = ('name', 'course')
+    list_display = ('name', 'thumbnail', 'course')
     ordering = ('course', 'name')
+    
+    def thumbnail(self, obj):
+        return "<img src='%s' style='max-width: 30px; max-height: 30px; border-radius: 50%%; background-color: %s' />" % (obj.icon_url, obj.course.primary_hex_color)
+
+    thumbnail.allow_tags = True
+    thumbnail.__name__ = 'Thumbnail'
     
 admin.site.register(Badge, BadgeAdmin)
 
@@ -399,7 +405,7 @@ class ClassBadgeCriteriaInline(admin.TabularInline):
 
 class ClassBadgeAdmin(BasicAdmin):
     model = ClassBadge
-    list_display = ('badge', 'course_class')
+    list_display = ('badge', 'description', 'course_class')
     ordering = ('course_class', 'id')
     inlines = [ClassBadgeCriteriaInline, AchievementInline]
     list_filter = ('course_class',)
