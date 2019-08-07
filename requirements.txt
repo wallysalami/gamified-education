@@ -1,4 +1,4 @@
-Django==1.11.3
+Django==1.11.*
 dj-database-url==0.4.2
 psycopg2==2.7.3
 gunicorn==19.7.1
@@ -8,5 +8,5 @@ django-jquery==3.1.0
 django-rank-query==0.1.0
 markdown2==2.3.5
 Pygments==2.2.0
-Pillow==4.3.0
+Pillow==5.4.*
 django-recaptcha==1.4.0
