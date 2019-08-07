@@ -402,11 +402,11 @@ strong {
     justify-content: center;
     width: 1000px;
     max-width: 100%;
-    padding: 0px 20px;
+    margin-bottom: 0px;
 }
 
 #achievement-list > li {
-    margin: 0px 10px;
+    margin: 0px 5px 10px;
 }
 
 .badge-incomplete {
