@@ -29,6 +29,40 @@ document.addEventListener(
                 );
             }
         }
+
+        let elements = document.querySelectorAll('.tooltipped');
+        elements.forEach(
+            function (element) {
+                let name = element.getAttribute("data-name");
+                let description = element.getAttribute("data-description");
+                let percentage = element.getAttribute("data-name");
+                let icon = element.getAttribute("data-icon");
+                let options = {
+                    enterDelay: 0,
+                    margin: 3,
+                    html:
+                        `<dl class='badge-description'>
+                            <dt>
+                                <span>${name}</span>
+                                <img class='badge-image primary-color' src='${icon}'>
+                            </dt>
+                            <dd>${description}</dd>
+                        </dl>`
+                }
+                let tooltip = M.Tooltip.init(element, options);
+                element.onclick = function () {
+                    if (tooltip.isOpen) {
+                        tooltip.close();
+                    } else {
+                        tooltip.open();
+                    }
+                    
+                }
+            }
+        );
+
+        var dropdownButtons = document.querySelectorAll('.dropdown-trigger');
+        M.Dropdown.init(dropdownButtons, {coverTrigger: false});
         
         var showMore = document.getElementById('show-more-ranking');
         var ranking = document.getElementById('class-ranking');

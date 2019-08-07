@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-01 13:13-0300\n"
+"POT-Creation-Date: 2019-08-06 14:41-0300\n"
 "PO-Revision-Date: 2017-08-13 16:27+0000\n"
 "Last-Translator: Jan K. S. <EMAIL@ADDRESS>\n"
 "Language-Team: PT_BR <LL@li.org>\n"
@@ -18,38 +18,42 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: course/admin.py:21
+#: course/admin.py:22
 #, python-format
 msgid "User %(username)s already has a password!"
 msgstr "Usuário %(username)s já tem uma senha!"
 
-#: course/admin.py:27
+#: course/admin.py:28
 #, python-format
 msgid "User %(username)s has no email!"
 msgstr "Usuário %(username)s não tem email!"
 
-#: course/admin.py:42
+#: course/admin.py:43
 #, python-format
 msgid "%(count)d email sent successfully!"
 msgid_plural "%(count)d emails sent successfully!"
 msgstr[0] "%(count)d email enviado com sucesso!"
 msgstr[1] "%(count)d emails enviados com sucesso!"
 
-#: course/admin.py:50
+#: course/admin.py:51
 msgid "Send invitation to selected users"
 msgstr "Enviar convite para usuários selecionados"
 
-#: course/admin.py:55
+#: course/admin.py:56
 msgid "Has Password?"
 msgstr "Tem Senha?"
 
-#: course/admin.py:63
+#: course/admin.py:64
 msgid "Last Login"
 msgstr "Último Login"
 
-#: course/admin.py:130
+#: course/admin.py:131
 msgid "Duplicate course class"
 msgstr "Duplicar turma"
+
+#: course/admin.py:137
+msgid "Refresh achievements"
+msgstr "Atualizar conquistas"
 
 #: course/forms/forms.py:32
 msgid "Username / Email"
@@ -59,21 +63,21 @@ msgstr "Usuário / Email"
 msgid "Color format must be a # followed by 6 hexadecimal digits"
 msgstr "Formato da cor dever ser # seguido de 6 dígitos hexadecimais"
 
-#: course/models.py:77
+#: course/models.py:90
 msgid "End date cannot be earlier than start date"
 msgstr "Data de término não pode ser anterior à de começo"
 
-#: course/models.py:196
+#: course/models.py:210
 msgid "Assignment, Task and Class must be from the same course"
 msgstr "Atividade, Tarefa e Turma precisam ser do mesmo curso"
 
-#: course/models.py:238
+#: course/models.py:254
 msgid "Score must be an integer value, since the assignment task has no points"
 msgstr ""
 "Pontuação precisa ser um valor inteiro, já que a tarefa da atividade não tem "
 "pontos"
 
-#: course/models.py:245
+#: course/models.py:261
 msgid ""
 "Score must be a value between 0 and 1, representing the percentage of the "
 "assignment task points"
@@ -81,28 +85,70 @@ msgstr ""
 "Pontuação precisa ser um valor entre 0 e 1, representando o percentual de "
 "pontos da tarefa da atividade"
 
-#: course/templates/course/assignments.html:6
-#: course/templates/course/base.html:78
+#: course/models.py:317
+msgid "AND"
+msgstr "E"
+
+#: course/models.py:317
+msgid "OR"
+msgstr "OU"
+
+#: course/models.py:331
+msgid "Badge and Class must be from the same course"
+msgstr "Medalha e Turma precisam ser do mesmo curso"
+
+#: course/models.py:348
+msgid "percentage"
+msgstr "percentual"
+
+#: course/models.py:348
+msgid "xp"
+msgstr "xp"
+
+#: course/models.py:357
+msgid "Assignment and Task cannot be empty at the same time"
+msgstr "Atividade e Tarefa precisam ser do mesmo curso"
+
+#: course/models.py:367
+msgid "Assignment and Class Badge must be from the same course"
+msgstr "Atividade e Medalha de Turma precisam ser do mesmo curso"
+
+#: course/models.py:376
+msgid "Task and Class Badge must be from the same course"
+msgstr "Tarefa e Medalha de Turma precisam ser do mesmo curso"
+
+#: course/models.py:387
+msgid ""
+"There is no Assignment Task with this Assignment and this Task for this "
+"Course Class"
+msgstr "Não existe Tarefa de Atividade com esta Tarefa, Atividade e Turma"
+
+#: course/models.py:410
+msgid "Enrollment and Class Badge must be from the same Course Class"
+msgstr "Matrícula e Medalha de Turma precisam ser da mesma Turma"
+
+#: course/templates/course/assignments.html:7
+#: course/templates/course/base.html:79
 msgid "Assignments"
 msgstr "Atividades"
 
-#: course/templates/course/assignments.html:13
+#: course/templates/course/assignments.html:14
 msgid "Select Student"
 msgstr "Selecionar Aluno"
 
-#: course/templates/course/assignments.html:82
+#: course/templates/course/assignments.html:93
 msgid "(no points)"
 msgstr "(nenhum ponto)"
 
-#: course/templates/course/assignments.html:115
+#: course/templates/course/assignments.html:126
 msgid "CANCELED"
 msgstr "ANULADO"
 
-#: course/templates/course/base.html:75
+#: course/templates/course/base.html:76
 msgid "Home"
 msgstr ""
 
-#: course/templates/course/base.html:84
+#: course/templates/course/base.html:85
 msgid "Logout"
 msgstr "Sair"
 
@@ -110,28 +156,28 @@ msgstr "Sair"
 msgid "Class"
 msgstr "Turma"
 
-#: course/templates/course/class.html:20
+#: course/templates/course/class.html:22
 #, python-format
 msgid "Top %(ranking_size)s"
 msgstr ""
 
-#: course/templates/course/class.html:26
+#: course/templates/course/class.html:28
 msgid "(no student has scored so far)"
 msgstr "(nenhum aluno pontuou até agora)"
 
-#: course/templates/course/class.html:38
+#: course/templates/course/class.html:40
 msgid "Show more..."
 msgstr "Mostrar mais..."
 
-#: course/templates/course/class.html:53
+#: course/templates/course/class.html:71
 msgid "Draft"
 msgstr "Rascunho"
 
-#: course/templates/course/class.html:57
+#: course/templates/course/class.html:75
 msgid "Scheduled"
 msgstr "Agendado"
 
-#: course/templates/course/class.html:61
+#: course/templates/course/class.html:79
 msgid "Pinned"
 msgstr "Fixo"
 
@@ -226,15 +272,15 @@ msgstr ""
 "Sua nova senha foi definida. Prossiga para <a href='/login'>a página de "
 "login</a>."
 
-#: course/templates/registration/password_reset_confirm.html:10
+#: course/templates/registration/password_reset_confirm.html:29
 msgid "New Password"
 msgstr "Nova Senha"
 
-#: course/templates/registration/password_reset_confirm.html:19
+#: course/templates/registration/password_reset_confirm.html:45
 msgid "Set Password"
 msgstr "Definir Senha"
 
-#: course/templates/registration/password_reset_confirm.html:25
+#: course/templates/registration/password_reset_confirm.html:51
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
 "used."
@@ -242,7 +288,7 @@ msgstr ""
 "O link de redefinição de senha não é válido, possivelmente porque já foi "
 "usado."
 
-#: course/templates/registration/password_reset_confirm.html:28
+#: course/templates/registration/password_reset_confirm.html:54
 msgid "Please request a new password reset."
 msgstr "Por favor, faça uma nova redefinição de senha."
 
@@ -287,6 +333,10 @@ msgstr "Enviando..."
 #: course/templates/registration/password_reset_subject.txt:3
 msgid "Password Reset"
 msgstr "Redefinição de Senha"
+
+#: course/views.py:318
+msgid "(description will show up when you earn this badge)"
+msgstr "(a descrição aparecerá quando você ganhar esta medalha)"
 
 #~ msgid "Top %(number_of_items)s"
 #~ msgstr "Top %(number_of_items)s"

@@ -11,25 +11,21 @@
 
         {% load staticfiles %}
         {% include 'material/includes/material_css.html' %}
-            <link rel="stylesheet" type="text/css" href="{% static 'course/course.css' %}" />  
-            <script type="text/javascript" src="{% static 'course/course.js'%}"></script>
-        
+        <link rel="stylesheet" type="text/css" href="{% static 'course/course.css' %}" />  
         
         {% block styles %}
         {% endblock %}
 
-        <script async src="{% static 'js/jquery.js'%}"></script>
-        <script async src="{% static 'material/js/jquery.datetimepicker.full.js' %}"></script>
-        <script async src="{% static 'material/js/jquery.formset.js' %}"></script>
-        <script async src="{% static 'material/js/materialize.js' %}"></script>
-        <script async src="{% static 'material/js/materialize.forms.js' %}"></script>
+        <script src="{% static 'material/js/materialize.js' %}"></script>
+        <script type="text/javascript" src="{% static 'course/course.js'%}"></script>
     </head>
 
     <body>
         {% if course_class != None %}
             {% with course_class.course as course %}
                 <style>
-                    .primary-color {
+                    .primary-color,
+                    .badge-complete .badge-image {
                         background-color: {{course.primary_hex_color }} !important;
                     }
                     .light-primary-color {
@@ -46,6 +42,9 @@
                     .card .card-action.markdown a:not(.btn):not(.btn-large):not(.btn-large):not(.btn-floating) {
                         color: {{ course.primary_hex_color }};
                     }
+                    .badge-circle {
+                        stroke: {{course.primary_hex_color }};
+                    }
 
 
                     .secondary-color {
@@ -60,6 +59,7 @@
                     .secondary-color-text {
                         color: {{course.secondary_hex_color }} !important;
                     }
+                    
                 </style>
 
                 <nav class="nav-extended primary-color">

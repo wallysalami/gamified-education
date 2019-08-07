@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator 
 from django.db.models import Sum, F, IntegerField, Case, When
 from django.core.exceptions import ValidationError
-from django.utils.translation import gettext as _
+from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 from django.conf import settings
 
@@ -22,12 +22,31 @@ def validate_hex_color(value):
             _('Color format must be a # followed by 6 hexadecimal digits'),
         )
 
-class Course(models.Model):
+class ModelWithIcon(models.Model):
+    icon_file_name = models.ImageField(blank=True)
+    icon_external_url = models.URLField(max_length=2000, blank=True)
+    
+    class Meta:
+        abstract = True
+    
+    @property
+    def default_icon(self):
+        return ''
+    
+    @property
+    def icon_url(self):
+        if self.icon_file_name != '':
+            return settings.MEDIA_URL + str(self.icon_file_name)
+        elif self.icon_external_url != '':
+            return self.icon_external_url
+        else:
+            return self.default_icon
+            
+
+class Course(ModelWithIcon):
     name = models.CharField(max_length=100)
     code = models.CharField(max_length=10, unique=True)
     description = models.CharField(max_length=100, blank=True)
-    icon_file_name = models.ImageField(blank=True)
-    icon_external_url = models.URLField(max_length=2000, blank=True)
     primary_hex_color = models.CharField(max_length=7, default='#0062b2', validators=[validate_hex_color])
     secondary_hex_color = models.CharField(max_length=7, default='#ff9800', validators=[validate_hex_color])
 
@@ -42,15 +61,9 @@ class Course(models.Model):
     def __str__(self):
         return self.code + ' – ' + self.name
 
-    @property
-    def icon_url(self):
-        if self.icon_file_name != '':
-            return settings.MEDIA_URL + str(self.icon_file_name)
-        elif self.icon_external_url != '':
-            return self.icon_external_url
-        else:
-            # icon from https://pixabay.com/p-2268948/?no_redirect
-            return '/static/course/course-default-icon.png'
+    def default_icon(self):
+        # icon from https://pixabay.com/p-2268948/?no_redirect
+        return '/static/course/course-default-icon.png'
 
 
 class CourseClass(models.Model):
@@ -162,9 +175,10 @@ class Assignment(models.Model):
     def __str__(self):
         return "%s (%s)" % (self.name, self.course.code)
 
-    def points (self):
+    def points (self, course_class):
         return self.assignmenttask_set.all().filter(
-            is_optional=False
+            is_optional=False,
+            course_class=course_class
         ).aggregate(
             total = Sum('points')
         )['total']
@@ -218,6 +232,8 @@ class Grade(models.Model):
     def points(self):
         if self.score == None:
             return None
+        elif self.is_canceled:
+            return 0
         elif self.assignment_task.points == None:
             return round(self.score)
         else:
@@ -273,4 +289,132 @@ class Widget(models.Model):
     
     def __str__(self):
         return self.title
+
+
+class Badge(ModelWithIcon):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    
+    class Meta:
+        unique_together = ('course', 'name')
+    
+    @property
+    def default_icon(self):
+        return '/static/course/trophy.svg'
+    
+    def __str__(self):
+        return self.name
+        
+        
+class ClassBadge(models.Model):
+    badge = models.ForeignKey(Badge, on_delete=models.CASCADE)
+    course_class = models.ForeignKey(CourseClass, on_delete=models.CASCADE)
+    description = models.CharField(max_length=2000, blank=True)
+    show_progress = models.BooleanField(default=True)
+    show_info_before_completion = models.BooleanField(default=True)
+
+    AND = 'AND'
+    OR = 'OR'
+    AGGREGATION_TYPES = ((AND, _('AND')), (OR, _('OR')))
+    aggregation_type_for_criteria = models.CharField(choices=AGGREGATION_TYPES, max_length=3, default=AND)
+
+    
+    class Meta:
+        unique_together = ('badge', 'course_class')
+        
+    def __str__(self):
+        return "%s (%s)" % (self.badge.name, self.course_class)
+
+    def clean(self):
+        super(ClassBadge, self).clean()
+
+        if self.badge.course != self.course_class.course:
+            error_message = _('Badge and Class must be from the same course')
+            raise ValidationError(
+                {
+                    'badge': error_message,
+                    'course_class': error_message
+                },
+                code='invalid'
+            )
+
+class ClassBadgeCriteria(models.Model):
+    class_badge = models.ForeignKey(ClassBadge, on_delete=models.CASCADE)
+    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE, null=True, blank=True)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, null=True, blank=True)
+    goal = models.FloatField(validators=[MinValueValidator(0)])
+    
+    PERCENTAGE = 'PERCENTAGE'
+    XP = 'XP'
+    GOAL_TYPES = ((PERCENTAGE, _('percentage')), (XP, _('xp')))
+    goal_type = models.CharField(choices=GOAL_TYPES, max_length=10, default=PERCENTAGE)
+
+    accepts_partial_goal = models.BooleanField(default=True)
+
+    def clean(self):
+        super(ClassBadgeCriteria, self).clean()
+
+        if self.assignment == None and self.task == None:
+            error_message = _('Assignment and Task cannot be empty at the same time')
+            raise ValidationError(
+                {
+                    'assignment': error_message,
+                    'task': error_message,
+                },
+                code='invalid'
+            )
+
+        elif self.assignment != None and self.class_badge.course_class.course != self.assignment.course:
+            error_message = _('Assignment and Class Badge must be from the same course')
+            raise ValidationError(
+                {
+                    'class_badge': error_message,
+                    'assignment': error_message
+                },
+                code='invalid'
+            )
+        elif self.task != None and self.class_badge.course_class.course != self.task.course:
+            error_message = _('Task and Class Badge must be from the same course')
+            raise ValidationError(
+                {
+                    'class_badge': error_message,
+                    'task': error_message
+                },
+                code='invalid'
+            )
+        elif self.assignment != None and self.task != None:
+            assignment_task = AssignmentTask.objects.filter(assignment=self.assignment, task=self.task, course_class=self.class_badge.course_class).first()
+            if assignment_task == None:
+                error_message = _('There is no Assignment Task with this Assignment and this Task for this Course Class')
+                raise ValidationError(
+                    {
+                        'assignment': error_message,
+                        'task': error_message
+                    },
+                    code='invalid'
+                )
+    
+    
+class Achievement(models.Model):
+    enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
+    class_badge = models.ForeignKey(ClassBadge, on_delete=models.CASCADE)
+    percentage = models.FloatField(default=1.0, validators=[MinValueValidator(0), MaxValueValidator(1)])
+    is_canceled = models.BooleanField(default=False, verbose_name='Canceled')
+    
+    class Meta:
+        unique_together = ('enrollment', 'class_badge')
+
+    def clean(self):
+        super(Achievement, self).clean()
+
+        if self.enrollment.course_class != self.class_badge.course_class:
+            error_message = _('Enrollment and Class Badge must be from the same Course Class')
+            raise ValidationError(
+                {
+                    'enrollment': error_message,
+                    'class_badge': error_message
+                },
+                code='invalid'
+            )
+
     
