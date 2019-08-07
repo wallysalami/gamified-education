@@ -121,12 +121,27 @@ def duplicate_course_class(modeladmin, request, queryset):
         new_course_class.save()
         
         # Duplicate assignment tasks from original course class
-        existing_assignment_tasks = AssignmentTask.objects.filter(course_class=course_class)
+        existing_assignment_tasks = AssignmentTask.objects.filter(course_class=course_class).order_by('id')
         for existing_assignment_task in existing_assignment_tasks:
             new_assignment_task = existing_assignment_task
             new_assignment_task.id = None
             new_assignment_task.course_class = new_course_class
             new_assignment_task.save()
+
+        # Duplicate badges tasks from original course class
+        class_badges = ClassBadge.objects.filter(course_class=course_class).order_by('id')
+        for class_badge in class_badges:
+            criteria_list = ClassBadgeCriteria.objects.filter(class_badge=class_badge).order_by('id') # this line must come before we change the id in class_badge
+
+            class_badge.id = None
+            class_badge.course_class = new_course_class
+            class_badge.save()
+
+            for criteria in criteria_list:
+                criteria.id = None
+                criteria.class_badge = class_badge
+                criteria.save()
+
             
 duplicate_course_class.short_description = _("Duplicate course class")
 
