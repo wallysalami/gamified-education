@@ -37,7 +37,7 @@
                 {% for achievement_data in achievements_data %}
                     <li class="{% if achievement_data.percentage < 1 %} badge-incomplete {% else %} badge-complete {% endif %} tooltipped" data-position="bottom" data-name="{{achievement_data.name}}" data-description="{{achievement_data.description}}" data-icon="{{achievement_data.icon}}">
                         <img class="badge-image" src="{{achievement_data.icon}}">
-                        {% if achievement_data.percentage < 1 %}
+                        {% if achievement_data.percentage < 1 and achievement_data.show_progress %}
                             <div class="badge-percentage primary-color-text">{{achievement_data.percentage_integer}}%</div>
                             <svg class='badge-progress' viewBox="0 0 140 140">
                                 <circle class='badge-circle' style='stroke-dashoffset: {{achievement_data.percentage|to_stroke_dashoffset}};'/>

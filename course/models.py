@@ -309,13 +309,14 @@ class ClassBadge(models.Model):
     badge = models.ForeignKey(Badge, on_delete=models.CASCADE)
     course_class = models.ForeignKey(CourseClass, on_delete=models.CASCADE)
     description = models.CharField(max_length=2000, blank=True)
+    show_progress = models.BooleanField(default=True)
+    show_info_before_completion = models.BooleanField(default=True)
 
     AND = 'AND'
     OR = 'OR'
     AGGREGATION_TYPES = ((AND, _('AND')), (OR, _('OR')))
     aggregation_type_for_criteria = models.CharField(choices=AGGREGATION_TYPES, max_length=3, default=AND)
 
-    
     
     class Meta:
         unique_together = ('badge', 'course_class')

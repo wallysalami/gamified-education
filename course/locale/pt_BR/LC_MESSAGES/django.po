@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-05 20:30-0300\n"
+"POT-Creation-Date: 2019-08-06 14:41-0300\n"
 "PO-Revision-Date: 2017-08-13 16:27+0000\n"
 "Last-Translator: Jan K. S. <EMAIL@ADDRESS>\n"
 "Language-Team: PT_BR <LL@li.org>\n"
@@ -85,45 +85,45 @@ msgstr ""
 "Pontuação precisa ser um valor entre 0 e 1, representando o percentual de "
 "pontos da tarefa da atividade"
 
-#: course/models.py:315
+#: course/models.py:317
 msgid "AND"
 msgstr "E"
 
-#: course/models.py:315
+#: course/models.py:317
 msgid "OR"
 msgstr "OU"
 
-#: course/models.py:330
+#: course/models.py:331
 msgid "Badge and Class must be from the same course"
 msgstr "Medalha e Turma precisam ser do mesmo curso"
 
-#: course/models.py:347
+#: course/models.py:348
 msgid "percentage"
 msgstr "percentual"
 
-#: course/models.py:347
+#: course/models.py:348
 msgid "xp"
 msgstr "xp"
 
-#: course/models.py:356
+#: course/models.py:357
 msgid "Assignment and Task cannot be empty at the same time"
 msgstr "Atividade e Tarefa precisam ser do mesmo curso"
 
-#: course/models.py:366
+#: course/models.py:367
 msgid "Assignment and Class Badge must be from the same course"
 msgstr "Atividade e Medalha de Turma precisam ser do mesmo curso"
 
-#: course/models.py:375
+#: course/models.py:376
 msgid "Task and Class Badge must be from the same course"
 msgstr "Tarefa e Medalha de Turma precisam ser do mesmo curso"
 
-#: course/models.py:386
+#: course/models.py:387
 msgid ""
 "There is no Assignment Task with this Assignment and this Task for this "
 "Course Class"
 msgstr "Não existe Tarefa de Atividade com esta Tarefa, Atividade e Turma"
 
-#: course/models.py:409
+#: course/models.py:410
 msgid "Enrollment and Class Badge must be from the same Course Class"
 msgstr "Matrícula e Medalha de Turma precisam ser da mesma Turma"
 
@@ -333,6 +333,10 @@ msgstr "Enviando..."
 #: course/templates/registration/password_reset_subject.txt:3
 msgid "Password Reset"
 msgstr "Redefinição de Senha"
+
+#: course/views.py:318
+msgid "(description will show up when you earn this badge)"
+msgstr "(a descrição aparecerá quando você ganhar esta medalha)"
 
 #~ msgid "Top %(number_of_items)s"
 #~ msgstr "Top %(number_of_items)s"

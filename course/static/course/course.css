@@ -304,6 +304,7 @@ strong {
 
 .badge-description dd {
     margin-left: 0;
+    word-break: break-word;
 }
 
 @media screen and (min-width: 700px) {
@@ -411,6 +412,8 @@ strong {
     position: relative;
 }
 
+.badge-complete,
+.badge-incomplete,
 .badge-progress,
 .badge-image,
 .badge-percentage {
@@ -425,6 +428,7 @@ strong {
     transition: opacity 0.5s;
     position: absolute;
     top: 0;
+    left: 0;
     z-index: -1;
 }
 
