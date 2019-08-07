@@ -49,7 +49,15 @@ document.addEventListener(
                             <dd>${description}</dd>
                         </dl>`
                 }
-                M.Tooltip.init(element, options);
+                let tooltip = M.Tooltip.init(element, options);
+                element.onclick = function () {
+                    if (tooltip.isOpen) {
+                        tooltip.close();
+                    } else {
+                        tooltip.open();
+                    }
+                    
+                }
             }
         );
 
