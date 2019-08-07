@@ -324,7 +324,5 @@ def get_achievements_data(enrollment):
             achievement_data['icon'] = '/static/course/question-mark.svg'
         
         achievements_data.append(achievement_data)
-        
-    print(achievements_data)
 
     return achievements_data
