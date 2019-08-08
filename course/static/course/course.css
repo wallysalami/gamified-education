@@ -251,6 +251,15 @@ strong {
 .markdown td, th {
     padding: 5px 5px;
 }
+
+.markdown tr {
+    border: none;
+}
+
+.markdown thead {
+    border-bottom: 1px solid #bbb;
+}
+
 .markdown tr:last-child th {
     padding-bottom: 10px;
 }
