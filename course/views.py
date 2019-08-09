@@ -313,15 +313,19 @@ def get_achievements_data(enrollment):
         achievement_data['percentage'] = achievement.percentage if achievement != None else 0
         achievement_data['percentage_integer'] = int(achievement_data['percentage']*100)
         achievement_data['show_progress'] = class_badge.show_progress
+        
+        if achievement_data['percentage'] == 1:
+            achievement_data['icon'] = class_badge.badge.icon_url
+        else:
+            achievement_data['icon'] = '/static/course/question-mark.svg'
 
-        if class_badge.show_info_before_completion or achievement_data['percentage'] > 1:
+        if class_badge.show_info_before_completion or achievement_data['percentage'] == 1:
             achievement_data['name'] = class_badge.badge.name
             achievement_data['description'] = class_badge.description
-            achievement_data['icon'] = class_badge.badge.icon_url
         else:
             achievement_data['name'] = "???"
             achievement_data['description'] = _("(description will show up when you earn this badge)")
-            achievement_data['icon'] = '/static/course/question-mark.svg'
+            
         
         achievements_data.append(achievement_data)
 

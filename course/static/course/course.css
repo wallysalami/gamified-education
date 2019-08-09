@@ -452,7 +452,7 @@ strong {
 
 .badge-incomplete .badge-image,
 .badge-incomplete .badge-percentage {
-    border: 5px solid #ddd;
+    border: 5px solid #ccc;
     transition: opacity 0.5s;
     position: absolute;
     top: 0;
@@ -468,7 +468,7 @@ strong {
 
 .badge-incomplete .badge-image {
     filter: grayscale(100%);
-    background-color: #eee;
+    background-color: #ddd;
 }
 
 .badge-incomplete .badge-percentage {
