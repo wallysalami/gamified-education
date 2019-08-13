@@ -8,7 +8,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         today = date.today()
         course_classes = CourseClass.objects.filter(start_date__lte=today, end_date__gte=today)
-        refresh_badges(course_classes)
+        refresh_achievements(course_classes)
 
 def refresh_achievements(course_classes):
     for course_class in course_classes:
