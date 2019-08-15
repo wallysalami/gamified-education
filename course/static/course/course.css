@@ -284,6 +284,7 @@ strong {
 
 .card .card-action.markdown a:not(.btn):not(.btn-large):not(.btn-large):not(.btn-floating) {
     text-transform: none;
+    margin-right: 0;
 }
 
 .card-action.markdown ul {
