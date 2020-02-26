@@ -91,6 +91,10 @@ strong {
     justify-content: center;
 }
 
+nav ul li.active {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
 #logout-button {
     justify-content: flex-end;
 }
