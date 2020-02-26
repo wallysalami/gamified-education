@@ -146,7 +146,7 @@ msgstr "ANULADO"
 
 #: course/templates/course/base.html:76
 msgid "Home"
-msgstr ""
+msgstr "Início"
 
 #: course/templates/course/base.html:85
 msgid "Logout"
