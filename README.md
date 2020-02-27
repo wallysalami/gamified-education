@@ -33,6 +33,48 @@ I give my students an activity (like a small project) in every class. Each activ
 All data is managed in Django's admin. I've made some customisations to help data input.
 
 
+## Installation
+
+There are many ways to install and run this project.
+
+
+### Heroku
+
+Heroku is a cloud platform as a service (PaaS) supporting several programming languages. It allows customers to develop, run, and manage applications without the complexity of building and maintaining the infrastructure of a server.
+
+You can create a free account [here](https://signup.heroku.com) and then put this project online by clicking the button below:
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
+
+### Docker
+
+Docker is a tool that packages an application and its dependencies in a lightweight virtual container. You can download it [here](https://www.docker.com/products/docker-desktop). After installation, use the following steps to run this project in your computer.
+  
+  1. Clone/download this repo.
+  2. Navigate to the repo folder in your terminal.
+  3. Type `docker-composer up`.
+  4. Open another terminal tab/window in the same folder.
+  5. Type `docker-compose exec web python manage.py migrate` to create the database tables.
+  6. Type `docker-compose exec web python manage.py createsuperuser` to create the initial user for the website.
+  7. Go to `0.0.0.0:8000` in your browser.
+  
+
+### Manual Installation (macOS)
+
+  1. [Install Homebrew](https://brew.sh/).
+  2. Install Python 3 running `brew install python3` in your terminal.
+  3. [Install PostgreSQL](https://www.elliotblackburn.com/installing-postgresql-on-macos-osx/).
+  4. Create the database with `psql -U postgres -d postgres -c 'CREATE DATABASE gamified_education'`.
+  5. Clone/download this repo.
+  6. Navigate to the repo folder in your terminal.
+  7. Run `pip3 install -r requirements.txt` to download the dependencies.
+  8. Run `python3 manage.py migrate` to create the database tables.
+  9. Run `python3 manage.py createsuperuser` to create the initial user for the website.
+  10. Run `python3 manage.py runserver`.
+  11. Go to `localhost:8000` in your browser.
+
+
 ## Data Model
 
 I should make a Wiki with all the details, but here is the gist of it:
