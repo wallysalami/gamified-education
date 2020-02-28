@@ -45,8 +45,9 @@ coverage.xml
 *,cover
 
 # Translations
-*.mo
-*.pot
+# I'll not ignore them anymore since Heroku is having issues with compilemessages
+#*.mo
+#*.pot
 
 # Django stuff:
 *.log
