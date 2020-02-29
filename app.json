@@ -6,6 +6,14 @@
   "addons": [
     "heroku-postgresql"
   ],
+  "env": {
+    "DISABLE_COLLECTSTATIC": "1"
+  },
+  "buildpacks": [
+    {
+      "url": "https://github.com/piotras/heroku-buildpack-gettext.git"
+    }
+  ],
   "scripts": {
     "postdeploy": "python manage.py migrate --noinput"
   }
