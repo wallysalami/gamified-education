@@ -15,6 +15,6 @@
     }
   ],
   "scripts": {
-    "postdeploy": "python manage.py migrate --noinput"
+    "postdeploy": "python manage.py migrate --noinput && python manage.py collectstatic --noinput"
   }
 }
