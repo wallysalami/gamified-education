@@ -277,9 +277,16 @@ class SimpleGradeInline(admin.TabularInline):
     formset = EnrollmentGradeInlineFormSet
     ordering = ('assignment_task__assignment_id', 'assignment_task')
 
+
+
+def last_login_formatted_for_enrolment(self):
+    return last_login_formatted(self.student.user)
+    
+last_login_formatted_for_enrolment.short_description = _('Last Login')
+
 class EnrollmentAdmin(BasicAdmin):
     inlines = [SimpleGradeInline]
-    list_display = ('student', 'id_number', 'course_class')
+    list_display = ('student', 'id_number', 'course_class', 'total_score', last_login_formatted_for_enrolment)
     list_filter = ('course_class',)
     ordering = ('-course_class__start_date', 'student__full_name')
     search_fields = ('student__full_name',)
