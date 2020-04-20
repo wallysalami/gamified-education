@@ -496,10 +496,10 @@ nav ul li.active {
     stroke-width: 15;
     transform: rotate(270deg);
     transform-origin: 50% 50%;
-    cx: 70;
-    cy: 68;
-    r: 64; /* 2 * pi * 64 = 402 */
-    stroke-dasharray: 402 402;
+    cx: 70px;
+    cy: 68px;
+    r: 64px; /* 2 * pi * 64 = 402 */
+    stroke-dasharray: 402px 402px;
     /* compute stroke-dashoffset as 402 * (1 - percentage) */
 }
 
