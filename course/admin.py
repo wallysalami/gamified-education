@@ -9,7 +9,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.utils.translation import gettext_lazy as _
-from django.utils.translation import ungettext
+from django.utils.translation import gettext
 import markdown2
 
 from django.utils.formats import date_format
@@ -39,7 +39,7 @@ def invite_user(modeladmin, request, queryset):
             html_email_template_name='email/password_creation_email.html',
         )
 
-    success_message = ungettext(
+    success_message = gettext(
         "%(count)d email sent successfully!",
         "%(count)d emails sent successfully!",
         queryset.count()

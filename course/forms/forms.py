@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import PasswordResetForm, UserCreationForm, AuthenticationForm
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
-from captcha.fields import ReCaptchaField
+from django_recaptcha.fields import ReCaptchaField
 from django.conf import settings
 
 class CaptchaPasswordResetForm(PasswordResetForm):

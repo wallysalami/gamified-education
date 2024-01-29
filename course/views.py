@@ -1,6 +1,6 @@
 import datetime
 from functools import reduce
-from django.contrib.auth.views import login as contrib_login
+from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -8,7 +8,7 @@ from django.db.models import Sum, Case, When, F, Q, IntegerField, ExpressionWrap
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 from django.conf import settings
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from rank import DenseRank, UpperRank, Rank
 
 from django.utils.timezone import get_default_timezone
@@ -16,7 +16,16 @@ from django.utils.timezone import get_default_timezone
 from .models import *
 
 
-def error_page(request):
+def error400_page(request, exception):
+    return render(
+        request,
+        'course/error_page.html',
+        {
+            'request': request
+        }
+    )
+
+def error500_page(request):
     return render(
         request,
         'course/error_page.html',
@@ -31,13 +40,13 @@ def index(request):
     
     
 def login(request, **kwargs):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         return redirect('/classes/')
     else:
         email_info = {
             'is_email_configured': settings.EMAIL_HOST != ''
         }
-        return contrib_login(request, extra_context=email_info, **kwargs)
+        return LoginView.as_view(extra_context=email_info, **kwargs)(request)
 
 
 @login_required(login_url='/login/')
