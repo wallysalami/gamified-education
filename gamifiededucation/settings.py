@@ -111,6 +111,8 @@ DATABASES = {
 
 DATABASE_URL="postgres://postgres@localhost:5432/"
 
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
 #DATABASES['default'].update(dj_database_url.config(default='postgres://publicpeople@localhost/publicpeople', conn_max_age=500))
 
 
