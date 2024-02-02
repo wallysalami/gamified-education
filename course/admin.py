@@ -119,15 +119,17 @@ def duplicate_course_class(modeladmin, request, queryset):
             else:
                 copy_number += 1
         new_course_class.save()
-        
-        # Duplicate assignment tasks from original course class
-        existing_assignment_tasks = AssignmentTask.objects.filter(course_class=course_class).order_by('id')
-        for existing_assignment_task in existing_assignment_tasks:
-            new_assignment_task = existing_assignment_task
-            new_assignment_task.id = None
-            new_assignment_task.course_class = new_course_class
-            new_assignment_task.save()
 
+        # Duplicate instructors, tasks, widgets and posts from original course class
+        models = [ClassInstructor, AssignmentTask, Widget, Post]
+        for model in models:
+            existing_objects = model.objects.filter(course_class=course_class).order_by('id')
+            for existing_object in existing_objects:
+                new_object = existing_object
+                new_object.id = None
+                new_object.course_class = new_course_class
+                new_object.save()
+        
         # Duplicate badges tasks from original course class
         class_badges = ClassBadge.objects.filter(course_class=course_class).order_by('id')
         for class_badge in class_badges:
