@@ -6,25 +6,26 @@ from django_recaptcha.fields import ReCaptchaField
 from django.conf import settings
 
 class CaptchaPasswordResetForm(PasswordResetForm):
-	captcha = (
-		ReCaptchaField() 
-		if settings.RECAPTCHA_PUBLIC_KEY != '' and settings.RECAPTCHA_PRIVATE_KEY != ''
-		else None
+    captcha = (
+        ReCaptchaField() 
+        if settings.RECAPTCHA_PUBLIC_KEY != '' and settings.RECAPTCHA_PRIVATE_KEY != ''
+        else None
 	)
 
-	def __init__(self, *args, **kwargs):
-		super().__init__(*args, **kwargs)
-		self.fields['email'].widget.attrs.update({'autofocus': 'autofocus'})
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        print("aasasass")
+        self.fields['email'].widget.attrs.update({'autofocus': 'autofocus'})
 
-	def get_users(self, email):
-		# removed check verifying if password is unusable
-		user_model = get_user_model()
-		active_users = user_model._default_manager.filter(**{
+    def get_users(self, email):
+        # removed check verifying if password is unusable
+        user_model = get_user_model()
+        active_users = user_model._default_manager.filter(**{
             '%s__iexact' % user_model.get_email_field_name(): email,
             'is_active': True,
         })
 
-		return active_users
+        return active_users
 
 class UsernameOrEmailAuthenticationForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):

@@ -43,11 +43,10 @@ if settings.EMAIL_HOST != '':
     urlpatterns += [
         re_path(
             r'^password_reset/$',
-            auth_views.PasswordResetView.as_view(),
-            {
-                'password_reset_form': CaptchaPasswordResetForm,
-                'html_email_template_name': 'registration/password_reset_email.html'
-            },
+            auth_views.PasswordResetView.as_view(
+                form_class = CaptchaPasswordResetForm,
+                html_email_template_name = 'registration/password_reset_email.html'
+            ),
         ),
         re_path(r'', include('django.contrib.auth.urls')),
     ]
