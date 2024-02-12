@@ -299,7 +299,7 @@ class Widget(models.Model):
     def html_code(self):
         final_text = self.markdown_text
 
-        pattern = r"\{\{\{(.*?)\}\}\}\((\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\)([\s\t]*\r?\n|[\s\t]*\n?\r)?"
+        pattern = r"\{\{\{([\s\S]*?)\}\}\}\((\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\)([ \t]*(?:\r\n|\n\r|\n|\r))?"
         
         def substituir_condicional(match: re.Match):
             whole_match = match.group(0)
