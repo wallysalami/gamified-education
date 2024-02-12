@@ -1,8 +1,11 @@
 from django.contrib import admin
+from django.http import HttpResponseRedirect
+from django.template.response import TemplateResponse
 from django.apps import apps
+from django.shortcuts import render
 from course.management.commands import refreshachievements
 from .models import *
-from .forms.forms import UserCreationForm, CaptchaPasswordResetForm
+from .forms.forms import UserCreationForm, CaptchaPasswordResetForm, NewStudentForm, NewStudentEnrollmentFormSet
 from django.forms import BaseInlineFormSet, ModelForm
 from django.forms.widgets import TextInput
 from django.contrib.auth.admin import UserAdmin
@@ -10,6 +13,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import ngettext
+from django.urls import path
 import markdown2
 
 from django.utils.formats import date_format
@@ -307,6 +311,52 @@ class StudentAdmin(BasicAdmin):
     ordering = ('full_name',)
     raw_id_fields = ("user",)
 
+    # Change Add Student form to create the user, student and enrolments at the same time
+    def add_view(self, request, form_url='', extra_context=None):
+        self.form = NewStudentForm
+        if request.method == "POST":
+            form = NewStudentForm(request.POST)
+            formset = NewStudentEnrollmentFormSet(request.POST)
+            if form.is_valid() and formset.is_valid():
+                first_name = form.cleaned_data['first_name']
+                last_name = form.cleaned_data['last_name']
+                email = form.cleaned_data['email']
+                id_number = form.cleaned_data['id_number']
+                
+                user = User(
+                    first_name=first_name,
+                    last_name=last_name,
+                    username=email,
+                    email=email
+                )
+                user.save()
+                
+                student = Student(
+                    user=user,
+                    full_name=first_name + " " + last_name,
+                    id_number=id_number
+                )
+                student.save()
+
+                for enrollment_form in formset:
+                    enrollment = enrollment_form.save(commit=False)
+                    enrollment.student = student
+                    if enrollment.course_class_id != None:
+                        enrollment.save()
+                
+                return HttpResponseRedirect("../")
+        else:
+            form = NewStudentForm()
+
+        return super().add_view(request, form_url, extra_context)
+    
+    # Edit Student form must stay the same
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        self.form = ModelForm  # Reset to standard form
+
+        return super().change_view(request, object_id, form_url, extra_context)
+
+    
 admin.site.register(Student, StudentAdmin)
 
 

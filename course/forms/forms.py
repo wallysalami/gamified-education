@@ -4,6 +4,10 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
 from django_recaptcha.fields import ReCaptchaField
 from django.conf import settings
+from course.models import Student, Enrollment
+from django.forms import inlineformset_factory
+from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
 class CaptchaPasswordResetForm(PasswordResetForm):
     captcha = (
@@ -60,3 +64,27 @@ class UserCreationForm(UserCreationForm):
             raise forms.ValidationError("Fill out both fields")
 
         return password2
+    
+class NewStudentForm(forms.ModelForm):
+    first_name = forms.CharField(max_length=150, label=_("first name"))
+    last_name = forms.CharField(max_length=150, label=_("last name"))
+    email = forms.EmailField(label=_("email address"))
+    
+    class Meta:
+        model = Student
+        fields = ['id_number']
+
+    def clean_email(self):
+        email = self.cleaned_data.get("email")
+        if User.objects.filter(email=email).exists():
+            raise ValidationError(_("A user with that username already exists."))
+        return email
+    
+ # Formulário para ModeloB
+class NewStudentEnrollmentForm(forms.ModelForm):
+    class Meta:
+        model = Enrollment
+        fields = ['course_class']
+
+# Criando um formset para ModeloB relacionado com ModeloA
+NewStudentEnrollmentFormSet = inlineformset_factory(Student, Enrollment, form=NewStudentEnrollmentForm)   

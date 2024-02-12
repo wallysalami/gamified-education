@@ -31,3 +31,6 @@ td.field-percentage input {
     width: 80px;
 }
 
+.form-row label:first-letter {
+    text-transform: uppercase;
+}
