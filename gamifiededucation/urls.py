@@ -13,7 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import include, url
+from django.urls import include, re_path
 from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
@@ -23,15 +23,17 @@ from course.forms.forms import CaptchaPasswordResetForm, UsernameOrEmailAuthenti
 from course import views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(
+    re_path(r'^admin/', admin.site.urls),
+    re_path(
         r'^login/?$',
         views.login,
-        {'authentication_form': UsernameOrEmailAuthenticationForm},
-        name='login'
+        #auth_views.LoginView.as_view(template_name='registration/login.html')
+        #{'authentication_form': UsernameOrEmailAuthenticationForm},
+        #name='login'
     ),
-    url(r'^logout/?$', auth_views.logout, name='logout'),
-    url(r'', include('course.urls')),
+    re_path(r'^logout/?$', auth_views.LogoutView.as_view(), name='logout'),
+    #re_path(r'^logout/?$', auth_views.logout_then_login, name='logout'),
+    re_path(r'', include('course.urls')),
 ]
 
 if settings.DEBUG:
@@ -39,18 +41,17 @@ if settings.DEBUG:
 
 if settings.EMAIL_HOST != '':
     urlpatterns += [
-        url(
+        re_path(
             r'^password_reset/$',
-            auth_views.password_reset,
-            {
-                'password_reset_form': CaptchaPasswordResetForm,
-                'html_email_template_name': 'registration/password_reset_email.html'
-            },
+            auth_views.PasswordResetView.as_view(
+                form_class = CaptchaPasswordResetForm,
+                html_email_template_name = 'registration/password_reset_email.html'
+            ),
         ),
-        url(r'', include('django.contrib.auth.urls')),
+        re_path(r'', include('django.contrib.auth.urls')),
     ]
 
-handler404 = 'course.views.error_page'
-handler500 = 'course.views.error_page'
-handler403 = 'course.views.error_page'
-handler400 = 'course.views.error_page'
+handler404 = 'course.views.error400_page'
+handler500 = 'course.views.error500_page'
+handler403 = 'course.views.error400_page'
+handler400 = 'course.views.error400_page'

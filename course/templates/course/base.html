@@ -9,7 +9,7 @@
 
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        {% load staticfiles %}
+        {% load static %}
         {% include 'material/includes/material_css.html' %}
         <link rel="stylesheet" type="text/css" href="{% static 'course/course.css' %}" />  
         
@@ -72,19 +72,20 @@
                         </div>
 
                         <ul class="nav-items">
-                            <li {% ifequal active_tab "home" %}class="active"{% endifequal %}>
+                            <li {% if active_tab == "home" %}class="active"{% endif %}>
                                 <a href="/{{course_class.course.code}}/{{course_class.code}}/">{% trans 'Home' %}</a>
                             </li>
-                            <li {% ifequal active_tab "assignments" %}class="active"{% endifequal %}>
+                            <li {% if active_tab == "assignments" %}class="active"{% endif %}>
                                 <a href="/{{course_class.course.code}}/{{course_class.code}}/assignments">{% trans 'Assignments' %}</a>
                             </li>
                         </ul>
-                        
-                        <ul class="nav-items" id='logout-button'>
-                            <li>
-                                <a href="/logout?next=/login">{% trans 'Logout' %}</a>
-                            </li>
-                        </ul>
+
+                        <form class="nav-items" id='logout-button' method="post" action="{% url 'logout' %}"> 
+                            {% csrf_token %}
+                            <button type="submit"/>{% trans 'Logout' %}</button>
+                            <input type="hidden" name="next" value="/login" />
+                            </div>
+                        </form>
                     </div>
                 </nav>
             {% endwith %}

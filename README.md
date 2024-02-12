@@ -2,8 +2,8 @@
 
 A website to help gamified courses, built with Django (Python).
 
-Demo is available [here](https://gamified-education.herokuapp.com/). Use "demo" as username and "demodemo" as password. The first page load may take a few seconds.
-
+<img src="https://github.com/wallysalami/gamified-education/assets/2084188/6dcd41c9-6ea3-4879-a9b4-a5bd0ee41c20 " width="600">
+<img src="https://github.com/wallysalami/gamified-education/assets/2084188/3be1a166-b8fc-4e3c-b3c6-5c84b6fdf3cd" width="600">
 
 ## Motivation
 
@@ -35,16 +35,7 @@ All data is managed in Django's admin. I've made some customisations to help dat
 
 ## Installation
 
-There are many ways to install and run this project.
-
-
-### Heroku
-
-Heroku is a cloud platform as a service (PaaS) supporting several programming languages. It allows customers to develop, run, and manage applications without the complexity of building and maintaining the infrastructure of a server.
-
-You can create a free account [here](https://signup.heroku.com) and then put this project online by clicking the button below:
-
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+There are different ways to install and run this project.
 
 
 ### Docker
@@ -92,8 +83,8 @@ I should make a Wiki with all the details, but here is the gist of it:
   
 
 ## Some of the Dependencies
-
-  - [Django](https://github.com/django/django) (still in version 1)
+  - Python 3.9 or higher
+  - [Django](https://github.com/django/django)
   - [PostgreSQL](https://www.postgresql.org) (it should be plain SQL, but I use the RANK function)
   - [Django Material](https://github.com/viewflow/django-material)
   - [markdown2](https://github.com/trentm/python-markdown2)

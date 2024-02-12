@@ -1,12 +1,12 @@
-from django.conf.urls import url, include
+from django.urls import re_path, include
 from django.contrib.auth import views as auth_views
 
 from . import views
 
 app_name = 'course'
 urlpatterns = [
-    url(r'^classes/?$', views.classes, name='classes'),
-    url(r'^([^/]+)/([^/]+)/?$', views.home, name='home'),
-    url(r'^([^/]+)/([^/]+)/assignments/?([\d]+)?/?$', views.assignments, name='assignments'),
-    url(r'^$', views.index, name='index'),
+    re_path(r'^classes/?$', views.classes, name='classes'),
+    re_path(r'^([^/]+)/([^/]+)/?$', views.home, name='home'),
+    re_path(r'^([^/]+)/([^/]+)/assignments/?([\d]+)?/?$', views.assignments, name='assignments'),
+    re_path(r'^$', views.index, name='index'),
 ]

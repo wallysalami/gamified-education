@@ -99,6 +99,22 @@ nav ul li.active {
     justify-content: flex-end;
 }
 
+#logout-button button {
+    border: none;
+    background-color: transparent;
+    transition: background-color 0.3s;
+    font-size: 1rem;
+    color: #fff;
+    display: block;
+    padding: 0 15px;
+    cursor: pointer;
+    line-height: 64px;
+}
+
+#logout-button button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
 .center-container-for-button {
     text-align: center;
     margin-bottom: 40px;
