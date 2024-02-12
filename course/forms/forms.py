@@ -18,7 +18,6 @@ class CaptchaPasswordResetForm(PasswordResetForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        print("aasasass")
         self.fields['email'].widget.attrs.update({'autofocus': 'autofocus'})
 
     def get_users(self, email):
