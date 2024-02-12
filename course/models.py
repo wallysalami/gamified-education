@@ -7,6 +7,8 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from django.conf import settings
+import datetime
+import markdown2
 
 # Create your models here.
 
@@ -284,11 +286,45 @@ class Widget(models.Model):
     course_class = models.ForeignKey(CourseClass, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     markdown_text = models.TextField()
-    html_code = models.TextField(blank=True)
     order = models.IntegerField()
     
     def __str__(self):
         return self.title
+    
+    # This processing allows a widget to have conditional content based on the current date and time
+    # Snippets of markdown text can be hidden if its datetime is in the future
+    # The datetime must be in the format {{{snippet}}}(YYYY-MM-DD HH:MM:SS)
+    # I had to use a substitute function to delete the \r\n if the removed snippet leaves an empty line
+    @property
+    def html_code(self):
+        final_text = self.markdown_text
+
+        pattern = r"\{\{\{(.*?)\}\}\}\((\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\)([\s\t]*\r?\n|[\s\t]*\n?\r)?"
+        
+        def substituir_condicional(match: re.Match):
+            whole_match = match.group(0)
+            snippet = match.group(1)
+            datetime_text = match.group(2)
+            ending = match.group(3) or ""
+
+            datetime_object = datetime.datetime.strptime(datetime_text, "%Y-%m-%d %H:%M:%S")
+            if datetime_object < datetime.datetime.now():
+                return snippet + ending
+            else:
+                previous_character = final_text[match.start()-1] if match.start() > 0 else ""
+                
+                if len(self.markdown_text) == len(whole_match):
+                    return ""
+                elif (previous_character in ['\n', '\r'] or previous_character == "") and \
+                    (match.end() == len(self.markdown_text) or ending != ""):
+                    return ""
+                else:
+                    return ending
+            
+        final_text = re.sub(pattern, substituir_condicional, final_text)
+        
+        final_html_code = markdown2.markdown(final_text, extras=["tables", "fenced-code-blocks"])
+        return final_html_code
 
 
 class Badge(ModelWithIcon):
