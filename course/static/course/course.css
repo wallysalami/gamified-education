@@ -442,6 +442,21 @@ nav ul li.active {
     margin: 10px 0 0;
     font-size: 1.2em;
     font-weight: 300;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+#lives {
+    margin-left: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+#lives i {
+    font-size: 30px;
 }
 
 #achievement-list {

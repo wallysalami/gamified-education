@@ -74,6 +74,7 @@ class CourseClass(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     ranking_size = models.IntegerField(default=10, validators=[MinValueValidator(0)])
+    total_of_lives = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     
     class Meta:
         verbose_name_plural = "Classes"
@@ -111,9 +112,25 @@ class Student(models.Model):
 class Enrollment(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     course_class = models.ForeignKey(CourseClass, on_delete=models.CASCADE)
+    lost_lives = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     
     def __str__(self):
         return "%s (%s)" % (self.student, self.course_class)
+
+    @property
+    def remaining_lives(self):
+        remaing_lives = self.course_class.total_of_lives - self.lost_lives
+        return remaing_lives if remaing_lives >= 0 else 0
+    
+    def clean(self):
+        if self.course_class is not None and self.lost_lives > self.course_class.total_of_lives:
+            raise ValidationError(
+                {
+                    'lost_lives': _('Lost lives cannot be greater than the total of lives of the course class')
+                },
+                code='invalid'
+            )
+        super().clean()
 
     def total_score(self):
         score = self.grade_set.all().aggregate(

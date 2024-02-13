@@ -32,6 +32,17 @@
             </h1>
             <h2 id='student-total-score'>
                 {{enrollment.total_score}} XP
+                <span id="lives" class="secondary-color-text">
+                {% for i in enrollment.course_class.total_of_lives|range %}
+                    <i class="material-icons">
+                        {%if i < enrollment.remaining_lives %}
+                            favorite
+                        {%else%}
+                            favorite_border
+                        {%endif%}
+                    </i>
+                {% endfor %}
+                </span>
             </h2>
             <ul id='achievement-list'>
                 {% for achievement_data in achievements_data %}

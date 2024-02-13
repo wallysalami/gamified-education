@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-06 14:41-0300\n"
+"POT-Creation-Date: 2024-02-12 21:07-0300\n"
 "PO-Revision-Date: 2017-08-13 16:27+0000\n"
 "Last-Translator: Jan K. S. <EMAIL@ADDRESS>\n"
 "Language-Team: PT_BR <LL@li.org>\n"
@@ -18,66 +18,71 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: course/admin.py:22
+#: course/admin.py:26
 #, python-format
 msgid "User %(username)s already has a password!"
 msgstr "Usuário %(username)s já tem uma senha!"
 
-#: course/admin.py:28
+#: course/admin.py:32
 #, python-format
 msgid "User %(username)s has no email!"
 msgstr "Usuário %(username)s não tem email!"
 
-#: course/admin.py:43
+#: course/admin.py:47
 #, python-format
 msgid "%(count)d email sent successfully!"
 msgid_plural "%(count)d emails sent successfully!"
 msgstr[0] "%(count)d email enviado com sucesso!"
 msgstr[1] "%(count)d emails enviados com sucesso!"
 
-#: course/admin.py:51
+#: course/admin.py:55
 msgid "Send invitation to selected users"
 msgstr "Enviar convite para usuários selecionados"
 
-#: course/admin.py:56
+#: course/admin.py:60
 msgid "Has Password?"
 msgstr "Tem Senha?"
 
-#: course/admin.py:64
+#: course/admin.py:68 course/admin.py:291
 msgid "Last Login"
 msgstr "Último Login"
 
-#: course/admin.py:131
+#: course/admin.py:152
 msgid "Duplicate course class"
 msgstr "Duplicar turma"
 
-#: course/admin.py:137
+#: course/admin.py:158
 msgid "Refresh achievements"
 msgstr "Atualizar conquistas"
 
-#: course/forms/forms.py:32
+#: course/forms/forms.py:36
 msgid "Username / Email"
 msgstr "Usuário / Email"
 
-#: course/models.py:22
+#: course/models.py:24
 msgid "Color format must be a # followed by 6 hexadecimal digits"
 msgstr "Formato da cor dever ser # seguido de 6 dígitos hexadecimais"
 
-#: course/models.py:90
+#: course/models.py:94
 msgid "End date cannot be earlier than start date"
 msgstr "Data de término não pode ser anterior à de começo"
 
-#: course/models.py:210
+#: course/models.py:129
+msgid ""
+"Lost lives cannot be greater than the total of lives of the course class"
+msgstr "Vidas perdidas não pode ser maior que o total de vidas da turma."
+
+#: course/models.py:230
 msgid "Assignment, Task and Class must be from the same course"
 msgstr "Atividade, Tarefa e Turma precisam ser do mesmo curso"
 
-#: course/models.py:254
+#: course/models.py:274
 msgid "Score must be an integer value, since the assignment task has no points"
 msgstr ""
 "Pontuação precisa ser um valor inteiro, já que a tarefa da atividade não tem "
 "pontos"
 
-#: course/models.py:261
+#: course/models.py:281
 msgid ""
 "Score must be a value between 0 and 1, representing the percentage of the "
 "assignment task points"
@@ -85,45 +90,45 @@ msgstr ""
 "Pontuação precisa ser um valor entre 0 e 1, representando o percentual de "
 "pontos da tarefa da atividade"
 
-#: course/models.py:317
+#: course/models.py:371
 msgid "AND"
 msgstr "E"
 
-#: course/models.py:317
+#: course/models.py:371
 msgid "OR"
 msgstr "OU"
 
-#: course/models.py:331
+#: course/models.py:385
 msgid "Badge and Class must be from the same course"
 msgstr "Medalha e Turma precisam ser do mesmo curso"
 
-#: course/models.py:348
+#: course/models.py:402
 msgid "percentage"
 msgstr "percentual"
 
-#: course/models.py:348
+#: course/models.py:402
 msgid "xp"
 msgstr "xp"
 
-#: course/models.py:357
+#: course/models.py:411
 msgid "Assignment and Task cannot be empty at the same time"
 msgstr "Atividade e Tarefa precisam ser do mesmo curso"
 
-#: course/models.py:367
+#: course/models.py:421
 msgid "Assignment and Class Badge must be from the same course"
 msgstr "Atividade e Medalha de Turma precisam ser do mesmo curso"
 
-#: course/models.py:376
+#: course/models.py:430
 msgid "Task and Class Badge must be from the same course"
 msgstr "Tarefa e Medalha de Turma precisam ser do mesmo curso"
 
-#: course/models.py:387
+#: course/models.py:441
 msgid ""
 "There is no Assignment Task with this Assignment and this Task for this "
 "Course Class"
 msgstr "Não existe Tarefa de Atividade com esta Tarefa, Atividade e Turma"
 
-#: course/models.py:410
+#: course/models.py:464
 msgid "Enrollment and Class Badge must be from the same Course Class"
 msgstr "Matrícula e Medalha de Turma precisam ser da mesma Turma"
 
@@ -136,11 +141,11 @@ msgstr "Atividades"
 msgid "Select Student"
 msgstr "Selecionar Aluno"
 
-#: course/templates/course/assignments.html:93
+#: course/templates/course/assignments.html:104
 msgid "(no points)"
 msgstr "(nenhum ponto)"
 
-#: course/templates/course/assignments.html:126
+#: course/templates/course/assignments.html:137
 msgid "CANCELED"
 msgstr "ANULADO"
 
@@ -334,7 +339,7 @@ msgstr "Enviando..."
 msgid "Password Reset"
 msgstr "Redefinição de Senha"
 
-#: course/views.py:318
+#: course/views.py:336
 msgid "(description will show up when you earn this badge)"
 msgstr "(a descrição aparecerá quando você ganhar esta medalha)"
 
