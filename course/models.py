@@ -47,7 +47,7 @@ class ModelWithIcon(models.Model):
 
 class Course(ModelWithIcon):
     name = models.CharField(max_length=100)
-    code = models.CharField(max_length=10, unique=True)
+    code = models.CharField(max_length=20, unique=True)
     description = models.CharField(max_length=100, blank=True)
     primary_hex_color = models.CharField(max_length=7, default='#0062b2', validators=[validate_hex_color])
     secondary_hex_color = models.CharField(max_length=7, default='#ff9800', validators=[validate_hex_color])
