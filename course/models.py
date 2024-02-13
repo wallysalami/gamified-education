@@ -70,7 +70,7 @@ class Course(ModelWithIcon):
 
 class CourseClass(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    code = models.CharField(max_length=10)
+    code = models.CharField(max_length=20)
     start_date = models.DateField()
     end_date = models.DateField()
     ranking_size = models.IntegerField(default=10, validators=[MinValueValidator(0)])
