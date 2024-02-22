@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-    {% if user.is_superuser %}
+    {% if user.is_staff %}
         <div class="center-container-for-button">
             <a class='btn grey lighten-3 grey-text text-darken-3' href="/admin/">
                 {% trans "Go to Admin" %}

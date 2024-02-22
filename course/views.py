@@ -65,7 +65,7 @@ def classes(request):
     else:
         all_classes = CourseClass.objects.none()
     
-    if len(all_classes) == 1:
+    if len(all_classes) == 1 and not request.user.is_staff:
         course_class = all_classes[0]
         return redirect('/%s/%s/' %(course_class.course.code, course_class.code))
     else:
