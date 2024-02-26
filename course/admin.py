@@ -185,7 +185,6 @@ class CourseForm(ModelForm):
 class CourseAdmin(BasicAdmin):
     form = CourseForm
     list_display = ('name', 'code', 'description')
-    ordering = ('name',)
 
 admin.site.register(Course, CourseAdmin)
 
@@ -264,7 +263,7 @@ class AssignmentAdmin(BasicAdmin):
     inlines = [AssignmentTaskInline]
     list_display = ('name', 'course', 'description')
     list_filter = ('course',)
-    ordering = ('name',)
+    ordering = ('course', 'name',)
 
 admin.site.register(Assignment, AssignmentAdmin)
 
@@ -312,7 +311,7 @@ class GradeInline(admin.TabularInline):
 class AssignmentTaskAdmin(InstructorAdminBase):
     inlines = [GradeInline]
     list_display = ('__str__', 'points', 'course_class')
-    ordering = ('-course_class', 'assignment_id', 'id',)
+    ordering = ('course_class', 'assignment_id', 'id',)
 
     def course(self, obj):
         return obj.assignment.course

@@ -75,6 +75,9 @@ class Course(ModelWithIcon):
     def default_icon(self):
         # icon from https://pixabay.com/p-2268948/?no_redirect
         return '/static/course/course-default-icon.png'
+    
+    class Meta:
+        ordering = ["code", "name"]
 
 
 class CourseClass(models.Model):
@@ -192,6 +195,7 @@ class Task(models.Model):
 
     class Meta:
         unique_together = ('name', 'course')
+        ordering = ["course__code", "name"]
 
 
 class Assignment(models.Model):
@@ -203,6 +207,9 @@ class Assignment(models.Model):
 
     def __str__(self):
         return "%s (%s)" % (self.name, self.course.code)
+    
+    class Meta:
+        ordering = ["course__code", "name"]
 
     def points (self, course_class):
         return self.assignmenttask_set.all().filter(
@@ -368,13 +375,14 @@ class Badge(ModelWithIcon):
     
     class Meta:
         unique_together = ('course', 'name')
+        ordering = ["course__code", "name"]
     
     @property
     def default_icon(self):
         return '/static/course/trophy.svg'
     
     def __str__(self):
-        return self.name
+        return "%s (%s)" % (self.name, self.course.code)
         
         
 class ClassBadge(models.Model):
