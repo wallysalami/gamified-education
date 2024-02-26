@@ -1,5 +1,6 @@
 from django.contrib import admin
-from django.http import HttpResponseRedirect
+from django.core.exceptions import PermissionDenied
+from django.http import HttpRequest, HttpResponseRedirect
 from django.template.response import TemplateResponse
 from django.apps import apps
 from django.shortcuts import render
@@ -91,6 +92,86 @@ class BasicAdmin(admin.ModelAdmin):
         css = { "all" : ("course/admin.css",) }
         js = ["course/admin.js"]
 
+class MyClassesFilter(admin.SimpleListFilter):
+    title = _('Class')
+    parameter_name = 'class'
+
+    def lookups(self, request, model_admin):
+        if model_admin.has_permission(request, 'view', False):
+            opcoes = [(x.id, str(x)) for x in CourseClass.objects.all()]
+        elif model_admin.has_permission(request, 'view', True):
+            opcoes = [(x.id, str(x)) for x in CourseClass.objects.filter(classinstructor__instructor__user=request.user)]
+        else:
+            opcoes = []
+
+        return opcoes
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(course_class=self.value())
+        return queryset
+
+class InstructorAdminBase(BasicAdmin):
+    list_filter = (MyClassesFilter,)
+
+    def get_queryset(self, request):
+        if self.has_permission(request, 'view', False):
+            return super().get_queryset(request)
+        elif self.has_permission(request, 'view', True):
+            return super().get_queryset(request).filter(course_class__classinstructor__instructor__user=request.user)
+        else:
+            raise PermissionDenied
+        
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        models = {
+            'badge': Badge,
+            'assignment': Assignment,
+            'task': Task,
+            'course_class': CourseClass,
+        }
+        if db_field.name in models:
+            model_class = models[db_field.name]
+            
+            if self.has_permission(request, 'add', False) or self.has_permission(request, 'change', False):
+                kwargs["queryset"] = model_class.objects.all()
+            elif self.has_permission(request, 'add', True) or self.has_permission(request, 'change', True):
+                if model_class == CourseClass:
+                    kwargs["queryset"] = CourseClass.objects.filter(classinstructor__instructor__user=request.user)
+                else:
+                    kwargs["queryset"] = model_class.objects.filter(course__courseclass__classinstructor__instructor__user=request.user)
+       
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+    
+    def has_permission(self, request, permission_type, only_from_my_classes):
+        app = self.model._meta.app_label
+        model_name = self.model.__name__.lower()
+       
+        if only_from_my_classes:
+            if permission_type == 'add':
+                suffix = '_to_my_classes'
+            else:
+                suffix = '_from_my_classes'
+        else:
+            suffix = ''
+        code_name = f"{app}.{permission_type}_{model_name}{suffix}"
+        
+        return request.user.has_perm(code_name)
+    
+    def has_view_permission(self, request, obj=None):
+        return self.has_permission(request, 'view', False) or self.has_permission(request, 'view', True)
+    
+    def has_change_permission(self, request, obj=None):
+        return self.has_permission(request, 'change', False) or self.has_permission(request, 'change', True)
+    
+    def has_delete_permission(self, request, obj=None):
+        return self.has_permission(request, 'delete', False) or self.has_permission(request, 'delete', True)
+    
+    def has_add_permission(self, request):
+        return self.has_permission(request, 'add', False) or self.has_permission(request, 'add', True)
+
+    def has_module_permission(self, request):
+        return self.has_view_permission(request)
+    
 
 class CourseForm(ModelForm):
     class Meta:
@@ -228,10 +309,9 @@ class GradeInline(admin.TabularInline):
     formset = GradeInlineFormSet
     raw_id_fields = ("enrollment",)
     
-class AssignmentTaskAdmin(BasicAdmin):
+class AssignmentTaskAdmin(InstructorAdminBase):
     inlines = [GradeInline]
     list_display = ('__str__', 'points', 'course_class')
-    list_filter = ('course_class',)
     ordering = ('-course_class', 'assignment_id', 'id',)
 
     def course(self, obj):
@@ -376,12 +456,11 @@ class InstructorAdmin(BasicAdmin):
 admin.site.register(Instructor, InstructorAdmin)
 
 
-class PostAdmin(BasicAdmin):
+class PostAdmin(InstructorAdminBase):
     model = Post
     list_display = ('course_class', 'title','post_datetime')
     ordering = ('-post_datetime',)
     read_only = ('html_code',)
-    list_filter = ('course_class',)
     
     def save_model(self, request, post, form, change):
         post.html_code = markdown2.markdown(post.markdown_text, extras=["tables", "fenced-code-blocks"])
@@ -390,11 +469,10 @@ class PostAdmin(BasicAdmin):
 admin.site.register(Post, PostAdmin)
 
 
-class WidgetAdmin(BasicAdmin):
+class WidgetAdmin(InstructorAdminBase):
     model = Widget
     list_display = ('course_class', 'title', 'order')
     ordering = ('course_class','order')
-    list_filter = ('course_class',)
     
 admin.site.register(Widget, WidgetAdmin)
 
@@ -455,11 +533,10 @@ class ClassBadgeCriteriaInline(admin.TabularInline):
     ordering = ('id',)
 
 
-class ClassBadgeAdmin(BasicAdmin):
+class ClassBadgeAdmin(InstructorAdminBase):
     model = ClassBadge
     list_display = ('badge', 'description', 'course_class')
     ordering = ('course_class', 'id')
     inlines = [ClassBadgeCriteriaInline, AchievementInline]
-    list_filter = ('course_class',)
     
 admin.site.register(ClassBadge, ClassBadgeAdmin)

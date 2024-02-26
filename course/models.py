@@ -23,6 +23,15 @@ def validate_hex_color(value):
         raise ValidationError(
             _('Color format must be a # followed by 6 hexadecimal digits'),
         )
+    
+def create_class_permissions(model):
+    model_no_space = model.replace(' ', '')
+    return [
+        (f"add_{model_no_space}_to_my_classes", f"Can add {model} to my classes"),
+        (f"change_{model_no_space}_from_my_classes", f"Can change {model} from my classes"),
+        (f"view_{model_no_space}_from_my_classes", f"Can view {model} from my classes"),
+        (f"delete_{model_no_space}_from_my_classes", f"Can delete {model} from my classes"),
+    ] 
 
 class ModelWithIcon(models.Model):
     icon_file_name = models.ImageField(blank=True)
@@ -151,6 +160,7 @@ class Enrollment(models.Model):
 
     class Meta:
         unique_together = ('student', 'course_class')
+        permissions = create_class_permissions('enrollment')
         
 
 class Instructor(models.Model):
@@ -222,6 +232,7 @@ class AssignmentTask(models.Model):
         verbose_name_plural = "Assignment Tasks"
         db_table = 'course_assignment_task'
         unique_together = ('assignment', 'task', 'course_class')
+        permissions = create_class_permissions('assignment task')
 
     def clean(self):
         super(AssignmentTask, self).clean()
@@ -281,9 +292,9 @@ class Grade(models.Model):
                         'score': _('Score must be a value between 0 and 1, representing the percentage of the assignment task points')
                     },
                     code='invalid'
-                )
+                )  
         
-        
+
 class Post(models.Model):
     course_class = models.ForeignKey(CourseClass, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
@@ -298,6 +309,10 @@ class Post(models.Model):
         
     def is_scheduled(self):
         return self.post_datetime >= timezone.now()
+    
+    class Meta:
+        permissions = create_class_permissions('post')
+
 
 class Widget(models.Model):
     course_class = models.ForeignKey(CourseClass, on_delete=models.CASCADE)
@@ -307,6 +322,9 @@ class Widget(models.Model):
     
     def __str__(self):
         return self.title
+    
+    class Meta:
+        permissions = create_class_permissions('widget')
     
     # This processing allows a widget to have conditional content based on the current date and time
     # Snippets of markdown text can be hidden if its datetime is in the future
@@ -374,6 +392,7 @@ class ClassBadge(models.Model):
     
     class Meta:
         unique_together = ('badge', 'course_class')
+        permissions = create_class_permissions('class badge')
         
     def __str__(self):
         return "%s (%s)" % (self.badge.name, self.course_class)
