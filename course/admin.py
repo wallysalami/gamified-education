@@ -14,6 +14,7 @@ from django.contrib import messages
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import ngettext
 from django.urls import path
+from django.utils.html import format_html
 import markdown2
 
 from django.utils.formats import date_format
@@ -403,10 +404,7 @@ class BadgeAdmin(BasicAdmin):
     ordering = ('course', 'name')
     
     def thumbnail(self, obj):
-        return "<img src='%s' style='max-width: 30px; max-height: 30px; border-radius: 50%%; background-color: %s' />" % (obj.icon_url, obj.course.primary_hex_color)
-
-    thumbnail.allow_tags = True
-    thumbnail.__name__ = 'Thumbnail'
+        return format_html("<img src='{}' style='max-width: 30px; max-height: 30px; border-radius: 50%; background-color: {}' />", obj.icon_url, obj.course.primary_hex_color)
     
 admin.site.register(Badge, BadgeAdmin)
 
