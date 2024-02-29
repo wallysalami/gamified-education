@@ -119,6 +119,9 @@ class Student(models.Model):
 
     def enrollments(self):
         return ", ".join(str(x.course_class) for x in self.enrollment_set.all())
+    
+    class Meta:
+        ordering = ["full_name"]
 
 
 class Enrollment(models.Model):
