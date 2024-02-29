@@ -370,10 +370,9 @@ def last_login_formatted_for_enrolment(self):
     
 last_login_formatted_for_enrolment.short_description = _('Last Login')
 
-class EnrollmentAdmin(BasicAdmin):
+class EnrollmentAdmin(InstructorAdminBase):
     inlines = [SimpleGradeInline]
     list_display = ('student', 'id_number', 'course_class', 'total_score', 'lost_lives', last_login_formatted_for_enrolment)
-    list_filter = ('course_class',)
     ordering = ('-course_class__start_date', 'student__full_name')
     search_fields = ('student__full_name',)
     
