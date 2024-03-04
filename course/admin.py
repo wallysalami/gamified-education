@@ -75,7 +75,7 @@ class UserAdmin(UserAdmin):
     actions = (invite_user,)
     add_form = UserCreationForm
     list_filter = ('last_login', 'groups',)
-    ordering = ('first_name', 'last_name')
+    ordering = ('-date_joined',)
     
     def save_model(self, request, obj, form, change):
         if not change and (not form.cleaned_data['password1'] or not obj.has_usable_password()):
