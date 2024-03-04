@@ -408,6 +408,7 @@ class StudentAdmin(BasicAdmin):
                     username=email,
                     email=email
                 )
+                user.set_unusable_password()
                 user.save()
                 
                 student = Student(
