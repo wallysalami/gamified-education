@@ -374,7 +374,7 @@ class EnrollmentAdmin(InstructorAdminBase):
     inlines = [SimpleGradeInline]
     list_display = ('student', 'id_number', 'course_class', 'total_score', 'lost_lives', last_login_formatted_for_enrolment)
     ordering = ('course_class', 'student')
-    search_fields = ('student__full_name', 'id_number',)
+    search_fields = ('student__full_name', 'student__id_number',)
     
     def id_number(self, object):
         return object.student.id_number
@@ -386,7 +386,7 @@ admin.site.register(Enrollment, EnrollmentAdmin)
 class StudentAdmin(BasicAdmin):
     inlines = [EnrollmentInline]
     list_display = ('full_name', 'id_number', 'enrollments')
-    search_fields = ('full_name',)
+    search_fields = ('full_name', 'id_number',)
     ordering = ('full_name',)
     raw_id_fields = ("user",)
 
