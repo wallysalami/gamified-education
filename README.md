@@ -44,10 +44,10 @@ Docker is a tool that packages an application and its dependencies in a lightwei
   
   1. Clone/download this repo.
   2. Navigate to the repo folder in your terminal.
-  3. Type `docker-composer up`.
+  3. Type `sudo docker-compose up`.
   4. Open another terminal tab/window in the same folder.
-  5. Type `docker-compose exec web python manage.py migrate` to create the database tables.
-  6. Type `docker-compose exec web python manage.py createsuperuser` to create the initial user for the website.
+  5. Type `sudo docker-compose exec web python manage.py migrate` to create the database tables.
+  6. Type `sudo docker-compose exec web python manage.py createsuperuser` to create the initial user for the website.
   7. Go to `0.0.0.0:8000` in your browser.
   
 
