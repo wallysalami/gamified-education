@@ -128,6 +128,7 @@ class Enrollment(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     course_class = models.ForeignKey(CourseClass, on_delete=models.CASCADE)
     lost_lives = models.IntegerField(default=0, validators=[MinValueValidator(0)])
+    locked = models.BooleanField(default=False)
     
     def __str__(self):
         return "%s (%s)" % (self.student, self.course_class)

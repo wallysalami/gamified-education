@@ -55,7 +55,8 @@ def classes(request):
     if hasattr(request.user, 'student'):
         student = request.user.student
         all_classes = CourseClass.objects.filter(
-            enrollment__student=student
+            enrollment__student=student,
+            enrollment__locked=False
         )
     elif hasattr(request.user, 'instructor'):
         instructor = request.user.instructor
@@ -165,7 +166,7 @@ def get_enrollment(student_user_id, course_code, class_code):
     student = Student.objects.get(user_id=student_user_id)
     course = Course.objects.get(code=course_code)
     course_class = CourseClass.objects.get(course=course, code=class_code)
-    enrollment = Enrollment.objects.get(student=student, course_class=course_class)
+    enrollment = Enrollment.objects.get(student=student, course_class=course_class, locked=False)
 
     return enrollment
     
